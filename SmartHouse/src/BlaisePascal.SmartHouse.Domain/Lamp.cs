@@ -2,11 +2,11 @@
 {
     public class Lamp
     {
-        public bool IsOn {  get; private set; }   
+        public bool IsOn { get; private set; }
         public int BrightnessLevel { get; private set; }
         public int MaxBrightnessLevel { get; private set; } = 100;
 
-        public Lamp() 
+        public Lamp()
         {
             IsOn = false;
         }
