@@ -10,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain
     public class EcoLamp
     {
 
-        const int MaxBrightnessLevel = 100;
+        public const int MaxBrightnessLevel = 100;
         
 
         public bool IsOn { get; private set; }
