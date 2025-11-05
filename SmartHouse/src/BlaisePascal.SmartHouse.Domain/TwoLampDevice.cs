@@ -8,18 +8,18 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class TwoLampDevice
     {
-        //Properties
-        public Lamp lamp1 {get; private set; }
-        public Lamp lamp2 { get; private set; }
+        //Attributes
+        public LampModel Lamp1 { get; private set; }
+        public LampModel Lamp2 { get; private set; }
 
         //Constructor
-        public TwoLampDevice()
+        public TwoLampDevice(LampModel lamp1, LampModel lamp2)
         {
-            lamp1 = new Lamp();
-            lamp2 = new Lamp();
+            Lamp1 = lamp1;
+            Lamp2 = lamp2;
         }
 
-        
+
         public void TurnOnOneLamp(Lamp currentLamp)
         {
             currentLamp.TurnOn();
@@ -31,14 +31,14 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void TurnBothOn()
         {
-            lamp1.TurnOn();
-            lamp2.TurnOn();
+            Lamp1.TurnOn();
+            Lamp2.TurnOn();
         }
 
         public void TurnBothOff()
         {
-            lamp1.TurnOff();
-            lamp2.TurnOff();
+            Lamp1.TurnOff();
+            Lamp2.TurnOff();
         }
 
         
@@ -50,8 +50,8 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetBothSameBrightness(int newBrightness)
         {
-            lamp1.SetBrightness(newBrightness);
-            lamp2.SetBrightness(newBrightness);
+            Lamp1.SetBrightness(newBrightness);
+            Lamp2.SetBrightness(newBrightness);
         }
     }
 }

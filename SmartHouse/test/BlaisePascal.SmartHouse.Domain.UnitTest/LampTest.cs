@@ -35,7 +35,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void Lamp_SetBrightness_AboveMaxLevel_ThrowsArgumentOutOfRangeException()
         {
             Lamp lamp = new Lamp();
-            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(100+1));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(Lamp.MaxBrightnessLevel+1));
         }
     }
 }

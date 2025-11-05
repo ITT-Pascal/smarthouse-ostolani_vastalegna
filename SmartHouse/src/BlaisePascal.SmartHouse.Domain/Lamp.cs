@@ -1,31 +1,40 @@
 ﻿namespace BlaisePascal.SmartHouse.Domain
 {
-    public class Lamp
+    public class Lamp: LampModel
     {
-        const int MaxBrightnessLevel = 100;
+        public const int MaxBrightnessLevel = 100;
+        public const int MinBrightnessLevel = 1;
 
-        public bool IsOn { get; private set; }
-        public int BrightnessLevel { get; private set; }
-        
+
+        public DateTime CreationTime { get; private set; }
+        public DateTime OnTime { get; private set; }
+
         public Lamp()
         {
             IsOn = false;
+            CreationTime = DateTime.UtcNow;
+            BrightnessLevel = MaxBrightnessLevel;
         }
 
-        public void TurnOff()
+        public override void TurnOff()
         {
-            IsOn = false;
+            if (IsOn)
+                IsOn = false;
+                OnTime = DateTime.MinValue;
+
         }
-        public void TurnOn()
+        public override void TurnOn()
         {
-            IsOn = true;
+            if (!IsOn)
+                IsOn = true;
+                OnTime = DateTime.UtcNow;
         }
 
-        public void SetBrightness(int newBrightness)
+        public override void SetBrightness(int newBrightness)
         {
-            if (newBrightness < 0 || newBrightness > MaxBrightnessLevel)
+            if (newBrightness < MinBrightnessLevel || newBrightness > MaxBrightnessLevel)
             {
-                throw new ArgumentOutOfRangeException("Brightness level must be between 0 and MaxBrightnessLevel.");
+                throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightnessLevel} and {MaxBrightnessLevel}.");
             }
             BrightnessLevel = newBrightness;
         }

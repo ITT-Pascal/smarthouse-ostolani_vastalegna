@@ -67,6 +67,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             EcoLamp lamp = new EcoLamp();
             lamp.TurnOn();
+
             // Come si testa il passare del tempo?
         }
 
