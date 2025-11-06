@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4F549020-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{1F03C5E2-42A0-4F03-B956-1E20DB303E3D}"
 	ProjectSection(SolutionItems) = preProject
-		doc\smarthouse.png = doc\smarthouse.png
+		doc\DiagrammaClassi.png = doc\DiagrammaClassi.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain", "src\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj", "{06F6C3E6-7131-4D7D-9C75-BF03F0EB808F}"
