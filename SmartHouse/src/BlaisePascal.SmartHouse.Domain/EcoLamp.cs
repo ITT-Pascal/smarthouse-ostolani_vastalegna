@@ -16,7 +16,15 @@ namespace BlaisePascal.SmartHouse.Domain
         
         public DateTime CreationTime { get; private set; }
         public DateTime OnTime {  get; private set; }
-        
+
+        //TODO: Resolve the OnTime test issue
+
+        //ONLY FOR TESTING PURPOSES
+        public void SetOnTime(DateTime time)
+        {
+            OnTime = time;
+        }
+
         public EcoLamp()
         {
             IsOn = false;
@@ -29,6 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             if (IsOn) 
                 IsOn = false;
+                OnTime = DateTime.MinValue;
         }
         public override void TurnOn()
         {
@@ -46,21 +55,20 @@ namespace BlaisePascal.SmartHouse.Domain
             BrightnessLevel = levelOfBrightness;
         }
 
-        public void EcoModeBrightness()
+        public void SetEcoModeBrightness()
         {
             int EcoModeBrightnessValue = 40;
             if (IsOn && BrightnessLevel>EcoModeBrightnessValue) {
                 BrightnessLevel = EcoModeBrightnessValue;
             }
         }
-        
+
         public void TurnOffAfterTime()
         {
-            DateTime InitialTime = DateTime.UtcNow;
-
+            int PowerSaveMaxMinutesOn = 50;
             if (IsOn)
             {
-                if (!(OnTime == DateTime.MinValue) && DateTime.Now - OnTime > TimeSpan.FromMinutes(50))
+                if (!(OnTime == DateTime.MinValue) && DateTime.Now - OnTime > TimeSpan.FromMinutes(PowerSaveMaxMinutesOn))
                 {
                     TurnOff();
                 }

@@ -20,11 +20,11 @@ namespace BlaisePascal.SmartHouse.Domain
         }
 
 
-        public void TurnOnOneLamp(Lamp currentLamp)
+        public void TurnOnOneLamp(LampModel currentLamp)
         {
             currentLamp.TurnOn();
         }
-        public void TurnOffOneLamp(Lamp currentLamp)
+        public void TurnOffOneLamp(LampModel currentLamp)
         {
             currentLamp.TurnOff();
         }
@@ -43,7 +43,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         
 
-        public void SetOneBrightness(Lamp currentLamp, int newBrightness)
+        public void SetOneBrightness(LampModel currentLamp, int newBrightness)
         {
             currentLamp.SetBrightness(newBrightness); 
         }
@@ -52,6 +52,52 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             Lamp1.SetBrightness(newBrightness);
             Lamp2.SetBrightness(newBrightness);
+
+            
         }
+
+        public void SetOneEcoLampBrightnessToEco(LampModel currentLamp)
+        {
+            // Si fa così per controllare se è di tipo EcoLamp?
+            if (currentLamp is EcoLamp ecoLamp1)
+            {
+                ecoLamp1.SetEcoModeBrightness();
+                
+            }
+            //(currentLamp as EcoLamp)?.SetEcoModeBrightness();
+
+        }
+        public void SetBothEcoLampsBrightnessToEco()
+        {
+            if (Lamp1 is EcoLamp ecoLamp1)
+            {
+                ecoLamp1.SetEcoModeBrightness();
+            }
+            if (Lamp2 is EcoLamp ecoLamp2)
+            {
+                ecoLamp2.SetEcoModeBrightness();
+            }
+        }
+
+        public void TurnOneEcoLampOffAfterTime(LampModel currentLamp)
+        {
+            if (currentLamp is EcoLamp ecoLamp1)
+            {
+                ecoLamp1.TurnOffAfterTime();
+            }
+            
+        }
+        public void TurnBothEcoLampsOffAfterTime()
+        {
+            if (Lamp1 is EcoLamp ecoLamp1)
+            {
+                ecoLamp1.TurnOffAfterTime();
+            }
+            if (Lamp2 is EcoLamp ecoLamp2)
+            {
+                ecoLamp2.TurnOffAfterTime();
+            }
+        }
+
     }
 }

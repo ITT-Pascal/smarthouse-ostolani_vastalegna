@@ -49,7 +49,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             EcoLamp lamp = new EcoLamp();
             lamp.TurnOn();
             lamp.SetBrightness(80);
-            lamp.EcoModeBrightness();
+            lamp.SetEcoModeBrightness();
             Assert.Equal(40, lamp.BrightnessLevel);
         }
         [Fact]
@@ -58,7 +58,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             EcoLamp lamp = new EcoLamp();
             lamp.TurnOn();
             lamp.SetBrightness(30);
-            lamp.EcoModeBrightness();
+            lamp.SetEcoModeBrightness();
             Assert.Equal(30, lamp.BrightnessLevel);
         }
 
@@ -66,9 +66,11 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void EcoLamp_TurnOffAfterTime_TurnsOffLampAfter50Minutes()
         {
             EcoLamp lamp = new EcoLamp();
-            lamp.TurnOn();
 
-            // Come si testa il passare del tempo?
+            lamp.TurnOn();
+            lamp.SetOnTime(DateTime.UtcNow.AddMinutes(-51));
+            lamp.TurnOffAfterTime();
+            Assert.False(lamp.IsOn);
         }
 
     }
