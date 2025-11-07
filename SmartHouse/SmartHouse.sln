@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4F549020-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{1F03C5E2-42A0-4F03-B956-1E20DB303E3D}"
 	ProjectSection(SolutionItems) = preProject
+		doc\Documentazione SmartHouse.docx = doc\Documentazione SmartHouse.docx
 		doc\smarthouse_DiagrammaClassi.png = doc\smarthouse_DiagrammaClassi.png
 	EndProjectSection
 EndProject
