@@ -9,11 +9,20 @@
         public DateTime CreationTime { get; private set; }
         public DateTime OnTime { get; private set; }
 
+        
+        public Lamp(Guid guid)
+        {
+            IsOn = false;
+            CreationTime = DateTime.UtcNow;
+            BrightnessLevel = MaxBrightnessLevel;
+            Id = guid;
+        }
         public Lamp()
         {
             IsOn = false;
             CreationTime = DateTime.UtcNow;
             BrightnessLevel = MaxBrightnessLevel;
+            Id = new Guid();
         }
 
         public override void TurnOff()

@@ -10,6 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain
     {
         public bool IsOn {  get; protected set; }
         public int BrightnessLevel { get; protected set; }
+        public Guid Id { get; protected set; }
         public abstract void TurnOff();
         public abstract void TurnOn();
 

@@ -25,12 +25,20 @@ namespace BlaisePascal.SmartHouse.Domain
             OnTime = time;
         }
 
+        public EcoLamp(Guid guid)
+        {
+            IsOn = false;
+            CreationTime = DateTime.UtcNow;
+            BrightnessLevel = MaxBrightnessLevel;
+            Id = guid;
+        }
+
         public EcoLamp()
         {
             IsOn = false;
             CreationTime = DateTime.UtcNow;
             BrightnessLevel = MaxBrightnessLevel;
-
+            Id = new Guid();
         }
 
         public override void TurnOff()
