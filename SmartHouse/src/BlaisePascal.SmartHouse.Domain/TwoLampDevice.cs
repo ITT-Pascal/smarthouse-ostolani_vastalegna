@@ -64,9 +64,8 @@ namespace BlaisePascal.SmartHouse.Domain
                 ecoLamp1.SetEcoModeBrightness();
                 
             }
-            //(currentLamp as EcoLamp)?.SetEcoModeBrightness();
-
         }
+
         public void SetBothEcoLampsBrightnessToEco()
         {
             if (Lamp1 is EcoLamp ecoLamp1)

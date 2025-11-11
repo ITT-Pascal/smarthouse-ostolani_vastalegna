@@ -18,7 +18,6 @@ namespace BlaisePascal.SmartHouse.Domain
         public DateTime OnTime {  get; private set; }
 
         //TODO: Resolve the OnTime test issue
-
         //ONLY FOR TESTING PURPOSES
         public void SetOnTime(DateTime time)
         {
