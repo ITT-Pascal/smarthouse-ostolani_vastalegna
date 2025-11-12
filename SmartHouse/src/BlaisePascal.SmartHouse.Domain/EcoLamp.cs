@@ -12,8 +12,9 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public const int MaxBrightnessLevel = 100;
         public const int MinBrightnessLevel = 1;
+        public const int PowerSaveMaxMinutesOn = 50;
+        public const int EcoModeBrightnessValue = 40;
 
-        
         public DateTime CreationTime { get; private set; }
         public DateTime OnTime {  get; private set; }
 
@@ -64,7 +65,6 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetEcoModeBrightness()
         {
-            int EcoModeBrightnessValue = 40;
             if (IsOn && BrightnessLevel>EcoModeBrightnessValue) {
                 BrightnessLevel = EcoModeBrightnessValue;
             }
@@ -72,7 +72,6 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void TurnOffAfterTime()
         {
-            int PowerSaveMaxMinutesOn = 50;
             if (IsOn)
             {
                 if (!(OnTime == DateTime.MinValue) && DateTime.Now - OnTime > TimeSpan.FromMinutes(PowerSaveMaxMinutesOn))

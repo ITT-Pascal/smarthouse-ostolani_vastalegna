@@ -40,15 +40,20 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
-        //TO DO: Controllare se la lampada è nella Row (anche in TwoLampDevice)
-        // Con questo metodo posso controllare lampade non nella Row!?
         public void TurnOnOneLamp(LampModel currentLamp)
         {
-            currentLamp.TurnOn();
+            if (Lamps.Contains(currentLamp) )
+                currentLamp.TurnOn();
         }
         public void TurnOffOneLamp(LampModel currentLamp)
         {
-            currentLamp.TurnOff();
+            for (int i = 0; i < Lamps.Count; i++)
+            {
+                if (Lamps[i] == currentLamp)
+                {
+                    currentLamp.TurnOff();
+                }
+            }
         }
 
 
