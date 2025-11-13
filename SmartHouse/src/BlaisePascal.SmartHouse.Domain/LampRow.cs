@@ -42,14 +42,19 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void TurnOnOneLamp(LampModel currentLamp)
         {
-            if (Lamps.Contains(currentLamp) )
-                currentLamp.TurnOn();
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp == currentLamp)
+                {
+                    currentLamp.TurnOn();
+                }
+            }
         }
         public void TurnOffOneLamp(LampModel currentLamp)
         {
-            for (int i = 0; i < Lamps.Count; i++)
+            foreach (LampModel lamp in Lamps)
             {
-                if (Lamps[i] == currentLamp)
+                if (lamp == currentLamp)
                 {
                     currentLamp.TurnOff();
                 }
@@ -59,7 +64,13 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetOneBrightness(LampModel currentLamp, int newBrightness)
         {
-            currentLamp.SetBrightness(newBrightness);
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp == currentLamp)
+                {
+                    currentLamp.SetBrightness(newBrightness);
+                }
+            }
         }
         public void SetAllSameBrightness(int newBrightness)
         {
@@ -71,10 +82,16 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetOneEcoLampBrightnessToEco(LampModel currentLamp)
         {
-            if (currentLamp is EcoLamp ecoLamp1)
+            foreach (LampModel lamp in Lamps)
             {
-                ecoLamp1.SetEcoModeBrightness();
+                if (lamp == currentLamp)
+                {
+                    if (currentLamp is EcoLamp ecoLamp1)
+                    {
+                        ecoLamp1.SetEcoModeBrightness();
 
+                    }
+                }
             }
         }
         public void SetAllEcoLampsBrightnessToEco()
@@ -89,11 +106,16 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public void TurnOneEcoLampOffAfterTime(LampModel currentLamp)
         {
-            if (currentLamp is EcoLamp ecoLamp1)
+            foreach (LampModel lamp in Lamps)
             {
-                ecoLamp1.TurnOffAfterTime();
+                if (lamp == currentLamp)
+                {
+                    if (currentLamp is EcoLamp ecoLamp1)
+                    {
+                        ecoLamp1.TurnOffAfterTime();
+                    }
+                }
             }
-
         }
         public void TurnAllEcoLampsOffAfterTime()
         {

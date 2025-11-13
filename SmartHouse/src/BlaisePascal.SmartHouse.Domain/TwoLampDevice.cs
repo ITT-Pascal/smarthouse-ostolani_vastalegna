@@ -22,11 +22,13 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void TurnOnOneLamp(LampModel currentLamp)
         {
-            currentLamp.TurnOn();
+            if(currentLamp == Lamp1 || currentLamp == Lamp2)
+                currentLamp.TurnOn();
         }
         public void TurnOffOneLamp(LampModel currentLamp)
         {
-            currentLamp.TurnOff();
+            if (currentLamp == Lamp1 || currentLamp == Lamp2)
+                currentLamp.TurnOff();
         }
 
         public void TurnBothOn()
@@ -45,7 +47,8 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetOneBrightness(LampModel currentLamp, int newBrightness)
         {
-            currentLamp.SetBrightness(newBrightness); 
+            if (currentLamp == Lamp1 || currentLamp == Lamp2)
+                currentLamp.SetBrightness(newBrightness); 
         }
 
         public void SetBothSameBrightness(int newBrightness)
@@ -58,11 +61,13 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetOneEcoLampBrightnessToEco(LampModel currentLamp)
         {
-            // Si fa così per controllare se è di tipo EcoLamp?
-            if (currentLamp is EcoLamp ecoLamp1)
+            if (currentLamp == Lamp1 || currentLamp == Lamp2)
             {
-                ecoLamp1.SetEcoModeBrightness();
-                
+                if (currentLamp is EcoLamp ecoLamp1)
+                {
+                    ecoLamp1.SetEcoModeBrightness();
+
+                }
             }
         }
 
@@ -80,11 +85,13 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void TurnOneEcoLampOffAfterTime(LampModel currentLamp)
         {
-            if (currentLamp is EcoLamp ecoLamp1)
+            if (currentLamp == Lamp1 || currentLamp == Lamp2)
             {
-                ecoLamp1.TurnOffAfterTime();
+                if (currentLamp is EcoLamp ecoLamp1)
+                {
+                    ecoLamp1.TurnOffAfterTime();
+                }
             }
-            
         }
         public void TurnBothEcoLampsOffAfterTime()
         {
