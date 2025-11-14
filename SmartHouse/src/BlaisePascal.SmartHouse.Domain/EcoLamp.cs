@@ -15,43 +15,47 @@ namespace BlaisePascal.SmartHouse.Domain
         public const int PowerSaveMaxMinutesOn = 50;
         public const int EcoModeBrightnessValue = 40;
 
-        public DateTime CreationTime { get; private set; }
-        public DateTime OnTime {  get; private set; }
-
+        
         //TODO: Resolve the OnTime test issue
         //ONLY FOR TESTING PURPOSES
         public void SetOnTime(DateTime time)
         {
-            OnTime = time;
+            LastModifiedTime = time;
         }
 
-        public EcoLamp(Guid guid)
+        public EcoLamp(Guid guid, string name)
         {
             IsOn = false;
             CreationTime = DateTime.UtcNow;
             BrightnessLevel = MaxBrightnessLevel;
             Id = guid;
+            Name = name;
         }
 
-        public EcoLamp()
+        public EcoLamp(string name)
         {
             IsOn = false;
             CreationTime = DateTime.UtcNow;
             BrightnessLevel = MaxBrightnessLevel;
-            Id = new Guid();
+            Id = Guid.NewGuid();
+            Name = name;
         }
 
         public override void TurnOff()
         {
-            if (IsOn) 
+            if (IsOn)
+            {
                 IsOn = false;
-                OnTime = DateTime.MinValue;
+                LastModifiedTime = DateTime.UtcNow;
+            }
         }
         public override void TurnOn()
         {
-            if(!IsOn)
+            if (!IsOn)
+            {
                 IsOn = true;
-                OnTime = DateTime.UtcNow;
+                LastModifiedTime = DateTime.UtcNow;
+            }
         }
 
         public override void SetBrightness(int levelOfBrightness)
@@ -74,7 +78,7 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             if (IsOn)
             {
-                if (!(OnTime == DateTime.MinValue) && DateTime.Now - OnTime > TimeSpan.FromMinutes(PowerSaveMaxMinutesOn))
+                if (DateTime.Now - LastModifiedTime > TimeSpan.FromMinutes(PowerSaveMaxMinutesOn))
                 {
                     TurnOff();
                 }

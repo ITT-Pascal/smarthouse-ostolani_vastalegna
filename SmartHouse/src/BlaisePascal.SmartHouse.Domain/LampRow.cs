@@ -19,9 +19,37 @@ namespace BlaisePascal.SmartHouse.Domain
             Lamps.Add(lamp);
         }
 
-        public void RemoveLamp(LampModel lamp)
+        public void AddLampInPosition(LampModel lamp, int position)
         {
-            Lamps.Remove(lamp);
+            Lamps.Insert(position, lamp);
+        }
+
+
+        public void RemoveLamp(Guid id)
+        {
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp.Id == id)
+                {
+                    Lamps.Remove(lamp);
+                    
+                }
+            }
+            
+        }
+
+
+        public void RemoveLamp(string name)
+        {
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp.Name == name)
+                {
+                    Lamps.Remove(lamp);
+
+                }
+            }
+
         }
 
 
@@ -40,35 +68,64 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
-        public void TurnOnOneLamp(LampModel currentLamp)
+        public void TurnOnOneLamp(Guid id)
         {
             foreach (LampModel lamp in Lamps)
             {
-                if (lamp == currentLamp)
+                if(lamp.Id == id)
                 {
-                    currentLamp.TurnOn();
+                    lamp.TurnOn();
                 }
             }
         }
-        public void TurnOffOneLamp(LampModel currentLamp)
+        public void TurnOnOneLamp(string name)
         {
             foreach (LampModel lamp in Lamps)
             {
-                if (lamp == currentLamp)
+                if (lamp.Name == name)
                 {
-                    currentLamp.TurnOff();
+                    lamp.TurnOn();
+                }
+            }
+        }
+        public void TurnOffOneLamp(Guid id)
+        {
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp.Id == id)
+                {
+                    lamp.TurnOff();
+                }
+            }
+        }
+        public void TurnOffOneLamp(string name)
+        {
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp.Name == name)
+                {
+                    lamp.TurnOff();
                 }
             }
         }
 
-
-        public void SetOneBrightness(LampModel currentLamp, int newBrightness)
+        public void SetOneBrightness(Guid id, int newBrightness)
         {
             foreach (LampModel lamp in Lamps)
             {
-                if (lamp == currentLamp)
+                if (lamp.Id == id)
                 {
-                    currentLamp.SetBrightness(newBrightness);
+                    lamp.SetBrightness(newBrightness);
+                }
+            }
+        }
+        public void SetOneBrightness(string name, int newBrightness)
+        {
+            foreach (LampModel lamp in Lamps)
+            {
+                if (lamp.Name == name)
+                {
+                    lamp.SetBrightness(newBrightness);
                 }
             }
         }

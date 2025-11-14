@@ -6,37 +6,38 @@
         public const int MinBrightnessLevel = 1;
 
 
-        public DateTime CreationTime { get; private set; }
-        public DateTime OnTime { get; private set; }
-
-        
-        public Lamp(Guid guid)
+        public Lamp(Guid guid, string name)
         {
             IsOn = false;
             CreationTime = DateTime.UtcNow;
             BrightnessLevel = MaxBrightnessLevel;
             Id = guid;
+            Name = name;
         }
-        public Lamp()
+        public Lamp(string name)
         {
             IsOn = false;
             CreationTime = DateTime.UtcNow;
             BrightnessLevel = MaxBrightnessLevel;
-            Id = new Guid();
+            Id = Guid.NewGuid();
+            Name = name;
         }
 
         public override void TurnOff()
         {
             if (IsOn)
+            {
                 IsOn = false;
-                OnTime = DateTime.MinValue;
-
+                LastModifiedTime = DateTime.UtcNow;
+            }
         }
         public override void TurnOn()
         {
             if (!IsOn)
+            {
                 IsOn = true;
-                OnTime = DateTime.UtcNow;
+                LastModifiedTime = DateTime.UtcNow;
+            }
         }
 
         public override void SetBrightness(int newBrightness)

@@ -12,8 +12,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_TurnAllOn_SetsAllIsOnToTrue()
         {
             LampRow row = new LampRow();
-            Lamp lamp1 = new Lamp();
-            Lamp lamp2 = new Lamp();
+            Lamp lamp1 = new Lamp("lamp");
+            Lamp lamp2 = new Lamp("lamp");
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -27,8 +27,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_TurnAllOff_SetsAllIsOnToFalse()
         {
             LampRow row = new LampRow();
-            Lamp lamp1 = new Lamp();
-            Lamp lamp2 = new Lamp();
+            Lamp lamp1 = new Lamp("lamp");
+            Lamp lamp2 = new Lamp("lamp");
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -43,12 +43,12 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_TurnOnOneLamp_SetsOnlyOneToTrue()
         {
             LampRow row = new LampRow();
-            Lamp lamp1 = new Lamp();
-            Lamp lamp2 = new Lamp();
+            Lamp lamp1 = new Lamp("lamp");
+            Lamp lamp2 = new Lamp("lamp");
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.TurnOnOneLamp(lamp1);
+            row.TurnOnOneLamp("lamp");
 
             Assert.True(lamp1.IsOn);
             Assert.False(lamp2.IsOn);
@@ -58,8 +58,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_TurnOffOneLamp_SetsOnlyOneToFalse()
         {
             LampRow row = new LampRow();
-            Lamp lamp1 = new Lamp();
-            Lamp lamp2 = new Lamp();
+            Lamp lamp1 = new Lamp("lamp");
+            Lamp lamp2 = new Lamp("lamp");
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -74,7 +74,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_SetOneBrightness_SetsCorrectValue()
         {
             LampRow row = new LampRow();
-            Lamp lamp1 = new Lamp();
+            Lamp lamp1 = new Lamp("lamp");
             row.AddLamp(lamp1);
 
             row.SetOneBrightness(lamp1, 55);
@@ -86,8 +86,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_SetAllSameBrightness_SetsAllEqual()
         {
             LampRow row = new LampRow();
-            Lamp lamp1 = new Lamp();
-            Lamp lamp2 = new Lamp();
+            Lamp lamp1 = new Lamp("lamp");
+            Lamp lamp2 = new Lamp("lamp");
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -100,7 +100,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_SetOneEcoLampBrightnessToEco_SetsEcoBrightness()
         {
             LampRow row = new LampRow();
-            EcoLamp ecoLamp = new EcoLamp();
+            EcoLamp ecoLamp = new EcoLamp("lamp");
             ecoLamp.TurnOn();
             ecoLamp.SetBrightness(90);
             row.AddLamp(ecoLamp);
@@ -114,8 +114,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_SetAllEcoLampsBrightnessToEco_SetsAllToEcoLevel()
         {
             LampRow row = new LampRow();
-            EcoLamp eco1 = new EcoLamp();
-            EcoLamp eco2 = new EcoLamp();
+            EcoLamp eco1 = new EcoLamp("lamp");
+            EcoLamp eco2 = new EcoLamp("lamp");
             eco1.TurnOn();
             eco2.TurnOn();
             eco1.SetBrightness(90);
@@ -133,7 +133,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_TurnOneEcoLampOffAfterTime_SetsIsOnToFalseIfExpired()
         {
             LampRow row = new LampRow();
-            EcoLamp eco = new EcoLamp();
+            EcoLamp eco = new EcoLamp("lamp");
             eco.TurnOn();
             eco.SetOnTime(DateTime.UtcNow.AddMinutes(-60)); 
             row.AddLamp(eco);
@@ -147,8 +147,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void LampRow_TurnAllEcoLampsOffAfterTime_SetsAllToFalseIfExpired()
         {
             LampRow row = new LampRow();
-            EcoLamp eco1 = new EcoLamp();
-            EcoLamp eco2 = new EcoLamp();
+            EcoLamp eco1 = new EcoLamp("lamp");
+            EcoLamp eco2 = new EcoLamp("lamp");
             eco1.TurnOn();
             eco2.TurnOn();
             eco1.SetOnTime(DateTime.UtcNow.AddMinutes(-51));
