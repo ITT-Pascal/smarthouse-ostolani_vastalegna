@@ -9,23 +9,23 @@ namespace BlaisePascal.SmartHouse.Domain
     public class TwoLampDevice
     {
         //Attributes
-        public LampModel Lamp1 { get; private set; }
-        public LampModel Lamp2 { get; private set; }
+        public AbstractLamp Lamp1 { get; private set; }
+        public AbstractLamp Lamp2 { get; private set; }
 
         //Constructor
-        public TwoLampDevice(LampModel lamp1, LampModel lamp2)
+        public TwoLampDevice(AbstractLamp lamp1, AbstractLamp lamp2)
         {
             Lamp1 = lamp1;
             Lamp2 = lamp2;
         }
 
 
-        public void TurnOnOneLamp(LampModel currentLamp)
+        public void TurnOnOneLamp(AbstractLamp currentLamp)
         {
             if(currentLamp == Lamp1 || currentLamp == Lamp2)
                 currentLamp.TurnOn();
         }
-        public void TurnOffOneLamp(LampModel currentLamp)
+        public void TurnOffOneLamp(AbstractLamp currentLamp)
         {
             if (currentLamp == Lamp1 || currentLamp == Lamp2)
                 currentLamp.TurnOff();
@@ -45,7 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         
 
-        public void SetOneBrightness(LampModel currentLamp, int newBrightness)
+        public void SetOneBrightness(AbstractLamp currentLamp, int newBrightness)
         {
             if (currentLamp == Lamp1 || currentLamp == Lamp2)
                 currentLamp.SetBrightness(newBrightness); 
@@ -59,7 +59,7 @@ namespace BlaisePascal.SmartHouse.Domain
             
         }
 
-        public void SetOneEcoLampBrightnessToEco(LampModel currentLamp)
+        public void SetOneEcoLampBrightnessToEco(AbstractLamp currentLamp)
         {
             if (currentLamp == Lamp1 || currentLamp == Lamp2)
             {
@@ -83,7 +83,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
-        public void TurnOneEcoLampOffAfterTime(LampModel currentLamp)
+        public void TurnOneEcoLampOffAfterTime(AbstractLamp currentLamp)
         {
             if (currentLamp == Lamp1 || currentLamp == Lamp2)
             {

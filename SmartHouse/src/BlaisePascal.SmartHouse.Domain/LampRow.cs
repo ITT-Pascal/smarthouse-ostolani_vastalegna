@@ -8,18 +8,18 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class LampRow
     {
-        public List<LampModel> Lamps { get; private set; }
+        public List<AbstractLamp> Lamps { get; private set; }
         public LampRow()
         {
-            Lamps =  new List <LampModel>();
+            Lamps = new List<AbstractLamp>();
         }
 
-        public void AddLamp(LampModel lamp)
+        public void AddLamp(AbstractLamp lamp)
         {
             Lamps.Add(lamp);
         }
 
-        public void AddLampInPosition(LampModel lamp, int position)
+        public void AddLampInPosition(AbstractLamp lamp, int position)
         {
             Lamps.Insert(position, lamp);
         }
@@ -27,21 +27,21 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void RemoveLamp(Guid id)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Id == id)
                 {
                     Lamps.Remove(lamp);
-                    
+
                 }
             }
-            
+
         }
 
 
         public void RemoveLamp(string name)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Name == name)
                 {
@@ -51,6 +51,8 @@ namespace BlaisePascal.SmartHouse.Domain
             }
 
         }
+
+        //Remove lamp by position have no paramerter other than position???
 
 
         public void TurnAllOn()
@@ -70,9 +72,9 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void TurnOnOneLamp(Guid id)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
-                if(lamp.Id == id)
+                if (lamp.Id == id)
                 {
                     lamp.TurnOn();
                 }
@@ -80,7 +82,7 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public void TurnOnOneLamp(string name)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Name == name)
                 {
@@ -90,7 +92,7 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public void TurnOffOneLamp(Guid id)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Id == id)
                 {
@@ -100,7 +102,7 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public void TurnOffOneLamp(string name)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Name == name)
                 {
@@ -111,7 +113,7 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void SetOneBrightness(Guid id, int newBrightness)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Id == id)
                 {
@@ -121,7 +123,7 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public void SetOneBrightness(string name, int newBrightness)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
                 if (lamp.Name == name)
                 {
@@ -137,15 +139,29 @@ namespace BlaisePascal.SmartHouse.Domain
             }
         }
 
-        public void SetOneEcoLampBrightnessToEco(LampModel currentLamp)
+        public void SetOneEcoLampBrightnessToEco(Guid id)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
-                if (lamp == currentLamp)
+                if (lamp.Id == id)
                 {
-                    if (currentLamp is EcoLamp ecoLamp1)
+                    if (lamp is EcoLamp ecoLamp1)
                     {
                         ecoLamp1.SetEcoModeBrightness();
+
+                    }
+                }
+            }
+        }
+        public void SetOneEcoLampBrightnessToEco(string name)
+        {
+            foreach (AbstractLamp lamp in Lamps)
+            {
+                if (lamp.Name == name)
+                {
+                    if (lamp is EcoLamp ecoLamp)
+                    {
+                        ecoLamp.SetEcoModeBrightness();
 
                     }
                 }
@@ -161,13 +177,27 @@ namespace BlaisePascal.SmartHouse.Domain
                 }
             }
         }
-        public void TurnOneEcoLampOffAfterTime(LampModel currentLamp)
+        public void TurnOneEcoLampOffAfterTime(Guid id)
         {
-            foreach (LampModel lamp in Lamps)
+            foreach (AbstractLamp lamp in Lamps)
             {
-                if (lamp == currentLamp)
+                if (lamp.Id == id)
                 {
-                    if (currentLamp is EcoLamp ecoLamp1)
+                    if (lamp is EcoLamp ecoLamp1)
+                    {
+                        ecoLamp1.TurnOffAfterTime();
+                    }
+                }
+            }
+        }
+
+        public void TurnOneEcoLampOffAfterTime(string name)
+        {
+            foreach (AbstractLamp lamp in Lamps)
+            {
+                if (lamp.Name == name)
+                {
+                    if (lamp is EcoLamp ecoLamp1)
                     {
                         ecoLamp1.TurnOffAfterTime();
                     }
@@ -186,4 +216,5 @@ namespace BlaisePascal.SmartHouse.Domain
         }
 
     }
+
 }

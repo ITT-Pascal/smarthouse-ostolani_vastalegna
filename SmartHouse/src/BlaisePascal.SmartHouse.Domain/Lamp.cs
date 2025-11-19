@@ -1,6 +1,6 @@
 ﻿namespace BlaisePascal.SmartHouse.Domain
 {
-    public class Lamp: LampModel
+    public class Lamp: AbstractLamp
     {
         public const int MaxBrightnessLevel = 100;
         public const int MinBrightnessLevel = 1;
@@ -14,13 +14,8 @@
             Id = guid;
             Name = name;
         }
-        public Lamp(string name)
+        public Lamp(string name): base(name)
         {
-            IsOn = false;
-            CreationTime = DateTime.UtcNow;
-            BrightnessLevel = MaxBrightnessLevel;
-            Id = Guid.NewGuid();
-            Name = name;
         }
 
         public override void TurnOff()
