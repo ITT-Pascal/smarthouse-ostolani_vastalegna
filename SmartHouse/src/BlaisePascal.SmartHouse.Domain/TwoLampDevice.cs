@@ -23,24 +23,24 @@ namespace BlaisePascal.SmartHouse.Domain
         public void TurnOnOneLamp(AbstractLamp currentLamp)
         {
             if(currentLamp == Lamp1 || currentLamp == Lamp2)
-                currentLamp.TurnOn();
+                currentLamp.SwitchOn();
         }
         public void TurnOffOneLamp(AbstractLamp currentLamp)
         {
             if (currentLamp == Lamp1 || currentLamp == Lamp2)
-                currentLamp.TurnOff();
+                currentLamp.SwitchOff();
         }
 
         public void TurnBothOn()
         {
-            Lamp1.TurnOn();
-            Lamp2.TurnOn();
+            Lamp1.SwitchOn();
+            Lamp2.SwitchOn();
         }
 
         public void TurnBothOff()
         {
-            Lamp1.TurnOff();
-            Lamp2.TurnOff();
+            Lamp1.SwitchOff();
+            Lamp2.SwitchOff();
         }
 
         

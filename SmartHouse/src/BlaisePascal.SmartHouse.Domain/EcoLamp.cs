@@ -9,10 +9,8 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class EcoLamp: AbstractLamp
     {
-
-        public const int MaxBrightnessLevel = 100;
-        public const int MinBrightnessLevel = 1;
-        public const int PowerSaveMaxMinutesOn = 50;
+        //Constant
+        public const int DefaultAutoOffMinutes = 50;
         public const int EcoModeBrightnessValue = 40;
 
         
@@ -23,64 +21,26 @@ namespace BlaisePascal.SmartHouse.Domain
             LastModifiedTime = time;
         }
 
-        public EcoLamp(Guid guid, string name)
-        {
-            IsOn = false;
-            CreationTime = DateTime.UtcNow;
-            BrightnessLevel = MaxBrightnessLevel;
-            Id = guid;
-            Name = name;
-        }
+        //Constructor
+        public EcoLamp(Guid guid, string name): base(guid, name) { }
+        public EcoLamp(string name): base(name) { }
+        
 
-        public EcoLamp(string name)
-        {
-            IsOn = false;
-            CreationTime = DateTime.UtcNow;
-            BrightnessLevel = MaxBrightnessLevel;
-            Id = Guid.NewGuid();
-            Name = name;
-        }
-
-        public override void TurnOff()
-        {
-            if (IsOn)
-            {
-                IsOn = false;
-                LastModifiedTime = DateTime.UtcNow;
-            }
-        }
-        public override void TurnOn()
-        {
-            if (!IsOn)
-            {
-                IsOn = true;
-                LastModifiedTime = DateTime.UtcNow;
-            }
-        }
-
-        public override void SetBrightness(int levelOfBrightness)
-        {
-            if (levelOfBrightness < MinBrightnessLevel || levelOfBrightness > MaxBrightnessLevel)
-            {
-                throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightnessLevel} and {MaxBrightnessLevel}.");
-            }
-            BrightnessLevel = levelOfBrightness;
-        }
-
+        //Methods
         public void SetEcoModeBrightness()
         {
-            if (IsOn && BrightnessLevel>EcoModeBrightnessValue) {
+            if (Status == DeviceStatus.On && BrightnessLevel>EcoModeBrightnessValue) {
                 BrightnessLevel = EcoModeBrightnessValue;
             }
         }
 
         public void TurnOffAfterTime()
         {
-            if (IsOn)
+            if (Status == DeviceStatus.On)
             {
-                if (DateTime.Now - LastModifiedTime > TimeSpan.FromMinutes(PowerSaveMaxMinutesOn))
+                if (DateTime.Now - LastModifiedTime > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
                 {
-                    TurnOff();
+                    SwitchOff();
                 }
             }
                 

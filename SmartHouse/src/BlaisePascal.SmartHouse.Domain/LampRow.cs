@@ -3,17 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
     public class LampRow
     {
+        //Properties
         public List<AbstractLamp> Lamps { get; private set; }
-        public LampRow()
-        {
-            Lamps = new List<AbstractLamp>();
-        }
+        public string Name { get; private set; }
 
+        //Constructor
+        public LampRow(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Nome non valido.");
+
+            Lamps = new List<AbstractLamp>();
+            Name = name;
+        }
+        public LampRow(string name, List<AbstractLamp> lamps)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Nome non valido.");
+            Name = name;
+            if (lamps == null)
+                throw new ArgumentNullException("Lista null");
+
+            Lamps = new List<AbstractLamp>();
+
+            foreach(Lamp lamp in lamps)
+            {
+                Lamps.Add(lamp);
+            }   
+        }
+        //Methods
         public void AddLamp(AbstractLamp lamp)
         {
             Lamps.Add(lamp);
@@ -38,7 +62,6 @@ namespace BlaisePascal.SmartHouse.Domain
 
         }
 
-
         public void RemoveLamp(string name)
         {
             foreach (AbstractLamp lamp in Lamps)
@@ -54,19 +77,29 @@ namespace BlaisePascal.SmartHouse.Domain
 
         //Remove lamp by position have no paramerter other than position???
 
+        public DeviceStatus Status()
+        {
+            foreach (var lamp in Lamps)
+            {
+                if (lamp.Status == DeviceStatus.On)
+                    return DeviceStatus.On;
+            }
+            return DeviceStatus.Off;
+        }
+
 
         public void TurnAllOn()
         {
             for (int i = 0; i < Lamps.Count; i++)
             {
-                Lamps[i].TurnOn();
+                Lamps[i].SwitchOn();
             }
         }
         public void TurnAllOff()
         {
             for (int i = 0; i < Lamps.Count; i++)
             {
-                Lamps[i].TurnOff();
+                Lamps[i].SwitchOff();
             }
         }
 
@@ -76,7 +109,7 @@ namespace BlaisePascal.SmartHouse.Domain
             {
                 if (lamp.Id == id)
                 {
-                    lamp.TurnOn();
+                    lamp.SwitchOn();
                 }
             }
         }
@@ -86,7 +119,7 @@ namespace BlaisePascal.SmartHouse.Domain
             {
                 if (lamp.Name == name)
                 {
-                    lamp.TurnOn();
+                    lamp.SwitchOn();
                 }
             }
         }
@@ -96,7 +129,7 @@ namespace BlaisePascal.SmartHouse.Domain
             {
                 if (lamp.Id == id)
                 {
-                    lamp.TurnOff();
+                    lamp.SwitchOff();
                 }
             }
         }
@@ -106,7 +139,7 @@ namespace BlaisePascal.SmartHouse.Domain
             {
                 if (lamp.Name == name)
                 {
-                    lamp.TurnOff();
+                    lamp.SwitchOff();
                 }
             }
         }
