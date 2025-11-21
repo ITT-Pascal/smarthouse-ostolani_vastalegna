@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    internal class CCTV
+    public class CCTV:AbstractDevice
     {
+
     }
 }
