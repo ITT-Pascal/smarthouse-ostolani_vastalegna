@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    public abstract class AbstactDevice
+    public abstract class AbstractDevice
     {
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
@@ -14,7 +14,7 @@ namespace BlaisePascal.SmartHouse.Domain
         public DateTime CreationTime { get; protected set; }
         public DateTime LastStatusChangeTime { get; protected set; }
 
-        protected AbstactDevice(string name)
+        protected AbstractDevice(string name)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -22,7 +22,7 @@ namespace BlaisePascal.SmartHouse.Domain
             CreationTime = DateTime.Now;
             LastStatusChangeTime = DateTime.Now;
         }
-        public AbstactDevice(Guid guid, string name)
+        public AbstractDevice(Guid guid, string name)
         {
             CreationTime = DateTime.UtcNow;
             LastStatusChangeTime = DateTime.Now;

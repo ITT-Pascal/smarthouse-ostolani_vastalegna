@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    public abstract class AbstractLamp: AbstactDevice
+    public abstract class AbstractLamp: AbstractDevice
     {
         //Constants
         public const int MaxBrightnessLevel = 100;
