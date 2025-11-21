@@ -6,59 +6,31 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
-    public abstract class AbstractLamp
+    public abstract class AbstractLamp: AbstactDevice
     {
-
+        //Constants
         public const int MaxBrightnessLevel = 100;
         public const int MinBrightnessLevel = 1;
 
+        //Properties
         public int BrightnessLevel { get; protected set; }
-        public Guid Id { get; protected set; }
-        public string Name { get; protected set; }
-        public DeviceStatus Status { get; protected set; }
-        public DateTime CreationTime { get; protected set; }
-        public DateTime LastModifiedTime { get; protected set; }
 
 
 
-        protected AbstractLamp(string name)
+
+        //Constructors
+        protected AbstractLamp(string name): base(name)
         {
-            Id = Guid.NewGuid();
-            Name = name;
-            Status = DeviceStatus.Off;
-            CreationTime = DateTime.Now;
-            LastModifiedTime = DateTime.Now;
-            BrightnessLevel = MaxBrightnessLevel;
+           BrightnessLevel = MaxBrightnessLevel;
 
         }
-        public AbstractLamp(Guid guid, string name)
+        public AbstractLamp(Guid guid, string name): base(guid, name)
         {
-            CreationTime = DateTime.UtcNow;
-            LastModifiedTime = DateTime.Now;
             BrightnessLevel = MaxBrightnessLevel;
-            Status = DeviceStatus.Off;
-            Id = guid;
-            Name = name;
+
         }
 
         
-        public virtual void SwitchOn()
-        {
-            if (Status == DeviceStatus.On)
-                throw new InvalidOperationException("Lamp è già accesa.");
-
-            Status = DeviceStatus.On;
-            LastModifiedTime = DateTime.UtcNow;
-        }
-
-        public virtual void SwitchOff()
-        {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("Lamp è già spenta.");
-
-            Status = DeviceStatus.Off;
-            LastModifiedTime = DateTime.UtcNow;
-        }
 
         public virtual void Dimmer(int amount)
         {

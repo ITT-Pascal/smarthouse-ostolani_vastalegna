@@ -18,7 +18,7 @@ namespace BlaisePascal.SmartHouse.Domain
         //ONLY FOR TESTING PURPOSES
         public void SetOnTime(DateTime time)
         {
-            LastModifiedTime = time;
+            LastStatusChangeTime = time;
         }
 
         //Constructor
@@ -38,7 +38,7 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             if (Status == DeviceStatus.On)
             {
-                if (DateTime.Now - LastModifiedTime > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
+                if (DateTime.Now - LastStatusChangeTime > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
                 {
                     SwitchOff();
                 }

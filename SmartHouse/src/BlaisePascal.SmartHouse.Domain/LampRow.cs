@@ -31,8 +31,8 @@ namespace BlaisePascal.SmartHouse.Domain
                 throw new ArgumentNullException("Lista null");
 
             Lamps = new List<AbstractLamp>();
-
-            foreach(Lamp lamp in lamps)
+                    
+            foreach (AbstractLamp lamp in lamps)
             {
                 Lamps.Add(lamp);
             }   

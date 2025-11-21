@@ -12,16 +12,16 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void EcoLamp_TurnOn_SetsIsOnToTrue()
         {
             EcoLamp lamp = new EcoLamp("lamp");
-            lamp.TurnOn();
-            Assert.True(lamp.IsOn);
+            lamp.SwitchOn();
+            Assert.Equal(DeviceStatus.On, lamp.Status);
         }
         [Fact]
         public void EcoLamp_TurnOff_SetsIsOnToFalse()
         {
             EcoLamp lamp = new EcoLamp("lamp");
-            lamp.TurnOn();
-            lamp.TurnOff();
-            Assert.False(lamp.IsOn);
+            lamp.SwitchOn();
+            lamp.SwitchOff();
+            Assert.Equal(DeviceStatus.Off, lamp.Status);
         }
         [Fact]
         public void EcoLamp_SetBrightness_ValidLevel_SetsBrightnessLevel()
@@ -47,7 +47,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void EcoLamp_EcoModeBrightness_SetsBrightnessToEcoLevel()
         {
             EcoLamp lamp = new EcoLamp("lamp");
-            lamp.TurnOn();
+            lamp.SwitchOn();
             lamp.SetBrightness(80);
             lamp.SetEcoModeBrightness();
             Assert.Equal(40, lamp.BrightnessLevel);
@@ -56,7 +56,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void EcoLamp_EcoModeBrightness_DoesNotChangeBrightnessIfBelowEcoLevel()
         {
             EcoLamp lamp = new EcoLamp("lamp");
-            lamp.TurnOn();
+            lamp.SwitchOn();
             lamp.SetBrightness(30);
             lamp.SetEcoModeBrightness();
             Assert.Equal(30, lamp.BrightnessLevel);
@@ -67,10 +67,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             EcoLamp lamp = new EcoLamp("lamp");
 
-            lamp.TurnOn();
+            lamp.SwitchOn();
             lamp.SetOnTime(DateTime.UtcNow.AddMinutes(-51));
             lamp.TurnOffAfterTime();
-            Assert.False(lamp.IsOn);
+            Assert.Equal(DeviceStatus.Off, lamp.Status);
         }
 
     }
