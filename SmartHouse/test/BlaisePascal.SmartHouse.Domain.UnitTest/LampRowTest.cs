@@ -80,7 +80,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             row.SetOneBrightness("lamp1", 55);
 
-            Assert.Equal(55, lamp1.BrightnessLevel);
+            Assert.Equal(55, lamp1.Brightness);
         }
 
         [Fact]
@@ -94,8 +94,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             row.SetAllSameBrightness(70);
 
-            Assert.Equal(70, lamp1.BrightnessLevel);
-            Assert.Equal(70, lamp2.BrightnessLevel);
+            Assert.Equal(70, lamp1.Brightness);
+            Assert.Equal(70, lamp2.Brightness);
         }
         [Fact]
         public void LampRow_SetOneEcoLampBrightnessToEco_SetsEcoBrightness()
@@ -108,7 +108,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             row.SetOneEcoLampBrightnessToEco("ecolamp1");
 
-            Assert.Equal(40, ecoLamp.BrightnessLevel); 
+            Assert.Equal(40, ecoLamp.Brightness); 
         }
 
         [Fact]
@@ -126,8 +126,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             row.SetAllEcoLampsBrightnessToEco();
 
-            Assert.Equal(40, eco1.BrightnessLevel);
-            Assert.Equal(40, eco2.BrightnessLevel);
+            Assert.Equal(40, eco1.Brightness);
+            Assert.Equal(40, eco2.Brightness);
         }
 
         [Fact]

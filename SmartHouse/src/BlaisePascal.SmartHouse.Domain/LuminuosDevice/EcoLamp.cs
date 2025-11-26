@@ -29,8 +29,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //Methods
         public void SetEcoModeBrightness()
         {
-            if (Status == DeviceStatus.On && BrightnessLevel>EcoModeBrightnessValue) {
-                BrightnessLevel = EcoModeBrightnessValue;
+            if (Status == DeviceStatus.On && Brightness>EcoModeBrightnessValue) {
+                Brightness = EcoModeBrightnessValue;
             }
         }
 

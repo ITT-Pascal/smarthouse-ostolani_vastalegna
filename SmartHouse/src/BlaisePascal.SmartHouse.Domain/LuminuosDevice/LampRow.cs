@@ -77,10 +77,9 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public void RomoveLampInPosition(int postion)
         {
-
+            Lamps.RemoveAt(postion);
         }
 
-        //Remove lamp by position have no paramerter other than position???
 
         public DeviceStatus Status()
         {
@@ -252,6 +251,132 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 }
             }
         }
+
+        public AbstractLamp FindLampWithMaxBrightness()
+        {
+            AbstractLamp lamp = Lamps[0];
+
+            foreach (AbstractLamp l in Lamps)
+            {
+                if (l.Brightness > lamp.Brightness)
+                    lamp = l;
+            }
+
+            return lamp;
+        }
+
+        public AbstractLamp FindLampWithMinBrightness()
+        {
+            AbstractLamp lamp = Lamps[0];
+
+            foreach (AbstractLamp l in Lamps)
+            {
+                if (l.Brightness < lamp.Brightness)
+                    lamp = l;
+            }
+
+            return lamp;
+        }
+
+        public List<AbstractLamp> FindLampsByIntensityRange(int min, int max)
+        {
+            List<AbstractLamp> lamps = new List<AbstractLamp>();
+
+            foreach (AbstractLamp l in Lamps)
+            {
+                if (l.Brightness >= min && l.Brightness <= max)
+                    lamps.Add(l);
+
+            }
+
+            return lamps;
+        }
+
+        public List<AbstractLamp> FindAllOn()
+        {
+            List<AbstractLamp> onLamps = new List<AbstractLamp>();
+
+            foreach (AbstractLamp l in Lamps)
+            {
+                if (l.Status == DeviceStatus.On)
+                    onLamps.Add(l);
+            }
+
+            return onLamps;
+
+        }
+
+        public List<AbstractLamp> FindAllOff()
+        {
+            List<AbstractLamp> offLamps = new List<AbstractLamp>();
+
+            foreach (AbstractLamp l in Lamps)
+            {
+                if (l.Status == DeviceStatus.Off)
+                    offLamps.Add(l);
+            }
+
+            return offLamps;
+
+        }
+
+        public AbstractLamp? FindLampById(Guid id)
+        {
+            foreach (AbstractLamp l in Lamps)
+            {
+                if (l.Id == id)
+                    return l;
+            }
+
+            return null;
+
+        }
+
+
+
+        public List<AbstractLamp> SortByIntensity(bool descending)
+        {
+            List<AbstractLamp> sortedLamps = new List<AbstractLamp>();
+
+
+            if (!descending)
+            {
+                foreach (AbstractLamp l in Lamps)
+                {
+                    int count = 0;
+                    while (sortedLamps.Contains(l) == false)
+                    {
+                        if (count == sortedLamps.Count)
+                            sortedLamps.Add(l);
+                        else if (l.Brightness <= sortedLamps[count].Brightness)
+                            sortedLamps.Insert(count, l);
+
+                        count++;
+                    }
+
+                }
+            }
+            else
+            {
+                foreach (AbstractLamp l in Lamps)
+                {
+                    int count = 0;
+                    while (sortedLamps.Contains(l) == false)
+                    {
+                        if (count == sortedLamps.Count)
+                            sortedLamps.Add(l);
+                        else if (l.Brightness >= sortedLamps[count].Brightness)
+                            sortedLamps.Insert(count, l);
+
+                        count++;
+                    }
+                }
+            }
+
+            return sortedLamps;
+
+        }
+
 
     }
 
