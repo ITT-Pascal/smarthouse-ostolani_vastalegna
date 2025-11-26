@@ -20,6 +20,7 @@ namespace BlaisePascal.SmartHouse.Domain.ACDevice
         public int TemperatureToReach { get; private set; }
         public int FanSpeed { get; private set; }
 
+        //Constructor
         public AirConditioner(string name, int temperature): base (name)
         {
             CurrentTemperature = temperature;

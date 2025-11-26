@@ -29,7 +29,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             EcoLamp lamp = new EcoLamp("lamp");
             lamp.SetBrightness(50);
-            Assert.Equal(50, lamp.BrightnessLevel);
+            Assert.Equal(50, lamp.Brightness);
         }
         [Fact]
         public void EcoLamp_SetBrightness_NegativeLevel_ThrowsArgumentOutOfRangeException()
@@ -51,7 +51,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             lamp.SwitchOn();
             lamp.SetBrightness(80);
             lamp.SetEcoModeBrightness();
-            Assert.Equal(40, lamp.BrightnessLevel);
+            Assert.Equal(40, lamp.Brightness);
         }
         [Fact]
         public void EcoLamp_EcoModeBrightness_DoesNotChangeBrightnessIfBelowEcoLevel()
@@ -60,7 +60,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             lamp.SwitchOn();
             lamp.SetBrightness(30);
             lamp.SetEcoModeBrightness();
-            Assert.Equal(30, lamp.BrightnessLevel);
+            Assert.Equal(30, lamp.Brightness);
         }
 
         [Fact]

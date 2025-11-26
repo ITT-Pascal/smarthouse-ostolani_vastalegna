@@ -24,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp("lamp");
             lamp.SetBrightness(50);
-            Assert.Equal(50, lamp.BrightnessLevel);
+            Assert.Equal(50, lamp.Brightness);
         }
         [Fact]
         public void Lamp_SetBrightness_NegativeLevel_ThrowsArgumentOutOfRangeException()

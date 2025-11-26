@@ -49,15 +49,15 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
             device.SetBothSameBrightness(70);
-            Assert.Equal(70, device.Lamp1.BrightnessLevel);
-            Assert.Equal(70, device.Lamp2.BrightnessLevel);
+            Assert.Equal(70, device.Lamp1.Brightness);
+            Assert.Equal(70, device.Lamp2.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetOneBrightness_SetsBrightnessLevel()
         {
             TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
             device.SetOneBrightness(device.Lamp1, 30);
-            Assert.Equal(30, device.Lamp1.BrightnessLevel);
+            Assert.Equal(30, device.Lamp1.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetOneEcoLampBrightnessToEco_SetsBrightnessToEcoLevel()
@@ -66,7 +66,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             device.Lamp2.SwitchOn();
             device.Lamp2.SetBrightness(80);
             device.SetOneEcoLampBrightnessToEco(device.Lamp2);
-            Assert.Equal(40, device.Lamp2.BrightnessLevel);
+            Assert.Equal(40, device.Lamp2.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetBothEcoLampBrightnessToEco_SetsBrightnessToEcoLevel()
@@ -77,8 +77,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             device.Lamp1.SetBrightness(90);
             device.Lamp2.SetBrightness(70);
             device.SetBothEcoLampsBrightnessToEco();
-            Assert.Equal(40, device.Lamp1.BrightnessLevel);
-            Assert.Equal(40, device.Lamp2.BrightnessLevel);
+            Assert.Equal(40, device.Lamp1.Brightness);
+            Assert.Equal(40, device.Lamp2.Brightness);
         }
         [Fact]
         public void TwoLampDevice_TurnOneEcoLampOffAfterTime_SetsIsOnToFalse()

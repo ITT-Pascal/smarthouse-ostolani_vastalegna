@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public const int MinBrightnessLevel = 1;
 
         //Properties
-        public int BrightnessLevel { get; protected set; }
+        public int Brightness { get; protected set; }
 
 
 
@@ -21,12 +21,12 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //Constructors
         protected AbstractLamp(string name): base(name)
         {
-           BrightnessLevel = MaxBrightnessLevel;
+           Brightness = MaxBrightnessLevel;
 
         }
         public AbstractLamp(Guid guid, string name): base(guid, name)
         {
-            BrightnessLevel = MaxBrightnessLevel;
+            Brightness = MaxBrightnessLevel;
 
         }
 
@@ -40,7 +40,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             if (amount < 1)
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount deve essere almeno 1.");
 
-            BrightnessLevel = Math.Max(MinBrightnessLevel, BrightnessLevel - amount);
+            Brightness = Math.Max(MinBrightnessLevel, Brightness - amount);
 
         }
 
@@ -52,7 +52,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             if (amount < 1)
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount deve essere almeno 1.");
 
-            BrightnessLevel = Math.Min(MaxBrightnessLevel, BrightnessLevel + amount);
+            Brightness = Math.Min(MaxBrightnessLevel, Brightness + amount);
 
         }
 
@@ -62,7 +62,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             {
                 throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightnessLevel} and {MaxBrightnessLevel}.");
             }
-            BrightnessLevel = levelOfBrightness;
+            Brightness = levelOfBrightness;
         }
     }
 }
