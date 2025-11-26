@@ -5,14 +5,17 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.ACDevice
 {
     public class AirConditioner: AbstractDevice
     {
+        //Constant
         public const int DefaultTemperature = 24;
         public const int MinTemperature = 15;
         public const int MaxTemperature = 35;
         private const int TemperatureStep = 1;
+
+        //Properties
         public int CurrentTemperature { get; private set; }
         public int TemperatureToReach { get; private set; }
         public int FanSpeed { get; private set; }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 {
     public class LampRow
     {
@@ -72,6 +72,11 @@ namespace BlaisePascal.SmartHouse.Domain
 
                 }
             }
+
+        }
+
+        public void RomoveLampInPosition(int postion)
+        {
 
         }
 

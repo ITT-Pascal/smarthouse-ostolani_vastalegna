@@ -1,3 +1,5 @@
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
+
 namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class LampTest

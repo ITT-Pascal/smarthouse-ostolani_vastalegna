@@ -1,4 +1,4 @@
-﻿namespace BlaisePascal.SmartHouse.Domain
+﻿namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 {
     public class Lamp: AbstractLamp
     {
