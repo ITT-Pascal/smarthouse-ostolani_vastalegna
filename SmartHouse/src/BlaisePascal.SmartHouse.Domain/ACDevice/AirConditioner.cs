@@ -18,7 +18,8 @@ namespace BlaisePascal.SmartHouse.Domain.ACDevice
         //Properties
         public int CurrentTemperature { get; private set; }
         public int TemperatureToReach { get; private set; }
-        public int FanSpeed { get; private set; }
+        public FanSpeed FanSpeed { get; private set; }
+        public ACMode Mode { get; private set; }
 
         //Constructor
         public AirConditioner(string name, int temperature): base (name)
@@ -58,12 +59,19 @@ namespace BlaisePascal.SmartHouse.Domain.ACDevice
                 throw new InvalidOperationException("Il condizionatore è spento.");
             CurrentTemperature = Math.Max(MinTemperature, CurrentTemperature - TemperatureStep);
         }
-        public void SetFanSpeed(int speed)
+        public void SetFanSpeed(FanSpeed speed) 
         {
-            if (speed < 1 || speed > 5)
-                throw new ArgumentOutOfRangeException("La velocità della ventola deve essere compresa tra 1 e 5");
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("Cannot change fan speed when AC is off.");
+
             FanSpeed = speed;
         }
+        public void SetMode(ACMode mode)
+        {
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("Cannot change fan speed when AC is off.");
 
+            Mode = mode;
+        }
     }
 }

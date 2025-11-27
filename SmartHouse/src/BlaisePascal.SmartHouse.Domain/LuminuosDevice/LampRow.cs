@@ -37,6 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 Lamps.Add(lamp);
             }   
         }
+
         //Methods
         public void AddLamp(AbstractLamp lamp)
         {
@@ -51,31 +52,16 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public void RemoveLamp(Guid id)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Id == id)
-                {
-                    Lamps.Remove(lamp);
-
-                }
-            }
+            Lamps.Remove(GetLamp(id));
 
         }
 
         public void RemoveLamp(string name)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Name == name)
-                {
-                    Lamps.Remove(lamp);
-
-                }
-            }
-
+            Lamps.Remove(GetLamp(name));
         }
 
-        public void RomoveLampInPosition(int postion)
+        public void RemoveLampInPosition(int postion)
         {
             Lamps.RemoveAt(postion);
         }
@@ -109,64 +95,30 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public void TurnOnOneLamp(Guid id)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Id == id)
-                {
-                    lamp.SwitchOn();
-                }
-            }
+            GetLamp(id).SwitchOn();
         }
         public void TurnOnOneLamp(string name)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Name == name)
-                {
-                    lamp.SwitchOn();
-                }
-            }
+            GetLamp(name).SwitchOn();
         }
         public void TurnOffOneLamp(Guid id)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Id == id)
-                {
-                    lamp.SwitchOff();
-                }
-            }
+            GetLamp(id).SwitchOff();
+            
         }
         public void TurnOffOneLamp(string name)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Name == name)
-                {
-                    lamp.SwitchOff();
-                }
-            }
+            GetLamp(name).SwitchOff();
         }
 
         public void SetOneBrightness(Guid id, int newBrightness)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Id == id)
-                {
-                    lamp.SetBrightness(newBrightness);
-                }
-            }
+            GetLamp(id).SetBrightness(newBrightness);
         }
         public void SetOneBrightness(string name, int newBrightness)
         {
-            foreach (AbstractLamp lamp in Lamps)
-            {
-                if (lamp.Name == name)
-                {
-                    lamp.SetBrightness(newBrightness);
-                }
-            }
+            GetLamp(name).SetBrightness(newBrightness);
+            
         }
         public void SetAllSameBrightness(int newBrightness)
         {
@@ -178,31 +130,18 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public void SetOneEcoLampBrightnessToEco(Guid id)
         {
-            foreach (AbstractLamp lamp in Lamps)
+            if (FindLampById(id) is EcoLamp ecoLamp1)
             {
-                if (lamp.Id == id)
-                {
-                    if (lamp is EcoLamp ecoLamp1)
-                    {
-                        ecoLamp1.SetEcoModeBrightness();
-
-                    }
-                }
+                ecoLamp1.SetEcoModeBrightness();
             }
         }
         public void SetOneEcoLampBrightnessToEco(string name)
         {
-            foreach (AbstractLamp lamp in Lamps)
+            if (GetLamp(name) is EcoLamp ecoLamp1)
             {
-                if (lamp.Name == name)
-                {
-                    if (lamp is EcoLamp ecoLamp)
-                    {
-                        ecoLamp.SetEcoModeBrightness();
-
-                    }
-                }
+                ecoLamp1.SetEcoModeBrightness();
             }
+            
         }
         public void SetAllEcoLampsBrightnessToEco()
         {
@@ -216,30 +155,19 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         }
         public void TurnOneEcoLampOffAfterTime(Guid id)
         {
-            foreach (AbstractLamp lamp in Lamps)
+            if (FindLampById(id) is EcoLamp ecoLamp1)
             {
-                if (lamp.Id == id)
-                {
-                    if (lamp is EcoLamp ecoLamp1)
-                    {
-                        ecoLamp1.TurnOffAfterTime();
-                    }
-                }
+                ecoLamp1.TurnOffAfterTime();
             }
         }
 
         public void TurnOneEcoLampOffAfterTime(string name)
         {
-            foreach (AbstractLamp lamp in Lamps)
+            if (GetLamp(name) is EcoLamp ecoLamp1)
             {
-                if (lamp.Name == name)
-                {
-                    if (lamp is EcoLamp ecoLamp1)
-                    {
-                        ecoLamp1.TurnOffAfterTime();
-                    }
-                }
+                ecoLamp1.TurnOffAfterTime();
             }
+            
         }
         public void TurnAllEcoLampsOffAfterTime()
         {
@@ -252,6 +180,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
         }
 
+
+        //Sort and find
         public AbstractLamp FindLampWithMaxBrightness()
         {
             AbstractLamp lamp = Lamps[0];
@@ -334,50 +264,77 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
 
 
-        public List<AbstractLamp> SortByIntensity(bool descending)
+        public List<AbstractLamp> SortByBrightness(bool descending)
         {
             List<AbstractLamp> sortedLamps = new List<AbstractLamp>();
+            List<AbstractLamp> tmpLamps = new List<AbstractLamp>(Lamps);
 
+            int count = 0;
 
-            if (!descending)
+            while (count < Lamps.Count)
             {
-                foreach (AbstractLamp l in Lamps)
-                {
-                    int count = 0;
-                    while (sortedLamps.Contains(l) == false)
-                    {
-                        if (count == sortedLamps.Count)
-                            sortedLamps.Add(l);
-                        else if (l.Brightness <= sortedLamps[count].Brightness)
-                            sortedLamps.Insert(count, l);
+                
+                AbstractLamp selected = tmpLamps[0];
 
-                        count++;
+                
+                foreach (var l in tmpLamps)
+                {
+                    if (descending)
+                    {
+                        // Ordine decrescente: cerca la massima
+                        if (l.Brightness > selected.Brightness)
+                            selected = l;
                     }
-
-                }
-            }
-            else
-            {
-                foreach (AbstractLamp l in Lamps)
-                {
-                    int count = 0;
-                    while (sortedLamps.Contains(l) == false)
+                    else
                     {
-                        if (count == sortedLamps.Count)
-                            sortedLamps.Add(l);
-                        else if (l.Brightness >= sortedLamps[count].Brightness)
-                            sortedLamps.Insert(count, l);
-
-                        count++;
+                        // Ordine crescente: cerca la minima
+                        if (l.Brightness < selected.Brightness)
+                            selected = l;
                     }
                 }
+
+                sortedLamps.Add(selected);
+                tmpLamps.Remove(selected);
+                count++;
             }
 
             return sortedLamps;
-
         }
 
 
+        //Metodi get
+
+        private AbstractLamp GetLamp(int position)
+        {
+            if (position < 0 || position > Lamps.Count -1)
+                throw new ArgumentOutOfRangeException("Not in range");
+
+            return Lamps[position];
+        }
+
+        private AbstractLamp GetLamp(Guid id)
+        {
+            for (int i = 0; i < Lamps.Count; i++)
+            {
+                if (Lamps[i].Id == id)
+                    return Lamps[i];
+            }
+
+            throw new ArgumentException("No lamps with this guid");
+        }
+        private AbstractLamp GetLamp(string name)
+        {
+            for (int i = 0; i < Lamps.Count; i++)
+            {
+                if (Lamps[i].Name == name)
+                    return Lamps[i];
+            }
+
+            throw new ArgumentException("No lamps with this name");
+        }
+
     }
+
+
 
 }
