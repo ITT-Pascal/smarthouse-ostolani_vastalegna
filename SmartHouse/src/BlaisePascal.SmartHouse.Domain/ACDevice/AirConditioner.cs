@@ -22,15 +22,23 @@ namespace BlaisePascal.SmartHouse.Domain.ACDevice
         public ACMode Mode { get; private set; }
 
         //Constructor
+        public AirConditioner(string name) : base(name)
+        {
+            CurrentTemperature = DefaultTemperature;
+            TemperatureToReach = DefaultTemperature;
+            FanSpeed = FanSpeed.Medium;
+        }
         public AirConditioner(string name, int temperature): base (name)
         {
             CurrentTemperature = temperature;
             TemperatureToReach = DefaultTemperature;
+            FanSpeed = FanSpeed.Medium;
         }
         public AirConditioner(Guid guid, string name, int temperature): base (guid, name)
         {
             CurrentTemperature = temperature;
             TemperatureToReach = DefaultTemperature;
+            FanSpeed = FanSpeed.Medium;
         }
         
         public override void SwitchOn()

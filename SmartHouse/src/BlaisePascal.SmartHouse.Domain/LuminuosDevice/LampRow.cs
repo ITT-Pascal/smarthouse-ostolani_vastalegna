@@ -249,13 +249,13 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 {
                     if (descending)
                     {
-                        // Ordine decrescente: cerca la massima
+                        // decrescente: cerca massima
                         if (l.Brightness > selected.Brightness)
                             selected = l;
                     }
                     else
                     {
-                        // Ordine crescente: cerca la minima
+                        // crescente: cerca minima
                         if (l.Brightness < selected.Brightness)
                             selected = l;
                     }
