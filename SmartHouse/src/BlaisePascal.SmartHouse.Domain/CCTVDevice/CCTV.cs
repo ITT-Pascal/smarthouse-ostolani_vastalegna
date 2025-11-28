@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 {
     public class CCTV:AbstractDevice
     {
-        public CCTV(string name);
+        public CCTV(string name) : base(name) { }
         public CCTV(Guid guid, string name);
 
     }

@@ -13,19 +13,10 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public const int DefaultAutoOffMinutes = 50;
         public const int EcoModeBrightnessValue = 40;
 
-        
-        //TODO: Resolve the OnTime test issue
-        //ONLY FOR TESTING PURPOSES
-        public void SetOnTime(DateTime time)
-        {
-            LastStatusChangeTime = time;
-        }
-
         //Constructor
         public EcoLamp(Guid guid, string name): base(guid, name) { }
         public EcoLamp(string name): base(name) { }
         
-
         //Methods
         public void SetEcoModeBrightness()
         {
@@ -44,6 +35,12 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 }
             }
                 
+        }
+
+        //ONLY FOR TESTING PURPOSES
+        public void SetOnTime(DateTime time)
+        {
+            LastStatusChangeTime = time;
         }
     }
 }
