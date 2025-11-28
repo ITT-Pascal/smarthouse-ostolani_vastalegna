@@ -16,7 +16,73 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public double maximumZoom = 5.0;
         public int currentTilt = 0;
         public double currentZoom = 1.0;
+        public bool currentlyRecording = false;
+        public int recordingsSaved = 0;
 
-        
+        public void move(int degrees)
+        {
+            if ( currentTilt+ degrees > maximumTiltDegrees )
+            {
+                currentTilt = maximumTiltDegrees;
+            } else
+            {
+                if (currentTilt + degrees < minimumTiltDegrees)
+                {
+                    currentTilt = minimumTiltDegrees;
+                } else
+                {
+                    currentTilt += degrees;
+                }
+            }
+
+        }
+
+        public void zoom(double newZoom)
+        {
+            if (newZoom <= maximumZoom && newZoom >= 1)
+            {
+                currentZoom = newZoom;
+            } else
+            {
+                throw new Exception("the input zoom amount is not possible on this device");
+            }
+        }
+        public void startRecording()
+        {
+            if (Status == DeviceStatus.On)
+            {
+                if (currentlyRecording)
+                {
+                    recordingsSaved++;
+                }
+                else
+                {
+                    currentlyRecording = true;
+                }
+            }
+        }
+        public void stopRecording()
+        {
+            if (Status == DeviceStatus.On)
+            {
+                if (currentlyRecording)
+                {
+                    currentlyRecording = false;
+                    recordingsSaved++;
+                }
+                else
+                {
+                    throw new Exception("You are not recording");
+                }
+            }
+        }
+        public void clearMemory(bool confirm)
+        {
+            if (confirm)
+            {
+                recordingsSaved = 0;
+            }
+        }
+
     }
 }
