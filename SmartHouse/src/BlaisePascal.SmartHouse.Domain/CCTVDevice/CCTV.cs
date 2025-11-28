@@ -8,8 +8,15 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 {
     public class CCTV:AbstractDevice
     {
-        public CCTV(string name);
-        public CCTV(Guid guid, string name);
+        public CCTV(string name): base(name) { }
+        public CCTV(Guid guid, string name):base(guid, name) { }
 
+        public int minimumTiltDegrees = -90;
+        public int maximumTiltDegrees = 90;
+        public double maximumZoom = 5.0;
+        public int currentTilt = 0;
+        public double currentZoom = 1.0;
+
+        
     }
 }
