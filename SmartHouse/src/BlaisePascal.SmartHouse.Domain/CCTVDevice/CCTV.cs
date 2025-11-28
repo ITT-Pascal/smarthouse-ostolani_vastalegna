@@ -8,13 +8,8 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 {
     public class CCTV:AbstractDevice
     {
-<<<<<<< HEAD
-        public CCTV(string name) : base(name) { }
-        public CCTV(Guid guid, string name) : base(guid, name) { }
-=======
         public CCTV(string name): base(name) { }
         public CCTV(Guid guid, string name):base(guid, name) { }
->>>>>>> e894e9f095fd5368ddce186ba0f0abf0a6df1aa4
 
         public int minimumTiltDegrees = -90;
         public int maximumTiltDegrees = 90;
@@ -22,6 +17,33 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public int currentTilt = 0;
         public double currentZoom = 1.0;
 
-        
+        public void move(int degrees)
+        {
+            if ( currentTilt+ degrees > maximumTiltDegrees )
+            {
+                currentTilt = maximumTiltDegrees;
+            } else
+            {
+                if (currentTilt + degrees < minimumTiltDegrees)
+                {
+                    currentTilt = minimumTiltDegrees;
+                } else
+                {
+                    currentTilt += degrees;
+                }
+            }
+
+        }
+
+        public void zoom(double newZoom)
+        {
+            if (newZoom <= maximumZoom && newZoom >= 1)
+            {
+                currentZoom = newZoom;
+            } else
+            {
+                throw new Exception("the input zoom amount is not possible on this device");
+            }
+        }
     }
 }
