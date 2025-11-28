@@ -16,6 +16,8 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public double maximumZoom = 5.0;
         public int currentTilt = 0;
         public double currentZoom = 1.0;
+        public bool currentlyRecording = false;
+        public int recordingsSaved = 0;
 
         public void move(int degrees)
         {
@@ -45,5 +47,42 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
                 throw new Exception("the input zoom amount is not possible on this device");
             }
         }
+        public void startRecording()
+        {
+            if (Status == DeviceStatus.On)
+            {
+                if (currentlyRecording)
+                {
+                    recordingsSaved++;
+                }
+                else
+                {
+                    currentlyRecording = true;
+                }
+            }
+        }
+        public void stopRecording()
+        {
+            if (Status == DeviceStatus.On)
+            {
+                if (currentlyRecording)
+                {
+                    currentlyRecording = false;
+                    recordingsSaved++;
+                }
+                else
+                {
+                    throw new Exception("You are not recording");
+                }
+            }
+        }
+        public void clearMemory(bool confirm)
+        {
+            if (confirm)
+            {
+                recordingsSaved = 0;
+            }
+        }
+
     }
 }
