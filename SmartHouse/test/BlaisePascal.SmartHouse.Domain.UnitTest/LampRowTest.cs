@@ -9,6 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class LampRowTest
     {
+        // ON - OFF
         [Fact]
         public void LampRow_TurnAllOn_SetsAllIsOnToTrue()
         {
@@ -71,6 +72,28 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Assert.Equal(DeviceStatus.Off, lamp2.Status);
         }
 
+
+        [Fact]
+        public void LampRow_TurnOnOneLampByGuid_ThrowsExceptionIfNotFound()
+        {
+            var row = new LampRow("Row");
+            var lamp1 = new Lamp("l1");
+            row.AddLamp(lamp1);
+
+            Assert.Throws<ArgumentException>(() => row.TurnOnOneLamp(Guid.NewGuid()));
+        }
+
+        [Fact]
+        public void LampRow_TurnOnOneLampByName_ThrowsExceptionIfNotFound()
+        {
+            var row = new LampRow("Row");
+            var lamp1 = new Lamp("l1");
+            row.AddLamp(lamp1);
+
+            Assert.Throws<ArgumentException>(() => row.TurnOnOneLamp("prova"));
+        }
+
+        // BRIGHTNESS
         [Fact]
         public void LampRow_SetOneBrightness_SetsCorrectValue()
         {
@@ -97,6 +120,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Assert.Equal(70, lamp1.Brightness);
             Assert.Equal(70, lamp2.Brightness);
         }
+
+        // ECO METHODS
         [Fact]
         public void LampRow_SetOneEcoLampBrightnessToEco_SetsEcoBrightness()
         {
@@ -164,7 +189,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
 
         
-
+        // LAMP MANAGING
 
         [Fact]
         public void LampRow_AddLampInPosition_InsertsLampCorrectly()
@@ -213,7 +238,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
         
 
-
+        // INFO
         [Fact]
         public void LampRow_Status_ReturnsOnIfAnyLampIsOn()
         {
@@ -239,6 +264,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Assert.Equal(DeviceStatus.Off, row.Status());
         }
 
+        // BRIGHTEN - DIMMER
         [Fact]
         public void LampRow_BrightenByPosition_ThrowsExceptionIfOutOfRange()
         {
@@ -277,6 +303,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
 
 
+        // SEARCH
 
         [Fact]
         public void LampRow_FindLampWithMaxBrightness_ReturnsCorrectLamp()
@@ -393,6 +420,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
 
 
+        // SORT
         [Fact]
         public void LampRow_SortByBrightness_Ascending()
         {
@@ -432,25 +460,6 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
 
         
-        [Fact]
-        public void LampRow_TurnOnOneLampByGuid_ThrowsExceptionIfNotFound()
-        {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            row.AddLamp(lamp1);
-
-            Assert.Throws<ArgumentException>(() => row.TurnOnOneLamp(Guid.NewGuid()));
-        }
-
-        [Fact]
-        public void LampRow_TurnOnOneLampByName_ThrowsExceptionIfNotFound()
-        {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            row.AddLamp(lamp1);
-
-            Assert.Throws<ArgumentException>(() => row.TurnOnOneLamp("prova"));
-        }
 
         
     }
