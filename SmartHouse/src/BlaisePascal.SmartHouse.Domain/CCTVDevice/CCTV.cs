@@ -8,81 +8,74 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 {
     public class CCTV:AbstractDevice
     {
-        public CCTV(string name): base(name) { }
-        public CCTV(Guid guid, string name):base(guid, name) { }
 
-        public int minimumTiltDegrees = -90;
-        public int maximumTiltDegrees = 90;
-        public double maximumZoom = 5.0;
-        public int currentTilt = 0;
-        public double currentZoom = 1.0;
-        public bool currentlyRecording = false;
+        public const int minimumTiltDegrees = -90;
+        public const int maximumTiltDegrees = 90;
+        public const double maximumZoom = 5.0;
+        public int CurrentTilt { get; private set; }
+        public double CurrentZoom { get; private set; }
+        public CCTVStatus CCTVStatus { get; private set; }
+        public List<Recording> RecordingsSaved { get; private set; }
+
+        public CCTV(string name): base(name) 
+        {
+            CurrentTilt = 0;
+            CurrentZoom = 1.0;
+            CCTVStatus = CCTVStatus.NotRecording;
+        }
+        public CCTV(Guid guid, string name):base(guid, name) 
+        {
+            CurrentTilt = 0;
+            CurrentZoom = 1.0;
+            CCTVStatus = CCTVStatus.NotRecording;
+        }
+
+
+        
+        
         public int recordingsSaved = 0;
 
-        public void move(int degrees)
-        {
-            if ( currentTilt+ degrees > maximumTiltDegrees )
-            {
-                currentTilt = maximumTiltDegrees;
-            } else
-            {
-                if (currentTilt + degrees < minimumTiltDegrees)
-                {
-                    currentTilt = minimumTiltDegrees;
-                } else
-                {
-                    currentTilt += degrees;
-                }
-            }
-
-        }
+        public void move(int degrees) => CurrentTilt = Math.Clamp(minimumTiltDegrees, maximumTiltDegrees, currentTilt + degrees);
+        
 
         public void zoom(double newZoom)
         {
-            if (newZoom <= maximumZoom && newZoom >= 1)
-            {
-                currentZoom = newZoom;
-            } else
-            {
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("CCTV is off");
+            if (newZoom > maximumZoom || newZoom < 1)
                 throw new Exception("the input zoom amount is not possible on this device");
-            }
+                
+            CurrentZoom = newZoom;
+            
         }
         public void startRecording()
         {
-            if (Status == DeviceStatus.On)
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("CCTV is off");
+
+            // add time of recoding in recording saved as a list
+            if (CCTVStatus == CCTVStatus.Recording)
             {
-                if (currentlyRecording)
-                {
-                    recordingsSaved++;
-                }
-                else
-                {
-                    currentlyRecording = true;
-                }
+                recordingsSaved++;
+            }
+            else
+            {
+                CCTVStatus = CCTVStatus.Recording;
             }
         }
         public void stopRecording()
         {
-            if (Status == DeviceStatus.On)
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("CCTV is off");
+            if (CCTVStatus == CCTVStatus.NotRecording) 
             {
-                if (currentlyRecording)
-                {
-                    currentlyRecording = false;
-                    recordingsSaved++;
-                }
-                else
-                {
-                    throw new Exception("You are not recording");
-                }
+                throw new Exception("You are not recording");
             }
+            CCTVStatus = CCTVStatus.NotRecording;
+            recordingsSaved++;
         }
-        public void clearMemory(bool confirm)
-        {
-            if (confirm)
-            {
-                recordingsSaved = 0;
-            }
-        }
+        public void clearMemory() => recordingsSaved = 0;
+        
 
     }
 }
