@@ -35,7 +35,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         
         public int recordingsSaved = 0;
 
-        public void move(int degrees) => CurrentTilt = Math.Clamp(minimumTiltDegrees, maximumTiltDegrees, currentTilt + degrees);
+        public void move(int degrees) => CurrentTilt = Math.Clamp(minimumTiltDegrees, maximumTiltDegrees, CurrentTilt + degrees);
         
 
         public void zoom(double newZoom)
@@ -77,5 +77,5 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public void clearMemory() => recordingsSaved = 0;
         
 
-    }
+    }                          k,
 }
