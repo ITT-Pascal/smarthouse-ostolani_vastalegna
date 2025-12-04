@@ -8,19 +8,20 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 {
-    public class CCTV:AbstractDevice
+    public class CCTV: AbstractDevice
     {
-
+        //Const
         public const int minimumTiltDegrees = -90;
         public const int maximumTiltDegrees = 90;
         public const double maximumZoom = 5.0;
+
+        //Properties
         public int CurrentTilt { get; private set; }
         public double CurrentZoom { get; private set; }
         public CCTVStatus CCTVStatus { get; private set; }
         public List<Recording> RecordingsSaved { get; private set; }
-        public DateTime RecordStart;
-        public TimeSpan RecordLength;
-
+        
+        //Constructor
         public CCTV(string name): base(name) 
         {
             CurrentTilt = 0;
@@ -37,48 +38,51 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         }
 
 
+        //Methods
+        public void Move(int degrees)
+        {
+            OnValidator();
+            CurrentTilt = Math.Clamp(CurrentTilt + degrees, minimumTiltDegrees, maximumTiltDegrees);
+        }
         
-        
-
-        public void move(int degrees) => CurrentTilt = Math.Clamp(minimumTiltDegrees, maximumTiltDegrees, CurrentTilt + degrees);
-        
-
-        public void zoom(double newZoom)
+        public void Zoom(double newZoom)
         {
             OnValidator();
             if (newZoom > maximumZoom || newZoom < 1)
-                throw new Exception("the input zoom amount is not possible on this device");
+                throw new InvalidOperationException("the input zoom amount is not possible on this device");
                 
             CurrentZoom = newZoom;
-            
+
         }
-        public void startRecording()
+
+        public void StartRecording()
         {
             OnValidator();
             if (CCTVStatus == CCTVStatus.Recording)
             {
-                throw new Exception("You are already recording");
+                throw new InvalidOperationException("You are already recording");
             }
             CCTVStatus = CCTVStatus.Recording;
             LastStatusChangeTime = DateTime.UtcNow;
-            RecordStart = DateTime.UtcNow;
+            
 
         }
-        public void stopRecording(string name)
+
+        public void StopRecording()
         {
             OnValidator();
             if (CCTVStatus == CCTVStatus.NotRecording) 
             {
-                throw new Exception("You are not recording");
+                throw new InvalidOperationException("You are not recording");
             }
-            string FileName = name + ".mp4";
+            
             CCTVStatus = CCTVStatus.NotRecording;
+            RecordingsSaved.Add(new Recording(LastStatusChangeTime.ToString(), LastStatusChangeTime, DateTime.UtcNow - LastStatusChangeTime));
             LastStatusChangeTime = DateTime.UtcNow;
-            RecordLength = LastStatusChangeTime - RecordStart;
-            RecordingsSaved.Add(new Recording(FileName, CurrentZoom, CurrentTilt, RecordLength));
+            
+            
         }
-        public void clearMemory() => RecordingsSaved.Clear();
-
+        public void ClearMemory() => RecordingsSaved.Clear();
 
     }
 }
