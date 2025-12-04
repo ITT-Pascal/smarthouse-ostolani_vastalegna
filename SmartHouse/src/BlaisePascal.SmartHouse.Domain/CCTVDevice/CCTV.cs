@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO.Enumeration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +18,8 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public double CurrentZoom { get; private set; }
         public CCTVStatus CCTVStatus { get; private set; }
         public List<Recording> RecordingsSaved { get; private set; }
+        public DateTime RecordStart;
+        public TimeSpan RecordLength;
 
         public CCTV(string name): base(name) 
         {
@@ -35,7 +39,6 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 
         
         
-        public int recordingsSaved = 0;
 
         public void move(int degrees) => CurrentTilt = Math.Clamp(minimumTiltDegrees, maximumTiltDegrees, CurrentTilt + degrees);
         
@@ -52,30 +55,30 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public void startRecording()
         {
             OnValidator();
-            // add time of recoding in recording saved as a list
             if (CCTVStatus == CCTVStatus.Recording)
             {
-                recordingsSaved++;
+                throw new Exception("You are already recording");
             }
-            else
-            {
-                CCTVStatus = CCTVStatus.Recording;
-            }
+            CCTVStatus = CCTVStatus.Recording;
             LastStatusChangeTime = DateTime.UtcNow;
+            RecordStart = DateTime.UtcNow;
+
         }
-        public void stopRecording()
+        public void stopRecording(string name)
         {
             OnValidator();
             if (CCTVStatus == CCTVStatus.NotRecording) 
             {
                 throw new Exception("You are not recording");
             }
+            string FileName = name + ".mp4";
             CCTVStatus = CCTVStatus.NotRecording;
-            recordingsSaved++;
             LastStatusChangeTime = DateTime.UtcNow;
+            RecordLength = LastStatusChangeTime - RecordStart;
+            RecordingsSaved.Add(new Recording(FileName, CurrentZoom, CurrentTilt, RecordLength));
         }
-        public void clearMemory() => recordingsSaved = 0;
-        
+        public void clearMemory() => RecordingsSaved.Clear();
 
-    }                          k,
+
+    }
 }

@@ -9,10 +9,11 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 {
     public class Recording
     {
-        public Recording() 
+        public Recording(string name, double zoom, int tilt, TimeSpan length) 
         {
 
         }
+        public string name;
         public double zoom;
         public int tilt;
         public TimeSpan length;
