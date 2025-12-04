@@ -57,7 +57,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             return DeviceStatus.Off;
         }
 
-        // one lamp operation
+        // one lamp 
         public void TurnOnOneLamp(Guid id) { GetLamp(id).SwitchOn(); }
         public void TurnOnOneLamp(string name) { GetLamp(name).SwitchOn(); }
         public void TurnOffOneLamp(Guid id) { GetLamp(id).SwitchOff(); }
@@ -73,7 +73,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void Dimmer(Guid id, int amount) => GetLamp(id).Dimmer(amount);
 
 
-        // multiple lamp operation
+        // multiple lamp 
         public void TurnAllOn()
         {
             for (int i = 0; i < Lamps.Count; i++)

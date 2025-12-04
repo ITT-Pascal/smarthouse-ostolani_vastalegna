@@ -56,5 +56,13 @@ namespace BlaisePascal.SmartHouse.Domain
             Status = DeviceStatus.Off;
             LastStatusChangeTime = DateTime.UtcNow;
         }
+
+        // Validator
+
+        public virtual void OnValidator()
+        {
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("Device is off");
+        }
     }
 }

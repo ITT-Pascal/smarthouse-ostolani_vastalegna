@@ -22,12 +22,14 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             CurrentTilt = 0;
             CurrentZoom = 1.0;
             CCTVStatus = CCTVStatus.NotRecording;
+            RecordingsSaved = new List<Recording>();
         }
         public CCTV(Guid guid, string name):base(guid, name) 
         {
             CurrentTilt = 0;
             CurrentZoom = 1.0;
             CCTVStatus = CCTVStatus.NotRecording;
+            RecordingsSaved = new List<Recording>();
         }
 
 
@@ -40,8 +42,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 
         public void zoom(double newZoom)
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("CCTV is off");
+            OnValidator();
             if (newZoom > maximumZoom || newZoom < 1)
                 throw new Exception("the input zoom amount is not possible on this device");
                 
@@ -50,9 +51,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         }
         public void startRecording()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("CCTV is off");
-
+            OnValidator();
             // add time of recoding in recording saved as a list
             if (CCTVStatus == CCTVStatus.Recording)
             {
@@ -62,17 +61,18 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             {
                 CCTVStatus = CCTVStatus.Recording;
             }
+            LastStatusChangeTime = DateTime.UtcNow;
         }
         public void stopRecording()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("CCTV is off");
+            OnValidator();
             if (CCTVStatus == CCTVStatus.NotRecording) 
             {
                 throw new Exception("You are not recording");
             }
             CCTVStatus = CCTVStatus.NotRecording;
             recordingsSaved++;
+            LastStatusChangeTime = DateTime.UtcNow;
         }
         public void clearMemory() => recordingsSaved = 0;
         

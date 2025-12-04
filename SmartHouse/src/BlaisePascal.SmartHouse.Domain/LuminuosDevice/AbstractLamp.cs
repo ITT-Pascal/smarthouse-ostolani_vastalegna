@@ -34,9 +34,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public virtual void Dimmer(int amount)
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("La lampada è spenta.");
-
+            OnValidator();
             if (amount < 1)
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount deve essere almeno 1.");
 
@@ -46,9 +44,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public virtual void Brighten(int amount)
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("La lampada è spenta.");
-
+            OnValidator();
             if (amount < 1)
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount deve essere almeno 1.");
 

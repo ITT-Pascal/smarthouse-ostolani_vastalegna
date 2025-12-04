@@ -20,21 +20,20 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //Methods
         public void SetEcoModeBrightness()
         {
-            if (Status == DeviceStatus.On && Brightness>EcoModeBrightnessValue) {
+            OnValidator();
+            if (Brightness>EcoModeBrightnessValue) {
                 Brightness = EcoModeBrightnessValue;
             }
         }
 
         public void TurnOffAfterTime()
         {
-            if (Status == DeviceStatus.On)
+            OnValidator();
+            if (DateTime.Now - LastStatusChangeTime > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
             {
-                if (DateTime.Now - LastStatusChangeTime > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
-                {
-                    SwitchOff();
-                }
+                SwitchOff();
             }
-                
+
         }
 
         //ONLY FOR TESTING PURPOSES

@@ -8,8 +8,8 @@ namespace BlaisePascal.SmartHouse.Domain.ACDevice
 {
     public enum ACMode
     {
-        Hot = 1,
-        Cold = 2,
-        Dehumidifier = 3,
+        Hot,
+        Cold,
+        Dehumidifier,
     }
 }

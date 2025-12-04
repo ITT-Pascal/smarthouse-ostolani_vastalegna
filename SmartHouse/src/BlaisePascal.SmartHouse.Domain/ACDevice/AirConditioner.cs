@@ -36,38 +36,36 @@ namespace BlaisePascal.SmartHouse.Domain.ACDevice
 
         public void SetTemperatureToReach(int temperature)
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("AC is off");
+            OnValidator();
             if (temperature < MinTemperature || temperature > MaxTemperature)
                 throw new ArgumentOutOfRangeException($"Temperatere must be between {MinTemperature} and {MaxTemperature}");
             TemperatureToReach = temperature;
+            LastStatusChangeTime = DateTime.UtcNow;
         }
 
         public void IncreaseTemperatureToReach()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("AC is off");
+            OnValidator();
             TemperatureToReach = Math.Min(MaxTemperature, TemperatureToReach + TemperatureStep);
+            LastStatusChangeTime = DateTime.UtcNow;
         }
         public void DecreaseTemperatureToReach()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("AC is off");
+            OnValidator();
             TemperatureToReach = Math.Max(MinTemperature, TemperatureToReach - TemperatureStep);
+            LastStatusChangeTime = DateTime.UtcNow;
         }
         public void SetFanSpeed(FanSpeed speed) 
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("AC is off");
-
+            OnValidator();
             FanSpeed = speed;
+            LastStatusChangeTime = DateTime.UtcNow;
         }
         public void SetMode(ACMode mode)
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("AC is off");
-
+            OnValidator();
             Mode = mode;
+            LastStatusChangeTime = DateTime.UtcNow;
         }
 
         //Get const

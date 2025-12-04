@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.ACDevice
+namespace BlaisePascal.SmartHouse.Domain.DoorDevice
 {
-    public enum FanSpeed
+    public enum LockStatus
     {
-        Low,
-        Medium,
-        Fast,
-        Auto,
+        Unknown,
+        Unlocked,
+        Locked
     }
-
 }
