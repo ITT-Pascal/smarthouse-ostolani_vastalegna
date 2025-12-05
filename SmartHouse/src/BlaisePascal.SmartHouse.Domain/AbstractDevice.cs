@@ -41,28 +41,29 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public virtual void SwitchOn()
         {
-            if (Status == DeviceStatus.On)
-                throw new InvalidOperationException("Device è già acceso");
-
+            OnValidator();
             Status = DeviceStatus.On;
             LastStatusChangeTime = DateTime.UtcNow;
         }
 
         public virtual void SwitchOff()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("Device è già spento");
+            OffValidator();
 
             Status = DeviceStatus.Off;
             LastStatusChangeTime = DateTime.UtcNow;
         }
 
         // Validator
-
         public virtual void OnValidator()
         {
             if (Status == DeviceStatus.Off)
                 throw new InvalidOperationException("Device is off");
+        }
+        public virtual void OffValidator()
+        {
+            if (Status == DeviceStatus.On)
+                throw new InvalidOperationException("Device is on");
         }
     }
 }

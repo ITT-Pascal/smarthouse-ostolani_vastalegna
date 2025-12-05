@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.UnitTest
+namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
 {
     public class EcoLampTest
     {

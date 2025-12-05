@@ -1,6 +1,6 @@
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 
-namespace BlaisePascal.SmartHouse.Domain.UnitTest
+namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
 {
     public class LampTest
     {
@@ -38,7 +38,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             Lamp lamp = new Lamp("lamp");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(Lamp.MaxBrightnessLevel+1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(AbstractLamp.MaxBrightnessLevel+1));
         }
     }
 }

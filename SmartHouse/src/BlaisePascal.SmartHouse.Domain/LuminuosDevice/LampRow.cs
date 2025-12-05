@@ -72,7 +72,6 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void Dimmer(int position, int amount) => GetLamp(position).Dimmer(amount);
         public void Dimmer(Guid id, int amount) => GetLamp(id).Dimmer(amount);
 
-
         // multiple lamp 
         public void TurnAllOn()
         {
@@ -122,6 +121,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 }
             }
         }
+
         public void TurnOneEcoLampOffAfterTime(Guid id)
         {
             if (FindLampById(id) is EcoLamp ecoLamp1)
@@ -148,7 +148,6 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 }
             }
         }
-
 
         //Sort and find
         public AbstractLamp FindLampWithMaxBrightness()
@@ -202,7 +201,6 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
 
             return onLamps;
-
         }
 
         public List<AbstractLamp> FindAllOff()

@@ -19,6 +19,5 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             RecordLength = length;
             Name = name;
         }
-        
     }
 }
