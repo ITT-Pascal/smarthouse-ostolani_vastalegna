@@ -27,19 +27,15 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
         public void Open()
         {
             OnValidator();
-            if (DoorStatus == DoorStatus.Open)
-                throw new InvalidOperationException("Door is already open");
-            if (LockStatus == LockStatus.Locked)
-                throw new InvalidOperationException("Cannot open a locked door");
-
+            CheckClosed();
+            CheckUnlocked();
             DoorStatus = DoorStatus.Open;
             LastStatusChangeTime = DateTime.UtcNow;
         }
         public void Close()
         {
             OnValidator();
-            if (DoorStatus == DoorStatus.Closed)
-                throw new InvalidOperationException("Door is already closed");
+            CheckOpen();
             DoorStatus = DoorStatus.Closed;
             LastStatusChangeTime = DateTime.UtcNow;
         }
@@ -47,12 +43,8 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
         public void Lock()
         {
             OnValidator();
-            if (LockStatus == LockStatus.Locked)
-                throw new InvalidOperationException("Door is already locked");
-
-            if (DoorStatus != DoorStatus.Closed)
-                throw new InvalidOperationException("Cannot lock an open door");
-
+            CheckUnlocked();
+            CheckOpen();
             LockStatus = LockStatus.Locked;
             LastStatusChangeTime = DateTime.UtcNow;
         }
@@ -60,10 +52,33 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
         public void Unlock()
         {
             OnValidator();
-            if (LockStatus == LockStatus.Unlocked)
-                throw new InvalidOperationException("Door is already unlocked");
+            CheckLocked();
             LockStatus = LockStatus.Unlocked;
             LastStatusChangeTime = DateTime.UtcNow;
+        }
+
+        // Private function
+
+        public void CheckClosed()
+        {
+            if (DoorStatus != DoorStatus.Closed)
+                throw new InvalidOperationException("Door not closed");
+        }
+
+        public void CheckOpen()
+        {
+            if (DoorStatus != DoorStatus.Open)
+                throw new InvalidOperationException("Door not open");
+        }
+        public void CheckUnlocked()
+        {
+            if (LockStatus != LockStatus.Unlocked)
+                throw new InvalidOperationException("Door not unlocked");
+        }
+        public void CheckLocked()
+        {
+            if (LockStatus != LockStatus.Unlocked)
+                throw new InvalidOperationException("Door not locked");
         }
 
 
