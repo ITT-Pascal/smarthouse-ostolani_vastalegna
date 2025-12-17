@@ -20,7 +20,8 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public double CurrentZoom { get; private set; }
         public CCTVStatus CCTVStatus { get; private set; }
         public List<Recording> RecordingsSaved { get; private set; }
-        
+        public List<Photo>PhotosSaved { get; private set; }
+
         //Constructor
         public CCTV(string name): base(name) 
         {
@@ -28,6 +29,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             CurrentZoom = 1.0;
             CCTVStatus = CCTVStatus.NotRecording;
             RecordingsSaved = new List<Recording>();
+            PhotosSaved = new List<Photo>();
         }
         public CCTV(Guid guid, string name):base(guid, name) 
         {
@@ -35,6 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             CurrentZoom = 1.0;
             CCTVStatus = CCTVStatus.NotRecording;
             RecordingsSaved = new List<Recording>();
+            PhotosSaved = new List<Photo>();
         }
 
 
@@ -67,22 +70,44 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             
 
         }
-
         public void StopRecording()
         {
             OnValidator();
-            if (CCTVStatus == CCTVStatus.NotRecording) 
+            if (CCTVStatus == CCTVStatus.NotRecording)
             {
                 throw new InvalidOperationException("You are not recording");
             }
-            
+
             CCTVStatus = CCTVStatus.NotRecording;
             RecordingsSaved.Add(new Recording(LastStatusChangeTime.ToString(), LastStatusChangeTime, DateTime.UtcNow - LastStatusChangeTime));
             LastStatusChangeTime = DateTime.UtcNow;
-            
-            
-        }
-        public void ClearMemory() => RecordingsSaved.Clear();
 
+
+        }
+
+        public void clearMemory()
+        {
+            OnValidator();
+            RecordingsSaved.Clear();
+            PhotosSaved.Clear();
+        }
+
+        public void savePhoto(string name)
+        {
+            OnValidator();
+            PhotosSaved.Add(new Photo(name + ".png", CurrentZoom, CurrentTilt, DateTime.UtcNow));
+        }
+        public void deleteFile(Filetype file, int position)
+        {
+            OnValidator();
+            if (file == Filetype.Photo)
+            {
+                PhotosSaved.RemoveAt(position);
+            }
+            else if (file == Filetype.Video)
+            {
+                RecordingsSaved.RemoveAt(position);
+            }
+        }
     }
 }
