@@ -41,14 +41,14 @@ namespace BlaisePascal.SmartHouse.Domain
         }
         public virtual void SwitchOn()
         {
-            OnValidator();
+            OffValidator();
             Status = DeviceStatus.On;
             LastStatusChangeTime = DateTime.UtcNow;
         }
 
         public virtual void SwitchOff()
         {
-            OffValidator();
+            OnValidator();
 
             Status = DeviceStatus.Off;
             LastStatusChangeTime = DateTime.UtcNow;
