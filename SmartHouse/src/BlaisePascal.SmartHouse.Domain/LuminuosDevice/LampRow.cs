@@ -7,26 +7,18 @@ using System.Xml.Linq;
 
 namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 {
-    public class LampRow
+    public class LampRow : AbstractDevice
     {
         //Properties
         public List<AbstractLamp> Lamps { get; private set; }
-        public string Name { get; private set; }
 
         //Constructor
-        public LampRow(string name)
+        public LampRow(string name): base(name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Nome non valido.");
-
             Lamps = new List<AbstractLamp>();
-            Name = name;
         }
-        public LampRow(string name, List<AbstractLamp> lamps)
+        public LampRow(string name, List<AbstractLamp> lamps) : base(name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Nome non valido.");
-            Name = name;
             if (lamps == null)
                 throw new ArgumentNullException("Lista null");
 
@@ -58,13 +50,13 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         }
 
         // one lamp 
-        public void TurnOnOneLamp(Guid id) { GetLamp(id).SwitchOn(); }
-        public void TurnOnOneLamp(string name) { GetLamp(name).SwitchOn(); }
-        public void TurnOffOneLamp(Guid id) { GetLamp(id).SwitchOff(); }
-        public void TurnOffOneLamp(string name) { GetLamp(name).SwitchOff(); }
+        public void SwitchOneOneLamp(Guid id) { GetLamp(id).SwitchOn(); }
+        public void SwitchOneOneLamp(string name) { GetLamp(name).SwitchOn(); }
+        public void SwitchOffOneLamp(Guid id) { GetLamp(id).SwitchOff(); }
+        public void SwitchOffOneLamp(string name) { GetLamp(name).SwitchOff(); }
 
-        public void SetOneBrightness(Guid id, int newBrightness) { GetLamp(id).SetBrightness(newBrightness); }
-        public void SetOneBrightness(string name, int newBrightness) { GetLamp(name).SetBrightness(newBrightness); }
+        public void SetBrightnessOneLamp(int newbrightness, Guid id) { GetLamp(id).SetBrightness(newbrightness); }
+        public void SetBrightnessOneLamp(int newbrightness, string name) { GetLamp(name).SetBrightness(newbrightness); }
 
         public void Brighten(int position, int amount) => GetLamp(position).Brighten(amount);
         public void Brighten(Guid id, int amount) => GetLamp(id).Brighten(amount);
@@ -73,14 +65,14 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void Dimmer(Guid id, int amount) => GetLamp(id).Dimmer(amount);
 
         // multiple lamp 
-        public void TurnAllOn()
+        public override void SwitchOn()
         {
             for (int i = 0; i < Lamps.Count; i++)
             {
                 Lamps[i].SwitchOn();
             }
         }
-        public void TurnAllOff()
+        public override void SwitchOff()
         {
             for (int i = 0; i < Lamps.Count; i++)
             {
@@ -88,7 +80,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
         }
 
-        public void SetAllSameBrightness(int newBrightness)
+        public void SetBrightness(int newBrightness)
         {
             for (int i = 0; i < Lamps.Count; i++)
             {
