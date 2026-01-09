@@ -44,7 +44,7 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
         {
             OnValidator();
             CheckUnlocked();
-            CheckOpen();
+            CheckClosed();
             LockStatus = LockStatus.Locked;
             LastStatusChangeTime = DateTime.UtcNow;
         }
@@ -77,7 +77,7 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
         }
         public void CheckLocked()
         {
-            if (LockStatus != LockStatus.Unlocked)
+            if (LockStatus != LockStatus.Locked)
                 throw new InvalidOperationException("Door not locked");
         }
 
