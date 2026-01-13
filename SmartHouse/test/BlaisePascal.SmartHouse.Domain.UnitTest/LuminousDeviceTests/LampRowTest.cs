@@ -19,7 +19,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.TurnAllOn();
+            row.SwitchOn();
 
             Assert.Equal(DeviceStatus.On, lamp1.Status);
             Assert.Equal(DeviceStatus.On, lamp2.Status);
@@ -34,8 +34,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.TurnAllOn();
-            row.TurnAllOff();
+            row.SwitchOn();
+            row.SwitchOff();
 
             Assert.Equal(DeviceStatus.Off, lamp1.Status);
             Assert.Equal(DeviceStatus.Off, lamp2.Status);
@@ -50,7 +50,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.TurnOnOneLamp("lamp1");
+            row.SwitchOneOneLamp("lamp1");
 
             Assert.Equal(DeviceStatus.On, lamp1.Status);
             Assert.Equal(DeviceStatus.Off, lamp2.Status);
@@ -65,8 +65,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.TurnAllOn();
-            row.TurnOffOneLamp("lamp2");
+            row.SwitchOn();
+            row.SwitchOffOneLamp("lamp2");
 
             Assert.Equal(DeviceStatus.On, lamp1.Status);
             Assert.Equal(DeviceStatus.Off, lamp2.Status);
@@ -80,7 +80,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var lamp1 = new Lamp("l1");
             row.AddLamp(lamp1);
 
-            Assert.Throws<ArgumentException>(() => row.TurnOnOneLamp(Guid.NewGuid()));
+            Assert.Throws<ArgumentException>(() => row.SwitchOneOneLamp(Guid.NewGuid()));
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var lamp1 = new Lamp("l1");
             row.AddLamp(lamp1);
 
-            Assert.Throws<ArgumentException>(() => row.TurnOnOneLamp("prova"));
+            Assert.Throws<ArgumentException>(() => row.SwitchOneOneLamp("prova"));
         }
 
         // BRIGHTNESS
@@ -101,7 +101,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             Lamp lamp1 = new Lamp("lamp1");
             row.AddLamp(lamp1);
 
-            row.SetOneBrightness("lamp1", 55);
+            row.SetBrightnessOneLamp(55, "lamp1");
 
             Assert.Equal(55, lamp1.Brightness);
         }
@@ -115,7 +115,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.SetAllSameBrightness(70);
+            row.SetBrightness(70);
 
             Assert.Equal(70, lamp1.Brightness);
             Assert.Equal(70, lamp2.Brightness);
@@ -249,7 +249,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp2);
             lamp2.SwitchOn();
 
-            Assert.Equal(DeviceStatus.On, row.Status());
+            Assert.Equal(DeviceStatus.On, row.GetStatus());
         }
 
         [Fact]
@@ -261,7 +261,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            Assert.Equal(DeviceStatus.Off, row.Status());
+            Assert.Equal(DeviceStatus.Off, row.GetStatus());
         }
 
         // BRIGHTEN - DIMMER

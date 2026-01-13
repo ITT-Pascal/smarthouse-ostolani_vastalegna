@@ -85,19 +85,19 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
 
         }
 
-        public void clearMemory()
+        public void ClearMemory()
         {
             OnValidator();
             RecordingsSaved.Clear();
             PhotosSaved.Clear();
         }
 
-        public void savePhoto(string name)
+        public void SavePhoto(string name)
         {
             OnValidator();
             PhotosSaved.Add(new Photo(name + ".png", CurrentZoom, CurrentTilt, DateTime.UtcNow));
         }
-        public void deleteFile(Filetype file, int position)
+        public void DeleteFile(Filetype file, int position)
         {
             OnValidator();
             if (file == Filetype.Photo)

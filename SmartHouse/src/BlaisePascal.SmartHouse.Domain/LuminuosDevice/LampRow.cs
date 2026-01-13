@@ -27,7 +27,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             foreach (AbstractLamp lamp in lamps)
             {
                 Lamps.Add(lamp);
-            }   
+            }
         }
 
         //Methods
@@ -38,8 +38,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void RemoveLamp(string name) { Lamps.Remove(GetLamp(name)); }
         public void RemoveLampInPosition(int postion) { Lamps.RemoveAt(postion);  }
 
-
-        public DeviceStatus Status()
+        
+        public DeviceStatus GetStatus()
         {
             foreach (var lamp in Lamps)
             {
@@ -48,6 +48,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
             return DeviceStatus.Off;
         }
+        
 
         // one lamp 
         public void SwitchOneOneLamp(Guid id) { GetLamp(id).SwitchOn(); }
@@ -71,6 +72,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             {
                 Lamps[i].SwitchOn();
             }
+            Status = DeviceStatus.On;
+            LastStatusChangeTime = DateTime.UtcNow;
         }
         public override void SwitchOff()
         {
@@ -78,6 +81,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             {
                 Lamps[i].SwitchOff();
             }
+            Status = DeviceStatus.Off;
+            LastStatusChangeTime = DateTime.UtcNow;
         }
 
         public void SetBrightness(int newBrightness)
