@@ -52,13 +52,13 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         }
 
-        public virtual void SetBrightness(int levelOfBrightness)
+        public virtual void SetBrightness(int newBrightness)
         {
-            if (levelOfBrightness < MinBrightnessLevel || levelOfBrightness > MaxBrightnessLevel)
+            if (newBrightness < MinBrightnessLevel || newBrightness > MaxBrightnessLevel)
             {
                 throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightnessLevel} and {MaxBrightnessLevel}.");
             }
-            Brightness = levelOfBrightness;
+            Brightness = newBrightness;
         }
     }
 }
