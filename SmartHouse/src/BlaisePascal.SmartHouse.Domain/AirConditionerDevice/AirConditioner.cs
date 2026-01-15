@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.ACDevice
 {
-    public class AirConditioner: AbstractDevice
+    public class AirConditioner: AbstractDevice, ITemperatureDevice
     {
         //Constant
         public const int DefaultTemperature = 24;

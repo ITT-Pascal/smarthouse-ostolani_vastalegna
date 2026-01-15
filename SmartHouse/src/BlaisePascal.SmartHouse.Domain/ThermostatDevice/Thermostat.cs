@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.ThermostatDevice
 {
-    public class Thermostat: AbstractDevice
+    public class Thermostat: AbstractDevice, ITemperatureDevice
     {
         //Constant
         public const int DefaultTemperature = 24;

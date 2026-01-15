@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 {
-    public interface ILamp
+    public interface ILuminousDevice
     {
-        void Dimmer();
-        void Brighten();
+        void Dimmer(int amount);
+        void Brighten(int amount);
         void SetBrightness(int newBrightness);
     }
 }

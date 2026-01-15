@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
-    public interface ITemperatureDevice
+    public interface ISwitchable
     {
-        void SetTemperatureToReach(int temperature);
-        void IncreaseTemperatureToReach();
-        void DecreaseTemperatureToReach();
+        void SwitchOn();
+        void SwitchOff();
+        void Toggle();
     }
 }
