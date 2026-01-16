@@ -1,4 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.ThermostatDevice;
+﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;

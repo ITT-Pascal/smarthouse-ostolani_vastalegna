@@ -1,4 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.ACDevice;
+﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;

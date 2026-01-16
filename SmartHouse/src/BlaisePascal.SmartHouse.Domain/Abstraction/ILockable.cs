@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.ACDevice
+namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
-    public enum FanSpeed
+    public interface ILockable
     {
-        Low,
-        Medium,
-        Fast,
-        Auto,
     }
-
 }
