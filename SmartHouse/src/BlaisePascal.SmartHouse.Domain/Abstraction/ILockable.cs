@@ -8,5 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
     public interface ILockable
     {
+        void Lock();
+        void Unlock(code);
     }
 }

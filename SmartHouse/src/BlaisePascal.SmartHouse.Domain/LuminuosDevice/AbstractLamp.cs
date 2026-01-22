@@ -10,11 +10,11 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
     public abstract class AbstractLamp: AbstractDevice, ILuminousDevice
     {
         //Constants
-        public const int MaxBrightnessLevel = 100;
-        public const int MinBrightnessLevel = 1;
+        public Brightness MinBrightness = new Brightness(0);
+        public Brightness MaxBrightness = new Brightness(100);
 
         //Properties
-        public int Brightness { get; protected set; }
+        public Brightness Brightness { get; protected set; }
 
 
 
@@ -22,12 +22,12 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //Constructors
         protected AbstractLamp(string name): base(name)
         {
-           Brightness = MaxBrightnessLevel;
+           Brightness = MaxBrightness;
 
         }
         public AbstractLamp(Guid guid, string name): base(guid, name)
         {
-            Brightness = MaxBrightnessLevel;
+            Brightness = MinBrightness;
 
         }
 
@@ -39,7 +39,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             if (amount < 1)
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount deve essere almeno 1.");
 
-            Brightness = Math.Max(MinBrightnessLevel, Brightness - amount);
+            Brightness = new Brightness(Math.Max(MinBrightness.Value, Brightness.Value - amount));
 
         }
 
@@ -49,17 +49,11 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             if (amount < 1)
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount deve essere almeno 1.");
 
-            Brightness = Math.Min(MaxBrightnessLevel, Brightness + amount);
+            Brightness = new Brightness(Math.Min(MaxBrightness.Value, Brightness.Value + amount));
 
         }
 
-        public virtual void SetBrightness(int newBrightness)
-        {
-            if (newBrightness < MinBrightnessLevel || newBrightness > MaxBrightnessLevel)
-            {
-                throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightnessLevel} and {MaxBrightnessLevel}.");
-            }
-            Brightness = newBrightness;
-        }
+        public virtual void SetBrightness(Brightness newBrightness) => Brightness = newBrightness;
+
     }
 }

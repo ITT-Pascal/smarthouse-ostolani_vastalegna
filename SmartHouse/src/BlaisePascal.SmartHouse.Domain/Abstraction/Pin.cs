@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
-    public interface IOpenable
+    public record Pin()
     {
-        void Open();
-        void Close();
+
     }
 }
