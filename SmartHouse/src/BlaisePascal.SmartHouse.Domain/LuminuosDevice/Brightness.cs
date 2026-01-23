@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 {
     public record Brightness
     {
-        //public Brightness MinBrightness = new Brightness(0);
-        //public Brightness MaxBrightness = new Brightness(100);
 
         public const int MinBrightness = 0;
         public const int MaxBrightness = 100;
@@ -26,7 +25,47 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             Value = value;
         }
 
-        
-    }
+        public static Brightness operator -(Brightness b1, int amount)
+        {
+            return new Brightness(b1.Value - amount);
+        }
+        public static Brightness operator +(Brightness b1, int amount)
+        {
+            return new Brightness(b1.Value + amount);
+        }
+        public static bool operator <(Brightness b1, Brightness b2)
+        {
+            return b1.Value < b2.Value;
+        }
+        public static bool operator >(Brightness b1, Brightness b2)
+        {
+            return b1.Value > b2.Value;
+        }
+        public static bool operator <=(Brightness b1, Brightness b2)
+        {
+            return b1.Value <= b2.Value;
+        }
+        public static bool operator >=(Brightness b1, Brightness b2)
+        {
+            return b1.Value >= b2.Value;
+        }
+        public static bool operator <(Brightness b1, int amount)
+        {
+            return b1.Value < amount;
+        }
+        public static bool operator >(Brightness b1, int amount)
+        {
+            return b1.Value > amount;
+        }
+        public static bool operator <=(Brightness b1, int amount)
+        {
+            return b1.Value <= amount;
+        }
+        public static bool operator >=(Brightness b1, int amount)
+        {
+            return b1.Value >= amount;
 
+
+        }
+    }
 }

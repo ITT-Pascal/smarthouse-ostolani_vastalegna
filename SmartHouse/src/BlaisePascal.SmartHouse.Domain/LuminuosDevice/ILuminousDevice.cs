@@ -10,6 +10,6 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
     {
         void Dimmer(int amount);
         void Brighten(int amount);
-        void SetBrightness(int newBrightness);
+        void SetBrightness(Brightness newBrightness);
     }
 }

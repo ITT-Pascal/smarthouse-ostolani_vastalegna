@@ -10,5 +10,6 @@ namespace BlaisePascal.SmartHouse.Domain.Abstraction
     {
         void Open();
         void Close();
+
     }
 }
