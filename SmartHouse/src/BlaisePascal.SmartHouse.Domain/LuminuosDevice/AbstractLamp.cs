@@ -10,8 +10,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
     public abstract class AbstractLamp: AbstractDevice, ILuminousDevice
     {
         //Constants
-        public Brightness MinBrightness = new Brightness(Brightness.MinBrightness);
-        public Brightness MaxBrightness = new Brightness(Brightness.MaxBrightness);
+        public Brightness MinBrightness = new Brightness(this.Brightness.MinBrightness);
+        public Brightness MaxBrightness = new Brightness(this.Brightness.MaxBrightness);
 
         //Properties
         public Brightness Brightness { get; protected set; }

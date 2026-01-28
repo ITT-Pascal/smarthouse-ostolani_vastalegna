@@ -9,13 +9,13 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
     public class Thermostat: AbstractDevice, ITemperatureDevice
     {
         //Constant
-        public const int DefaultTemperature = 24;
-        public const int MinTemperature = 15;
-        public const int MaxTemperature = 35;
+        public Temperature DefaultTemperature = Temperature.Create(24);
+        public Temperature MinTemperature = Temperature.Create(15);
+        public Temperature MaxTemperature = Temperature.Create(35);
         private const int TemperatureStep = 1;
 
         //Properties
-        public int TemperatureToReach { get; private set; }
+        public Temperature TemperatureToReach { get; private set; }
         
 
         //Constructor
@@ -35,13 +35,13 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
             OnValidator();
             if (temperature < MinTemperature || temperature > MaxTemperature)
                 throw new ArgumentOutOfRangeException($"Temperatere must be between {MinTemperature} and {MaxTemperature}");
-            TemperatureToReach = temperature;
+            TemperatureToReach = Temperature.Create(temperature);
         }
 
         public void IncreaseTemperatureToReach()
         {
             OnValidator();
-            TemperatureToReach = Math.Min(MaxTemperature, TemperatureToReach + TemperatureStep);
+            TemperatureToReach = Math.Min(MaxTemperature,  TemperatureStep + TemperatureToReach);
         }
         public void DecreaseTemperatureToReach()
         {
@@ -52,8 +52,8 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
 
 
         //Get const
-        public int GetMaxTemperature() => MaxTemperature;
-        public int GetMinTemperature() => MinTemperature;
+        public Temperature GetMaxTemperature() => MaxTemperature;
+        public Temperature GetMinTemperature() => MinTemperature;
 
 
     }

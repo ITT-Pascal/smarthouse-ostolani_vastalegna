@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
-    public sealed record Pin()
+    public sealed record Pin
     {
         public int PinValue { get; }
 
