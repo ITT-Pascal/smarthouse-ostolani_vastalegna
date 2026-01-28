@@ -7,22 +7,31 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.DoorDevice
 {
-    public class Door: AbstractDevice, IOpenable
+    public class Door: AbstractDevice, IOpenable, ILockable
     {
         public DoorStatus DoorStatus { get; private set; }
         public LockStatus LockStatus { get; private set; }
+        public Pin Pin { get; private set; }
 
-        public Door(string name) : base(name)
+        public Door(string name, int pin) : base(name)
         {
             DoorStatus = DoorStatus.Closed;
             LockStatus = LockStatus.Unlocked;
             Status = DeviceStatus.On;
+            Pin = Pin.Create(pin);
         }
-        public Door(Guid guid, string name) : base(guid, name)
+        public Door(Guid guid, string name, int pin) : base(guid, name)
         {
             DoorStatus = DoorStatus.Closed;
             LockStatus = LockStatus.Unlocked;
             Status = DeviceStatus.On;
+            Pin = Pin.Create(pin);
+        }
+
+        public void SetNewPin(int pin)
+        {
+            CheckUnlocked();
+            Pin = Pin.Create(pin);
         }
 
         public void Open()
@@ -50,8 +59,9 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
             LastStatusChangeTime = DateTime.UtcNow;
         }
 
-        public void Unlock()
+        public void Unlock(Pin pin)
         {
+            CheckPin(pin);
             OnValidator();
             CheckLocked();
             LockStatus = LockStatus.Unlocked;
@@ -60,26 +70,32 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
 
         // Private function
 
-        public void CheckClosed()
+        private void CheckClosed()
         {
             if (DoorStatus != DoorStatus.Closed)
                 throw new InvalidOperationException("Door not closed");
         }
 
-        public void CheckOpen()
+        private void CheckOpen()
         {
             if (DoorStatus != DoorStatus.Open)
                 throw new InvalidOperationException("Door not open");
         }
-        public void CheckUnlocked()
+        private void CheckUnlocked()
         {
             if (LockStatus != LockStatus.Unlocked)
                 throw new InvalidOperationException("Door not unlocked");
         }
-        public void CheckLocked()
+        private void CheckLocked()
         {
             if (LockStatus != LockStatus.Locked)
                 throw new InvalidOperationException("Door not locked");
+        }
+
+        private void CheckPin(Pin pin)
+        {
+            if (Pin != pin)
+                throw new InvalidOperationException("Pin not correct");
         }
 
 
