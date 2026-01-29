@@ -36,6 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
         {
             return new Temperature(b1.Value + amount);
         }
+        
         public static bool operator <(Temperature b1, Temperature b2)
         {
             return b1.Value < b2.Value;

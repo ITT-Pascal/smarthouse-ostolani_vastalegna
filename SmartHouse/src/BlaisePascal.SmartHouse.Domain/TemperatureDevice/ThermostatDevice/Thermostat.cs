@@ -41,12 +41,18 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
         public void IncreaseTemperatureToReach()
         {
             OnValidator();
-            TemperatureToReach = Math.Min(MaxTemperature,  TemperatureStep + TemperatureToReach);
+            if(TemperatureToReach + TemperatureStep  > MaxTemperature)
+                TemperatureToReach = MaxTemperature;
+            else
+                TemperatureToReach = TemperatureToReach + TemperatureStep;
         }
         public void DecreaseTemperatureToReach()
         {
             OnValidator();
-            TemperatureToReach = Math.Max(MinTemperature, TemperatureToReach - TemperatureStep);
+            if (TemperatureToReach - TemperatureStep < MinTemperature)
+                TemperatureToReach = MinTemperature;
+            else
+                TemperatureToReach = TemperatureToReach - TemperatureStep;
         }
 
 
