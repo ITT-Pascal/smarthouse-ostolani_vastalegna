@@ -15,19 +15,31 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
         public int Value { get; }
 
         //Controlli nel costruttore o in create?
-        public Temperature(int value)
+        private Temperature(int value) { Value = value; }
+        public static Temperature Create(int temp)
         {
-            if (value < MinTemperature || value > MaxTemperature)
+            if (temp < MinTemperature || temp > MaxTemperature)
             {
                 throw new ArgumentOutOfRangeException($"Brightness level must be between {MinTemperature} and {MaxTemperature}.");
             }
-
-            Value = value;
-        }
-        public static Temperature Create(int temp)
-        {
             return new Temperature(temp);
         }
+
+        public static Temperature Increase(Temperature newTemperature)
+        {
+            if (newTemperature > MaxTemperature)
+                throw new ArgumentOutOfRangeException("Cannot be over MaxTemperature");
+
+            return Create(newTemperature.Value);
+        }
+        public static Temperature Decrease(Temperature newTemperature)
+        {
+            if (newTemperature < MinTemperature)
+                throw new ArgumentOutOfRangeException("Cannot be less MinTemperature");
+
+            return Create(newTemperature.Value);
+        }
+
         public static Temperature operator -(Temperature b1, int amount)
         {
             return new Temperature(b1.Value - amount);
@@ -53,21 +65,21 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
         {
             return b1.Value >= b2.Value;
         }
-        public static bool operator <(int amount, Temperature b1)
+        public static bool operator <(Temperature b1, int amount)
         {
-            return amount < b1.Value;
+            return b1.Value < amount;
         }
-        public static bool operator >(int amount, Temperature b1)
+        public static bool operator >(Temperature b1, int amount)
         {
-            return amount > b1.Value;
+            return b1.Value > amount;
         }
-        public static bool operator <=(int amount, Temperature b1)
+        public static bool operator <=(Temperature b1, int amount)
         {
-            return amount <= b1.Value;
+            return b1.Value <= amount;
         }
-        public static bool operator >=(int amount, Temperature b1)
+        public static bool operator >=(Temperature b1, int amount)
         {
-            return amount >= b1.Value;
+            return b1.Value >= amount;
 
         }
     }

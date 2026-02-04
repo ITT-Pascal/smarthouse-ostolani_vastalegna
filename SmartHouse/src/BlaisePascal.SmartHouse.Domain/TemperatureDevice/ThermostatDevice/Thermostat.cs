@@ -33,7 +33,7 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
         public void SetTemperatureToReach(int temperature)
         {
             OnValidator();
-            if (temperature < MinTemperature || temperature > MaxTemperature)
+            if (MinTemperature > temperature || MinTemperature < temperature)
                 throw new ArgumentOutOfRangeException($"Temperatere must be between {MinTemperature} and {MaxTemperature}");
             TemperatureToReach = Temperature.Create(temperature);
         }
