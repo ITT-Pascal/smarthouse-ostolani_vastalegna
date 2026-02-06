@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         public int Value { get; }
 
-        public Brightness(int value)
+        private Brightness(int value)
         {
             if (value < MinBrightness || value > MaxBrightness)
             {
@@ -23,6 +24,14 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
 
             Value = value;
+        }
+        public static Brightness Create(int temp)
+        {
+            if (temp < MinBrightness || temp > MaxBrightness)
+            {
+                throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightness} and {MaxBrightness}.");
+            }
+            return new Brightness(temp);
         }
 
         public static Brightness operator -(Brightness b1, int amount)
