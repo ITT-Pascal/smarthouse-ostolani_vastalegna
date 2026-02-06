@@ -109,7 +109,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void SwitchOffOneLamp(Guid id) { GetLamp(id).SwitchOff(); }
         public void SwitchOffOneLamp(string name) { GetLamp(name).SwitchOff(); }
 
-        public void SetBrightness(int newbrightness)
+        public void SetBrightness(Brightness newbrightness)
         {
             foreach (AbstractLamp lamp in Matrix)
             {
@@ -117,8 +117,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                     lamp.SetBrightness(newbrightness);
             }
         }
-        public void SetBrightnessOneLamp(int newbrightness, Guid id) { GetLamp(id).SetBrightness(newbrightness); }
-        public void SetBrightnessOneLamp(int newbrightness, string name) { GetLamp(name).SetBrightness(newbrightness); }
+        public void SetBrightnessOneLamp(Brightness newbrightness, Guid id) { GetLamp(id).SetBrightness(newbrightness); }
+        public void SetBrightnessOneLamp(Brightness newbrightness, string name) { GetLamp(name).SetBrightness(newbrightness); }
 
         public AbstractLamp FindLampWithMaxBrightness()
         {

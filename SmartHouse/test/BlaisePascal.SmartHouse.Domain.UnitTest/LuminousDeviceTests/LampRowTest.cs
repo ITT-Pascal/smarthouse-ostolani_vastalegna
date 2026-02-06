@@ -282,7 +282,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         {
             var row = new LampRow("Row");
             var lamp = new Lamp("l1");
-            lamp.SetBrightness(50);
+            lamp.SetBrightness(Brightness.Create(50));
             row.AddLamp(lamp);
             lamp.SwitchOn();
             row.Brighten(0, 10);

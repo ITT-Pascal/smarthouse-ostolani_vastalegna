@@ -10,8 +10,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
     public abstract class AbstractLamp: AbstractDevice, ILuminousDevice
     {
         //Constants
-        public Brightness MinBrightness = new Brightness(this.Brightness.MinBrightness);
-        public Brightness MaxBrightness = new Brightness(this.Brightness.MaxBrightness);
+        public Brightness MinBrightness = Brightness.Create(Brightness.MinBrightness);
+        public Brightness MaxBrightness = Brightness.Create(Brightness.MaxBrightness);
 
         //Properties
         public Brightness Brightness { get; protected set; }
@@ -39,7 +39,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             if (amount < 1)
                 throw new ArgumentOutOfRangeException("Amount deve essere almeno 1.");
 
-            Brightness = new Brightness(Math.Max(MinBrightness.Value, Brightness.Value - amount));
+            Brightness = Brightness.Create(Math.Max(MinBrightness.Value, Brightness.Value - amount));
+
 
         }
 

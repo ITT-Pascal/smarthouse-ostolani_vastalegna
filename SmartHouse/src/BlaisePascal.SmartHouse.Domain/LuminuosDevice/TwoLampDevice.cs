@@ -45,13 +45,13 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         
 
-        public void SetOneBrightness(AbstractLamp currentLamp, int newBrightness)
+        public void SetOneBrightness(AbstractLamp currentLamp, Brightness newBrightness)
         {
             if (currentLamp == Lamp1 || currentLamp == Lamp2)
                 currentLamp.SetBrightness(newBrightness); 
         }
 
-        public void SetBothSameBrightness(int newBrightness)
+        public void SetBothSameBrightness(Brightness newBrightness)
         {
             Lamp1.SetBrightness(newBrightness);
             Lamp2.SetBrightness(newBrightness);

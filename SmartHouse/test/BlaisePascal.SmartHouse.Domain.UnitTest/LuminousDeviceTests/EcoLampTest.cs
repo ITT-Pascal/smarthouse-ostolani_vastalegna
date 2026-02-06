@@ -1,5 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
-using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
+﻿using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;

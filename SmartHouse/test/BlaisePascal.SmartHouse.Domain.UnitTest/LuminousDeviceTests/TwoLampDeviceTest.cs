@@ -49,25 +49,25 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         public void TwoLampDevice_SetBothSameBrightness_SetsBrightnessLevel()
         {
             TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
-            device.SetBothSameBrightness(70);
-            Assert.Equal(70, device.Lamp1.Brightness);
-            Assert.Equal(70, device.Lamp2.Brightness);
+            device.SetBothSameBrightness(Brightness.Create(70));
+            Assert.Equal(Brightness.Create(70), device.Lamp1.Brightness);
+            Assert.Equal(Brightness.Create(70), device.Lamp2.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetOneBrightness_SetsBrightnessLevel()
         {
             TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
-            device.SetOneBrightness(device.Lamp1, 30);
-            Assert.Equal(30, device.Lamp1.Brightness);
+            device.SetOneBrightness(device.Lamp1, Brightness.Create(30));
+            Assert.Equal(Brightness.Create(30), device.Lamp1.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetOneEcoLampBrightnessToEco_SetsBrightnessToEcoLevel()
         {
             TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
             device.Lamp2.SwitchOn();
-            device.Lamp2.SetBrightness(80);
+            device.Lamp2.SetBrightness(Brightness.Create(80));
             device.SetOneEcoLampBrightnessToEco(device.Lamp2);
-            Assert.Equal(40, device.Lamp2.Brightness);
+            Assert.Equal(Brightness.Create(40), device.Lamp2.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetBothEcoLampBrightnessToEco_SetsBrightnessToEcoLevel()
@@ -75,18 +75,17 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             TwoLampDevice device = new TwoLampDevice(new EcoLamp("ecolamp"), new EcoLamp("ecolamp"));
             device.Lamp1.SwitchOn();
             device.Lamp2.SwitchOn();
-            device.Lamp1.SetBrightness(90);
-            device.Lamp2.SetBrightness(70);
+            device.Lamp1.SetBrightness(Brightness.Create(90));
+            device.Lamp2.SetBrightness(Brightness.Create(70));
             device.SetBothEcoLampsBrightnessToEco();
-            Assert.Equal(40, device.Lamp1.Brightness);
-            Assert.Equal(40, device.Lamp2.Brightness);
+            Assert.Equal(Brightness.Create(40), device.Lamp1.Brightness);
+            Assert.Equal(Brightness.Create(40), device.Lamp2.Brightness);
         }
         [Fact]
         public void TwoLampDevice_TurnOneEcoLampOffAfterTime_SetsIsOnToFalse()
         {
             TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
             device.Lamp2.SwitchOn();
-            //Si fa così per usare i metodi di EcoLamp?
             (device.Lamp2 as EcoLamp)?.SetOnTime(DateTime.UtcNow.AddMinutes(-51));
             (device.Lamp2 as EcoLamp)?.TurnOffAfterTime();
             Assert.Equal(DeviceStatus.Off, device.Lamp2.Status);

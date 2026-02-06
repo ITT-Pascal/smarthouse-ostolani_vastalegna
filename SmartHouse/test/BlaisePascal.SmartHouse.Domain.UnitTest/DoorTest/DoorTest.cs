@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.DoorDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.DoorDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsAlreadyOpen_ShouldThrow()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Open();
             Assert.Throws<InvalidOperationException>(() => d.Open());
         }
@@ -23,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsLockedAndTryToOpen_ShouldThrow()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Lock();
             Assert.Throws<InvalidOperationException>(() => d.Open());
         }
@@ -31,7 +32,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsClosedAndUnlocked_ShouldOpen()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Open();
             Assert.Equal(DoorStatus.Open, d.DoorStatus);
         }
@@ -42,14 +43,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsAlreadyClosed_ShouldThrow()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             Assert.Throws<InvalidOperationException>(() => d.Close());
         }
 
         [Fact]
         public void When_DoorIsOpen_ShouldClose()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Open();
             d.Close();
 
@@ -63,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsAlreadyLocked_ShouldThrow()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Lock();
             Assert.Throws<InvalidOperationException>(() => d.Lock());
         }
@@ -71,7 +72,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsOpenAndTryToLock_ShouldThrow()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Open();
 
             Assert.Throws<InvalidOperationException>(() => d.Lock());
@@ -80,7 +81,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsClosedAndUnlocked_ShouldLock()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Lock();
 
             Assert.Equal(LockStatus.Locked, d.LockStatus);
@@ -93,19 +94,26 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.DoorTest
         [Fact]
         public void When_DoorIsAlreadyUnlocked_ShouldThrow()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
 
-            Assert.Throws<InvalidOperationException>(() => d.Unlock());
+            Assert.Throws<InvalidOperationException>(() => d.Unlock(Pin.Create(1234)));
         }
 
         [Fact]
         public void When_DoorIsLocked_ShouldUnlock()
         {
-            Door d = new Door("Door");
+            Door d = new Door("Door", 1234);
             d.Lock();
-            d.Unlock();
+            d.Unlock(Pin.Create(1234));
 
             Assert.Equal(LockStatus.Unlocked, d.LockStatus);
+        }
+        [Fact]
+        public void When_PinIsWrong_ShouldThrow()
+        {
+            Door d = new Door("Door", 1234);
+
+            Assert.Throws<InvalidOperationException>(() => d.Unlock(Pin.Create(1235)));
         }
     }
 }
