@@ -11,8 +11,8 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice
     {
         //Constant
         public Temperature DefaultTemperature = Temperature.Create(24);
-        public Temperature MinTemperature = Temperature.Create(15);
-        public Temperature MaxTemperature = Temperature.Create(35);
+        public Temperature MinTemperature = Temperature.Create(Temperature.MinTemperature);
+        public Temperature MaxTemperature = Temperature.Create(Temperature.MaxTemperature);
         private const int TemperatureStep = 1;
 
         //Properties
@@ -37,8 +37,6 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice
         public void SetTemperatureToReach(int temperature)
         {
             OnValidator();
-            if (MinTemperature > temperature || MinTemperature < temperature)
-                throw new ArgumentOutOfRangeException($"Temperatere must be between {MinTemperature} and {MaxTemperature}");
             TemperatureToReach = Temperature.Create(temperature);
             LastStatusChangeTime = DateTime.UtcNow;
         }
@@ -46,13 +44,13 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice
         public void IncreaseTemperatureToReach()
         {
             OnValidator();
-            TemperatureToReach = Temperature.Increase(TemperatureToReach - TemperatureStep);
+            TemperatureToReach = Temperature.Increase(TemperatureToReach, TemperatureStep);
             LastStatusChangeTime = DateTime.UtcNow;
         }
         public void DecreaseTemperatureToReach()
         {
             OnValidator();
-            TemperatureToReach = Temperature.Decrease(TemperatureToReach - TemperatureStep);
+            TemperatureToReach = Temperature.Decrease(TemperatureToReach, TemperatureStep);
             LastStatusChangeTime = DateTime.UtcNow;
         }
         public void SetFanSpeed(FanSpeed speed) 
@@ -68,9 +66,6 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice
             LastStatusChangeTime = DateTime.UtcNow;
         }
 
-        //Get const
-        public Temperature GetMaxTemperature() => MaxTemperature;
-        public Temperature GetMinTemperature() => MinTemperature;
         
 
     }

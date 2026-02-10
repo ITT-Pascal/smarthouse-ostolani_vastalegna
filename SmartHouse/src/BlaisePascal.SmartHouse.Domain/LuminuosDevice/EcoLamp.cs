@@ -11,7 +11,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
     {
         //Constant
         public const int DefaultAutoOffMinutes = 50;
-        public Brightness EcoModeBrightnessValue = new Brightness(40);
+        public Brightness EcoModeBrightnessValue = Brightness.Create(40);
 
         //Constructor
         public EcoLamp(Guid guid, string name): base(guid, name) { }

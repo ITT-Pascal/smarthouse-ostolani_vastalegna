@@ -102,9 +102,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             Lamp lamp1 = new Lamp("lamp1");
             row.AddLamp(lamp1);
 
-            row.SetBrightnessOneLamp(55, "lamp1");
+            row.SetBrightnessOneLamp(Brightness.Create(55), "lamp1");
 
-            Assert.Equal(55, lamp1.Brightness);
+            Assert.Equal(Brightness.Create(55), lamp1.Brightness);
         }
 
         [Fact]
@@ -116,10 +116,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.SetBrightness(70);
+            row.SetBrightness(Brightness.Create(70));
 
-            Assert.Equal(70, lamp1.Brightness);
-            Assert.Equal(70, lamp2.Brightness);
+            Assert.Equal(Brightness.Create(70), lamp1.Brightness);
+            Assert.Equal(Brightness.Create(70), lamp2.Brightness);
         }
 
         // ECO METHODS
@@ -129,12 +129,12 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             LampRow row = new LampRow("LampsRow");
             EcoLamp ecoLamp = new EcoLamp("ecolamp1");
             ecoLamp.SwitchOn();
-            ecoLamp.SetBrightness(90);
+            ecoLamp.SetBrightness(Brightness.Create(90));
             row.AddLamp(ecoLamp);
 
             row.SetOneEcoLampBrightnessToEco("ecolamp1");
 
-            Assert.Equal(40, ecoLamp.Brightness); 
+            Assert.Equal(Brightness.Create(40), ecoLamp.Brightness); 
         }
 
         [Fact]
@@ -145,15 +145,15 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             EcoLamp eco2 = new EcoLamp("ecolamp2");
             eco1.SwitchOn();
             eco2.SwitchOn();
-            eco1.SetBrightness(90);
-            eco2.SetBrightness(75);
+            eco1.SetBrightness(Brightness.Create(90));
+            eco2.SetBrightness(Brightness.Create(75));
             row.AddLamp(eco1);
             row.AddLamp(eco2);
 
             row.SetAllEcoLampsBrightnessToEco();
 
-            Assert.Equal(40, eco1.Brightness);
-            Assert.Equal(40, eco2.Brightness);
+            Assert.Equal(Brightness.Create(40), eco1.Brightness);
+            Assert.Equal(Brightness.Create(40), eco2.Brightness);
         }
 
         [Fact]
@@ -287,7 +287,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             lamp.SwitchOn();
             row.Brighten(0, 10);
 
-            Assert.Equal(60, lamp.Brightness);
+            Assert.Equal(Brightness.Create(60), lamp.Brightness);
         }
 
         [Fact]
@@ -295,12 +295,12 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         {
             var row = new LampRow("Row");
             var lamp = new Lamp("l1");
-            lamp.SetBrightness(50);
+            lamp.SetBrightness(Brightness.Create(50));
             lamp.SwitchOn();
             row.AddLamp(lamp);
             row.Dimmer(0, 10);
 
-            Assert.Equal(40, lamp.Brightness);
+            Assert.Equal(Brightness.Create(40), lamp.Brightness);
         }
 
 
@@ -310,9 +310,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         public void LampRow_FindLampWithMaxBrightness_ReturnsCorrectLamp()
         {
             var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(10);
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(90);
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(50);
+            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(10));
+            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(90));
+            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(50));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -320,16 +320,16 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var maxLamp = row.FindLampWithMaxBrightness();
 
             Assert.Equal("l2", maxLamp.Name);
-            Assert.Equal(90, maxLamp.Brightness);
+            Assert.Equal(Brightness.Create(90), maxLamp.Brightness);
         }
 
         [Fact]
         public void LampRow_FindLampWithMinBrightness_ReturnsCorrectLamp()
         {
             var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(10);
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(90);
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(5);
+            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(10));
+            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(90));
+            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(5));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -337,16 +337,16 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var minLamp = row.FindLampWithMinBrightness();
 
             Assert.Equal("l3", minLamp.Name);
-            Assert.Equal(5, minLamp.Brightness);
+            Assert.Equal(Brightness.Create(5), minLamp.Brightness);
         }
 
         [Fact]
         public void LampRow_FindLampsByIntensityRange_ReturnsCorrectLamps()
         {
             var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(10);
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(60);
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(90);
+            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(10));
+            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(60));
+            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(90));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -426,9 +426,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         public void LampRow_SortByBrightness_Ascending()
         {
             var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(50);
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(10);
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(90);
+            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(50));
+            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(10));
+            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(90));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -436,18 +436,18 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var sorted = row.SortByBrightness(false); // false = crescente
 
             Assert.Equal(3, sorted.Count);
-            Assert.Equal(10, sorted[0].Brightness);
-            Assert.Equal(50, sorted[1].Brightness);
-            Assert.Equal(90, sorted[2].Brightness);
+            Assert.Equal(Brightness.Create(10), sorted[0].Brightness);
+            Assert.Equal(Brightness.Create(50), sorted[1].Brightness);
+            Assert.Equal(Brightness.Create(90), sorted[2].Brightness);
         }
 
         [Fact]
         public void LampRow_SortByBrightness_Descending()
         {
             var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(50);
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(10);
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(90);
+            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(50));
+            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(10));
+            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(90));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -455,9 +455,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var sorted = row.SortByBrightness(true); // true = decrescente
 
             Assert.Equal(3, sorted.Count);
-            Assert.Equal(90, sorted[0].Brightness);
-            Assert.Equal(50, sorted[1].Brightness);
-            Assert.Equal(10, sorted[2].Brightness);
+            Assert.Equal(Brightness.Create(90), sorted[0].Brightness);
+            Assert.Equal(Brightness.Create(50), sorted[1].Brightness);
+            Assert.Equal(Brightness.Create(10), sorted[2].Brightness);
         }
 
         

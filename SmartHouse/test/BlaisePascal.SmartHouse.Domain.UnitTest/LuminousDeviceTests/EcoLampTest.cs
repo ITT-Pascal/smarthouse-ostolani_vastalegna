@@ -28,39 +28,27 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         public void EcoLamp_SetBrightness_ValidLevel_SetsBrightnessLevel()
         {
             EcoLamp lamp = new EcoLamp("lamp");
-            lamp.SetBrightness(50);
-            Assert.Equal(50, lamp.Brightness);
-        }
-        [Fact]
-        public void EcoLamp_SetBrightness_NegativeLevel_ThrowsArgumentOutOfRangeException()
-        {
-            EcoLamp lamp = new EcoLamp("lamp");
-            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(-5));
+            lamp.SetBrightness(Brightness.Create(50));
+            Assert.Equal(Brightness.Create(50), lamp.Brightness);
         }
 
-        [Fact]
-        public void EcoLamp_SetBrightness_AboveMaxLevel_ThrowsArgumentOutOfRangeException()
-        {
-            EcoLamp lamp = new EcoLamp("lamp");
-            Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(100 + 1));
-        }
         [Fact]
         public void EcoLamp_EcoModeBrightness_SetsBrightnessToEcoLevel()
         {
             EcoLamp lamp = new EcoLamp("lamp");
             lamp.SwitchOn();
-            lamp.SetBrightness(80);
+            lamp.SetBrightness(Brightness.Create(80));
             lamp.SetEcoModeBrightness();
-            Assert.Equal(40, lamp.Brightness);
+            Assert.Equal(Brightness.Create(40), lamp.Brightness);
         }
         [Fact]
         public void EcoLamp_EcoModeBrightness_DoesNotChangeBrightnessIfBelowEcoLevel()
         {
             EcoLamp lamp = new EcoLamp("lamp");
             lamp.SwitchOn();
-            lamp.SetBrightness(30);
+            lamp.SetBrightness(Brightness.Create(30));
             lamp.SetEcoModeBrightness();
-            Assert.Equal(30, lamp.Brightness);
+            Assert.Equal(Brightness.Create(30), lamp.Brightness);
         }
 
         [Fact]

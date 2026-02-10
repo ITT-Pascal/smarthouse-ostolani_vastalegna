@@ -31,7 +31,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         public void Lamp_SetBrightness_NegativeLevel_ThrowsArgumentOutOfRangeException()
         {
             Lamp lamp = new Lamp("lamp");
-            Assert.Throws<ArgumentOutOfRangeException>(() =>lamp.SetBrightness(Brightness.Create(50)));
+            Assert.Throws<ArgumentOutOfRangeException>(() =>lamp.SetBrightness(Brightness.Create(-5)));
         }
 
         [Fact]
