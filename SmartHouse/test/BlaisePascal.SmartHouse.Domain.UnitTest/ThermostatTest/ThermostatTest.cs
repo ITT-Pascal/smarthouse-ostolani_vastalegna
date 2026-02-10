@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice;
+﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
+using BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         public void When_ThermostatIsOffAndSetTemperature_ShouldThrow()
         {
             Thermostat t = new Thermostat("Thermostat");
-            Assert.Throws<InvalidOperationException>(() =>
-                t.SetTemperatureToReach(t.GetMaxTemperature() - 1));
+            Assert.Throws<InvalidOperationException>(() => t.SetTemperatureToReach(Temperature.MaxTemperature - 1));
         }
 
         [Fact]
@@ -25,9 +25,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         {
             Thermostat t = new Thermostat("Thermostat");
             t.SwitchOn();
-            t.SetTemperatureToReach(Thermostat.MaxTemperature - 1);
+            t.SetTemperatureToReach(Temperature.MaxTemperature - 1);
 
-            Assert.Equal(Thermostat.MaxTemperature - 1, t.TemperatureToReach);
+            Assert.Equal(t.MaxTemperature - 1, t.TemperatureToReach);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
             t.SwitchOn();
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                t.SetTemperatureToReach(Thermostat.MaxTemperature + 1));
+                t.SetTemperatureToReach(Temperature.MaxTemperature + 1));
         }
 
 
@@ -56,7 +56,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
             Thermostat t = new Thermostat("Thermostat");
             t.SwitchOn();
 
-            int tmp = t.TemperatureToReach;
+            Temperature tmp = t.TemperatureToReach;
             t.IncreaseTemperatureToReach();
 
             Assert.Equal(tmp + 1, t.TemperatureToReach);
@@ -67,11 +67,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         {
             Thermostat t = new Thermostat("Thermostat");
             t.SwitchOn();
-            t.SetTemperatureToReach(Thermostat.MaxTemperature);
-
-            t.IncreaseTemperatureToReach();
-
-            Assert.Equal(Thermostat.MaxTemperature, t.TemperatureToReach);
+            t.SetTemperatureToReach(Temperature.MaxTemperature);
+            Assert.Throws<ArgumentOutOfRangeException>(() => t.IncreaseTemperatureToReach());
         }
 
 
@@ -90,22 +87,19 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
             Thermostat t = new Thermostat("Thermostat");
             t.SwitchOn();
 
-            int tmp = t.TemperatureToReach;
+            Temperature tmp = t.TemperatureToReach;
             t.DecreaseTemperatureToReach();
 
             Assert.Equal(tmp - 1, t.TemperatureToReach);
         }
 
         [Fact]
-        public void When_DecreasingTemperatureBeyondMin_ShouldBeMin()
+        public void When_DecreasingTemperatureBeyondMin_ShouldThrow()
         {
             Thermostat t = new Thermostat("Thermostat");
             t.SwitchOn();
-            t.SetTemperatureToReach(Thermostat.MinTemperature);
-
-            t.DecreaseTemperatureToReach();
-
-            Assert.Equal(Thermostat.MinTemperature, t.TemperatureToReach);
+            t.SetTemperatureToReach(Temperature.MinTemperature);
+            Assert.Throws<ArgumentOutOfRangeException>(() => t.DecreaseTemperatureToReach());
         }
 
 

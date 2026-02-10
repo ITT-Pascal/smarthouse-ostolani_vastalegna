@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice;
+﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
+using BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         public void When_ACIsOffAndSetTemperature_ShouldThrow()
         {
             AirConditioner ac = new AirConditioner("AC");
-            Assert.Throws<InvalidOperationException>(() => ac.SetTemperatureToReach(ac.GetMaxTemperature() - 1));
+            Assert.Throws<InvalidOperationException>(() => ac.SetTemperatureToReach(Temperature.MaxTemperature - 1));
         }
 
         [Fact]
@@ -24,9 +25,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         {
             AirConditioner ac = new AirConditioner("AC");
             ac.SwitchOn();
-            ac.SetTemperatureToReach(ac.GetMaxTemperature()-1);
+            ac.SetTemperatureToReach(Temperature.MaxTemperature-1);
 
-            Assert.Equal(ac.GetMaxTemperature() - 1, ac.TemperatureToReach);
+            Assert.Equal(ac.MaxTemperature - 1, ac.TemperatureToReach);
         }
 
         [Fact]
@@ -36,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
             AirConditioner ac = new AirConditioner("AC");
             ac.SwitchOn();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => ac.SetTemperatureToReach(ac.GetMaxTemperature() +1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ac.SetTemperatureToReach(Temperature.MaxTemperature +1));
         }
 
 
@@ -55,7 +56,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
             AirConditioner ac = new AirConditioner("AC");
             ac.SwitchOn();
 
-            int tmp = ac.TemperatureToReach;
+            Temperature tmp = ac.TemperatureToReach;
             ac.IncreaseTemperatureToReach();
 
             Assert.Equal(tmp + 1, ac.TemperatureToReach);
@@ -66,11 +67,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         {
             AirConditioner ac = new AirConditioner("AC");
             ac.SwitchOn();
-            ac.SetTemperatureToReach(AirConditioner.MaxTemperature);
-
-            ac.IncreaseTemperatureToReach();
-
-            Assert.Equal(AirConditioner.MaxTemperature, ac.TemperatureToReach);
+            ac.SetTemperatureToReach(Temperature.MaxTemperature);
+            Assert.Throws<ArgumentOutOfRangeException>(() => ac.IncreaseTemperatureToReach());
         }
 
         // Decrease temperature
@@ -88,21 +86,19 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
             AirConditioner ac = new AirConditioner("AC");
             ac.SwitchOn();
 
-            int tmp = ac.TemperatureToReach;
+            Temperature tmp = ac.TemperatureToReach;
             ac.DecreaseTemperatureToReach();
 
             Assert.Equal(tmp - 1, ac.TemperatureToReach);
         }
 
         [Fact]
-        public void When_DecreasingTemperatureBeyondMin_ShouldBeMin()
+        public void When_DecreasingTemperatureBeyondMin_ShouldThrow()
         {
             AirConditioner ac = new AirConditioner("AC");
             ac.SwitchOn();
-            ac.SetTemperatureToReach(AirConditioner.MinTemperature);
-            ac.DecreaseTemperatureToReach();
-
-            Assert.Equal(AirConditioner.MinTemperature, ac.TemperatureToReach);
+            ac.SetTemperatureToReach(Temperature.MinTemperature);
+            Assert.Throws<ArgumentOutOfRangeException>(() => ac.DecreaseTemperatureToReach());
         }
 
         // Fan speed 

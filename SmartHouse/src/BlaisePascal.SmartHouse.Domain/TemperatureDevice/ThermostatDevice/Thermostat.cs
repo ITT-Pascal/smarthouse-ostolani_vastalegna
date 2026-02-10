@@ -10,8 +10,8 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
     {
         //Constant
         public Temperature DefaultTemperature = Temperature.Create(24);
-        public Temperature MinTemperature = Temperature.Create(15);
-        public Temperature MaxTemperature = Temperature.Create(35);
+        public Temperature MinTemperature = Temperature.Create(Temperature.MinTemperature);
+        public Temperature MaxTemperature = Temperature.Create(Temperature.MaxTemperature);
         private const int TemperatureStep = 1;
 
         //Properties
@@ -33,33 +33,22 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
         public void SetTemperatureToReach(int temperature)
         {
             OnValidator();
-            if (MinTemperature > temperature || MinTemperature < temperature)
-                throw new ArgumentOutOfRangeException($"Temperatere must be between {MinTemperature} and {MaxTemperature}");
             TemperatureToReach = Temperature.Create(temperature);
         }
 
         public void IncreaseTemperatureToReach()
         {
             OnValidator();
-            if(TemperatureToReach + TemperatureStep  > MaxTemperature)
-                TemperatureToReach = MaxTemperature;
-            else
-                TemperatureToReach = TemperatureToReach + TemperatureStep;
+            TemperatureToReach = Temperature.Increase(TemperatureToReach, TemperatureStep);
+
         }
         public void DecreaseTemperatureToReach()
         {
             OnValidator();
-            if (TemperatureToReach - TemperatureStep < MinTemperature)
-                TemperatureToReach = MinTemperature;
-            else
-                TemperatureToReach = TemperatureToReach - TemperatureStep;
+            TemperatureToReach = Temperature.Decrease(TemperatureToReach, TemperatureStep);
         }
 
 
-
-        //Get const
-        public Temperature GetMaxTemperature() => MaxTemperature;
-        public Temperature GetMinTemperature() => MinTemperature;
 
 
     }

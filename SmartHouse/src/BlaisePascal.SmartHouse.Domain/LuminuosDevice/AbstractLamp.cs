@@ -50,7 +50,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             if (amount < 1)
                 throw new ArgumentOutOfRangeException("Amount deve essere almeno 1.");
 
-            Brightness = new Brightness(Math.Min(MaxBrightness.Value, Brightness.Value + amount));
+            Brightness = Brightness.Create(Math.Min(MaxBrightness.Value, Brightness.Value + amount));
 
         }
 

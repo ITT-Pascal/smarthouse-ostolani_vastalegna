@@ -14,7 +14,6 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
 
         public int Value { get; }
 
-        //Controlli nel costruttore o in create?
         private Temperature(int value) { Value = value; }
         public static Temperature Create(int temp)
         {
@@ -25,19 +24,19 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
             return new Temperature(temp);
         }
 
-        public static Temperature Increase(Temperature newTemperature)
+        public static Temperature Increase(Temperature temperature, int step)
         {
-            if (newTemperature > MaxTemperature)
+            if (temperature + step > MaxTemperature)
                 throw new ArgumentOutOfRangeException("Cannot be over MaxTemperature");
 
-            return Create(newTemperature.Value);
+            return Create(temperature.Value + step);
         }
-        public static Temperature Decrease(Temperature newTemperature)
+        public static Temperature Decrease(Temperature temperature, int step)
         {
-            if (newTemperature < MinTemperature)
+            if (temperature - step < MinTemperature)
                 throw new ArgumentOutOfRangeException("Cannot be less MinTemperature");
 
-            return Create(newTemperature.Value);
+            return Create(temperature.Value - step);
         }
 
         public static Temperature operator -(Temperature b1, int amount)
@@ -82,5 +81,9 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
             return b1.Value >= amount;
 
         }
+
+
+        //da testare come tutti i record 
+        //rimuovere i test sui controlli di brightness dai test delle varie classi in cui è implementata
     }
 }
