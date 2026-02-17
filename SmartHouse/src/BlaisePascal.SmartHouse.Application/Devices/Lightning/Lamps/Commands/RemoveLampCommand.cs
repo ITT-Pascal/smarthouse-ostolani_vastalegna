@@ -8,17 +8,20 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
 {
-    public class AddLampCommand
+    public class RemoveLampCommand
     {
         private readonly ILampRepository _lampRepository;
-        public AddLampCommand(ILampRepository repository)
+
+        public RemoveLampCommand(ILampRepository lampRepository)
         {
-            _lampRepository = repository;
+            _lampRepository = lampRepository;
         }
-        public void Execute(string name)
+
+        public void Execute(Guid lampId)
         {
-            _lampRepository.Add(new Lamp(name));
+            Lamp lamp = _lampRepository.GetById(lampId);
+            _lampRepository.Remove(lampId);
         }
-        
+
     }
 }

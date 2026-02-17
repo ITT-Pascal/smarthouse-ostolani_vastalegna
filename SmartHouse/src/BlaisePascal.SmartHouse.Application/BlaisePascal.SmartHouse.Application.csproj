@@ -7,11 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Devices\Lightning\Lamps\Queries\" />
+    <Compile Remove="Devices\Lightning\Lamps\Queries\**" />
+    <EmbeddedResource Remove="Devices\Lightning\Lamps\Queries\**" />
+    <None Remove="Devices\Lightning\Lamps\Queries\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Devices\Lightning\Lamps\Query\" />
   </ItemGroup>
 
 </Project>
