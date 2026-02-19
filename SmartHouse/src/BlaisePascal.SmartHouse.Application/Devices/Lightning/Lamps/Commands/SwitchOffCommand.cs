@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
         {
             Lamp lamp = _lamprepository.GetById(lampId);
             lamp.SwitchOff();
-            //_lamprepository.Update(lamp);
+            _lamprepository.Update(lamp);
         }
 
     }

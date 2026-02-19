@@ -16,8 +16,4 @@
     <ProjectReference Include="..\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Devices\Lightning\Lamps\Query\" />
-  </ItemGroup>
-
 </Project>
