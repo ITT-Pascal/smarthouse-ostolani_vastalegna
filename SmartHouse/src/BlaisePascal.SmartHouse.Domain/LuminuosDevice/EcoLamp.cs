@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public Brightness EcoModeBrightnessValue = Brightness.Create(40);
 
         //Constructor
-        public EcoLamp(Guid guid, string name): base(guid, name) { }
-        public EcoLamp(string name): base(name) { }
+        public EcoLamp(Guid guid, DeviceName name): base(guid, name) { }
+        public EcoLamp(DeviceName name): base(name) { }
         
         //Methods
         public void SetEcoModeBrightness()

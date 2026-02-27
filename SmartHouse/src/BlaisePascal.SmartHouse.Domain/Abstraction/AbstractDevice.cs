@@ -10,12 +10,12 @@ namespace BlaisePascal.SmartHouse.Domain
     public abstract class AbstractDevice: ISwitchable
     {
         public Guid Id { get; protected set; }
-        public string Name { get; protected set; }
+        public DeviceName Name { get; protected set; }
         public DeviceStatus Status { get; protected set; }
         public DateTime CreationTime { get; protected set; }
         public DateTime LastStatusChangeTime { get; protected set; }
 
-        protected AbstractDevice(string name)
+        protected AbstractDevice(DeviceName name)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -23,7 +23,7 @@ namespace BlaisePascal.SmartHouse.Domain
             CreationTime = DateTime.Now;
             LastStatusChangeTime = DateTime.Now;
         }
-        public AbstractDevice(Guid guid, string name)
+        public AbstractDevice(Guid guid, DeviceName name)
         {
             CreationTime = DateTime.UtcNow;
             LastStatusChangeTime = DateTime.Now;

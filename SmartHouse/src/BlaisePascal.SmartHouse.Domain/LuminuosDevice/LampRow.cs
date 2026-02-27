@@ -14,11 +14,11 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public List<AbstractLamp> Lamps { get; private set; }
 
         //Constructor
-        public LampRow(string name): base(name)
+        public LampRow(DeviceName name): base(name)
         {
             Lamps = new List<AbstractLamp>();
         }
-        public LampRow(string name, List<AbstractLamp> lamps) : base(name)
+        public LampRow(DeviceName name, List<AbstractLamp> lamps) : base(name)
         {
             if (lamps == null)
                 throw new ArgumentNullException("Lista null");

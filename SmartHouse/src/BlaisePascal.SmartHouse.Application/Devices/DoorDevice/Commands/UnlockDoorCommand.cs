@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.InMemory.Devices.Illumination
+namespace BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Commands
 {
-    internal class InMemoryLampRepository
+    internal class UnlockDoorCommand
     {
     }
 }

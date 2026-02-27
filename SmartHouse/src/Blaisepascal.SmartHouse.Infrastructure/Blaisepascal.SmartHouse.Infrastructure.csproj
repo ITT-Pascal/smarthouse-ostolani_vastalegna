@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Devices\AirConditionerDevice\" />
+    <Folder Include="Repositories\Devices\CCTVDevice\" />
+    <Folder Include="Repositories\Devices\ThermostatDevice\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

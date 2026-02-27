@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
         }
         public void Execute(string name)
         {
-            _lampRepository.Add(new Lamp(name));
+            _lampRepository.Add(new Lamp(DeviceName.Create(name)));
         }
         
     }

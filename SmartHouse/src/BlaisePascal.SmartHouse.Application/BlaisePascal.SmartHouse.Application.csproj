@@ -16,4 +16,10 @@
     <ProjectReference Include="..\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Devices\CCTVDevice\Command\" />
+    <Folder Include="Devices\CCTVDevice\Dto\" />
+    <Folder Include="Devices\CCTVDevice\Query\" />
+  </ItemGroup>
+
 </Project>

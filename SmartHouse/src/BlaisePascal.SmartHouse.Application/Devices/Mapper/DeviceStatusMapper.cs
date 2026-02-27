@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.Mapper
 {
@@ -15,7 +16,9 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Mapper
             {
                 DeviceStatus.On => "ON",
                 DeviceStatus.Off => "OFF",
-                //add other status
+                DeviceStatus.Standby => "STANDBY",
+                DeviceStatus.Error => "ERROR",
+                _ => "UNKNOWN",
             };
         }
 
@@ -25,6 +28,9 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Mapper
             {
                 "ON" => DeviceStatus.On,
                 "OFF" => DeviceStatus.Off,
+                "STANDBY" => DeviceStatus.Standby,
+                "ERROR" => DeviceStatus.Error,
+                "UNKNOWN" => DeviceStatus.Unknown,
                 _ => throw new ArgumentException("non valid status")
             };
         }

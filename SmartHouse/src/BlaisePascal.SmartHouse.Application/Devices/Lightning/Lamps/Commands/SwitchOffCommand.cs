@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
+﻿using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Mapper;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,12 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
         public void Execute(Guid lampId)
         {
             Lamp lamp = _lamprepository.GetById(lampId);
-            lamp.SwitchOff();
-            _lamprepository.Update(lamp);
+            if (lamp != null)
+            {
+                lamp.SwitchOff();
+                _lamprepository.Update(lamp);
+            }
+            
         }
 
     }

@@ -20,12 +20,12 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
 
         //Constructors
-        protected AbstractLamp(string name): base(name)
+        protected AbstractLamp(DeviceName name): base(name)
         {
            Brightness = MaxBrightness;
 
         }
-        public AbstractLamp(Guid guid, string name): base(guid, name)
+        public AbstractLamp(Guid guid, DeviceName name): base(guid, name)
         {
             Brightness = MinBrightness;
 

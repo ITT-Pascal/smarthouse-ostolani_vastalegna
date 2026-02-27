@@ -1,6 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Mapper;
-using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Query
 {
-
-    public class GetLampByIdQuery
+    public class GetAllLampsQuery
     {
         private readonly ILampRepository _repository;
 
-        public GetLampByIdQuery(ILampRepository repository)
+        public GetAllLampsQuery(ILampRepository repository)
         {
             _repository = repository;
         }
 
-        public LampDto Execute(Guid id)
+        public List<LampDto> Execute()
         {
-            var l = _repository.GetById(id);
-            if (l != null)
+            var result = new List<LampDto>();
+
+            foreach (var l in _repository.GetAll())
             {
-                return LampMapper.ToDto(l);
+                result.Add(LampMapper.ToDto(l));
             }
-            return null;
+
+            return result;
         }
     }
-
 }
