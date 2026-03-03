@@ -13,25 +13,25 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
         public LockStatus LockStatus { get; private set; }
         public Pin Pin { get; private set; }
 
-        public Door(string name, int pin) : base(name)
+        public Door(DeviceName name, Pin pin) : base(name)
         {
             DoorStatus = DoorStatus.Closed;
             LockStatus = LockStatus.Unlocked;
             Status = DeviceStatus.On;
-            Pin = Pin.Create(pin);
+            Pin = pin;
         }
-        public Door(Guid guid, string name, int pin) : base(guid, name)
+        public Door(Guid guid, DeviceName name, Pin pin) : base(guid, name)
         {
             DoorStatus = DoorStatus.Closed;
             LockStatus = LockStatus.Unlocked;
             Status = DeviceStatus.On;
-            Pin = Pin.Create(pin);
+            Pin = pin;
         }
 
-        public void SetNewPin(int pin)
+        public void SetNewPin(Pin pin)
         {
             CheckUnlocked();
-            Pin = Pin.Create(pin);
+            Pin = pin;
         }
 
         public void Open()
@@ -40,14 +40,14 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
             CheckClosed();
             CheckUnlocked();
             DoorStatus = DoorStatus.Open;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
         public void Close()
         {
             OnValidator();
             CheckOpen();
             DoorStatus = DoorStatus.Closed;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
 
         public void Lock()
@@ -56,7 +56,7 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
             CheckUnlocked();
             CheckClosed();
             LockStatus = LockStatus.Locked;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
 
         public void Unlock(Pin pin)
@@ -65,7 +65,7 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
             OnValidator();
             CheckLocked();
             LockStatus = LockStatus.Unlocked;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
 
         // Private function

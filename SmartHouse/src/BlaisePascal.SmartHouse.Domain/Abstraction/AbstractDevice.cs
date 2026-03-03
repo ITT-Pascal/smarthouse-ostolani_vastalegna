@@ -12,24 +12,35 @@ namespace BlaisePascal.SmartHouse.Domain
         public Guid Id { get; protected set; }
         public DeviceName Name { get; protected set; }
         public DeviceStatus Status { get; protected set; }
-        public DateTime CreationTime { get; protected set; }
-        public DateTime LastStatusChangeTime { get; protected set; }
+        public DateTime CreatedAtUtc { get; protected set; }
+        public DateTime LastModifiedAtUtc { get; protected set; }
 
         protected AbstractDevice(DeviceName name)
         {
             Id = Guid.NewGuid();
             Name = name;
             Status = DeviceStatus.Off;
-            CreationTime = DateTime.Now;
-            LastStatusChangeTime = DateTime.Now;
+            CreatedAtUtc = DateTime.Now;
+            LastModifiedAtUtc = DateTime.Now;
         }
         public AbstractDevice(Guid guid, DeviceName name)
         {
-            CreationTime = DateTime.UtcNow;
-            LastStatusChangeTime = DateTime.Now;
+            CreatedAtUtc = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.Now;
             Status = DeviceStatus.Off;
             Id = guid;
             Name = name;
+        }
+
+        public AbstractDevice(Guid guid, DeviceName name, DeviceStatus deviceStatus, DateTime creationTime, DateTime lastUpdateTime)
+        {
+            Id = guid;
+            Name = name;
+            Status = deviceStatus;
+            CreatedAtUtc = creationTime;
+            LastModifiedAtUtc = lastUpdateTime;
+
+            
         }
 
         //Methods
@@ -44,7 +55,7 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             OffValidator();
             Status = DeviceStatus.On;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
 
         public virtual void SwitchOff()
@@ -52,7 +63,7 @@ namespace BlaisePascal.SmartHouse.Domain
             OnValidator();
 
             Status = DeviceStatus.Off;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
 
         // Validator

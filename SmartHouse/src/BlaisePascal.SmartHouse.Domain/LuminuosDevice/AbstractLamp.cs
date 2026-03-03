@@ -12,6 +12,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //Constants
         public Brightness MinBrightness = Brightness.Create(Brightness.MinBrightness);
         public Brightness MaxBrightness = Brightness.Create(Brightness.MaxBrightness);
+        public Brightness DefaultBrightnessStep = Brightness.Create(5);
 
         //Properties
         public Brightness Brightness { get; protected set; }
@@ -31,26 +32,25 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         }
 
-        
+        public AbstractLamp(Guid guid, DeviceName name, DeviceStatus deviceStatus, Brightness brightness, DateTime creationTime, DateTime lastUpdateTime) : base(guid, name, deviceStatus, creationTime, lastUpdateTime)
+        {
+            Brightness = brightness;
+        }
 
-        public virtual void Dimmer(int amount)
+
+        public virtual void Dimmer()
         {
             OnValidator();
-            if (amount < 1)
-                throw new ArgumentOutOfRangeException("Amount deve essere almeno 1.");
-
-            Brightness = Brightness.Create(Math.Max(MinBrightness.Value, Brightness.Value - amount));
+            Brightness = Brightness.Create(Math.Max(MinBrightness.Value, Brightness.Value - DefaultBrightnessStep.Value));
 
 
         }
 
-        public virtual void Brighten(int amount)
+        public virtual void Brighten()
         {
             OnValidator();
-            if (amount < 1)
-                throw new ArgumentOutOfRangeException("Amount deve essere almeno 1.");
 
-            Brightness = Brightness.Create(Math.Min(MaxBrightness.Value, Brightness.Value + amount));
+            Brightness = Brightness.Create(Math.Min(MaxBrightness.Value, Brightness.Value + DefaultBrightnessStep.Value));
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illumination.Lamps
 {
-    internal class InMemoryLampRepository
+    public class InMemoryLampRepository: ILampRepository
     {
         private readonly List<Lamp> _lamps;
 
@@ -17,9 +18,9 @@ namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illuminati
             // Dati inseriti staticamente (Hard-coded)
             _lamps = new List<Lamp>
             {
-            new Lamp(DeviceName.Create("Crazy Lamp")),
-            new Lamp(DeviceName.Create("Pascal Lamp")),
-            new Lamp(DeviceName.Create("Pulgs Lamp"))
+            new Lamp(DeviceName.Create("Pesto Lamp")),
+            new Lamp(DeviceName.Create("Pelo Lamp")),
+            new Lamp(DeviceName.Create("Pulga Lamp"))
             };
         }
 
@@ -32,7 +33,7 @@ namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illuminati
         {
             foreach (var l in _lamps)
             {
-                if (l.id == id)
+                if (l.Id == id)
                 {
                     return l;
                 }

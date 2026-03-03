@@ -24,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
         public List<Photo>PhotosSaved { get; private set; }
 
         //Constructor
-        public CCTV(string name): base(name) 
+        public CCTV(DeviceName name): base(name) 
         {
             CurrentTilt = 0;
             CurrentZoom = 1.0;
@@ -32,7 +32,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             RecordingsSaved = new List<Recording>();
             PhotosSaved = new List<Photo>();
         }
-        public CCTV(Guid guid, string name):base(guid, name) 
+        public CCTV(Guid guid, DeviceName name):base(guid, name) 
         {
             CurrentTilt = 0;
             CurrentZoom = 1.0;
@@ -67,7 +67,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
                 throw new InvalidOperationException("You are already recording");
             }
             CCTVStatus = CCTVStatus.Recording;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
             
 
         }
@@ -80,8 +80,8 @@ namespace BlaisePascal.SmartHouse.Domain.CCTVDevice
             }
 
             CCTVStatus = CCTVStatus.NotRecording;
-            RecordingsSaved.Add(new Recording(LastStatusChangeTime.ToString(), LastStatusChangeTime, DateTime.UtcNow - LastStatusChangeTime));
-            LastStatusChangeTime = DateTime.UtcNow;
+            RecordingsSaved.Add(new Recording(LastModifiedAtUtc.ToString(), LastModifiedAtUtc, DateTime.UtcNow - LastModifiedAtUtc));
+            LastModifiedAtUtc = DateTime.UtcNow;
 
 
         }

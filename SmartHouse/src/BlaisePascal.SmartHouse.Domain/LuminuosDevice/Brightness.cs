@@ -25,13 +25,13 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
             Value = value;
         }
-        public static Brightness Create(int temp)
+        public static Brightness Create(int brightness)
         {
-            if (temp < MinBrightness || temp > MaxBrightness)
+            if (brightness < MinBrightness || brightness > MaxBrightness)
             {
                 throw new ArgumentOutOfRangeException($"Brightness level must be between {MinBrightness} and {MaxBrightness}.");
             }
-            return new Brightness(temp);
+            return new Brightness(brightness);
         }
 
         public static Brightness operator -(Brightness b1, int amount)

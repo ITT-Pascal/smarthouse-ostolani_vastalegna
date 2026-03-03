@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_TurnOnOneLamp_SetsIsOnToTrue()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.TurnOnOneLamp(device.Lamp1);
             Assert.Equal(DeviceStatus.On, device.Lamp1.Status);
             Assert.Equal(DeviceStatus.Off, device.Lamp2.Status);
@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_TurnOffOneLamp_SetsIsOnToFalse()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.TurnBothOn();
             device.TurnOffOneLamp(device.Lamp1);
             Assert.Equal(DeviceStatus.Off, device.Lamp1.Status);
@@ -31,7 +31,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_TurnOnBothLamps_SetsIsOnToTrue()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.TurnBothOn();
             Assert.Equal(DeviceStatus.On, device.Lamp1.Status);
             Assert.Equal(DeviceStatus.On, device.Lamp2.Status);
@@ -39,7 +39,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_TurnOffBothLamps_SetsIsOnToFalse()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.TurnBothOn();
             device.TurnBothOff();
             Assert.Equal(DeviceStatus.Off, device.Lamp1.Status);
@@ -48,7 +48,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_SetBothSameBrightness_SetsBrightnessLevel()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.SetBothSameBrightness(Brightness.Create(70));
             Assert.Equal(Brightness.Create(70), device.Lamp1.Brightness);
             Assert.Equal(Brightness.Create(70), device.Lamp2.Brightness);
@@ -56,14 +56,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_SetOneBrightness_SetsBrightnessLevel()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.SetOneBrightness(device.Lamp1, Brightness.Create(30));
             Assert.Equal(Brightness.Create(30), device.Lamp1.Brightness);
         }
         [Fact]
         public void TwoLampDevice_SetOneEcoLampBrightnessToEco_SetsBrightnessToEcoLevel()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.Lamp2.SwitchOn();
             device.Lamp2.SetBrightness(Brightness.Create(80));
             device.SetOneEcoLampBrightnessToEco(device.Lamp2);
@@ -72,7 +72,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_SetBothEcoLampBrightnessToEco_SetsBrightnessToEcoLevel()
         {
-            TwoLampDevice device = new TwoLampDevice(new EcoLamp("ecolamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new EcoLamp(DeviceName.Create("ecolamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.Lamp1.SwitchOn();
             device.Lamp2.SwitchOn();
             device.Lamp1.SetBrightness(Brightness.Create(90));
@@ -84,7 +84,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void TwoLampDevice_TurnOneEcoLampOffAfterTime_SetsIsOnToFalse()
         {
-            TwoLampDevice device = new TwoLampDevice(new Lamp("lamp"), new EcoLamp("ecolamp"));
+            TwoLampDevice device = new TwoLampDevice(new Lamp(DeviceName.Create("lamp")), new EcoLamp(DeviceName.Create("ecolamp")));
             device.Lamp2.SwitchOn();
             (device.Lamp2 as EcoLamp)?.SetOnTime(DateTime.UtcNow.AddMinutes(-51));
             (device.Lamp2 as EcoLamp)?.TurnOffAfterTime();

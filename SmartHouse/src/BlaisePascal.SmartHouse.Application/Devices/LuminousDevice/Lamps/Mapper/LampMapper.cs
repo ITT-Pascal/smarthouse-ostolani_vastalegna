@@ -1,5 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.SmartHouse.Application.Devices.Mapper;
+using BlaisePascal.SmartHouse.Domain.Abstraction;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,15 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Mapper
 
         public static LampDto ToDto(Lamp lamp)
         {
+            //guid e datetime non vanno convertite in stringa?
             return new LampDto
             {
                 Id = lamp.Id,
-                Name = lamp.Name.Name,
+                Name = lamp.Name.Value,
                 Status = DeviceStatusMapper.ToDto(lamp.Status),
                 Brightness = lamp.Brightness.Value,
-                CreatedAtUtc = lamp.CreationTime,
-                LastModifiedAtUtc = lamp.LastStatusChangeTime,
+                CreatedAtUtc = lamp.CreatedAtUtc,
+                LastModifiedAtUtc = lamp.LastModifiedAtUtc,
             };
         }
 
@@ -30,11 +32,11 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Mapper
         {
             return new Lamp(
                 dto.Id,
-                dto.Name,
+                DeviceName.Create(dto.Name),
                 DeviceStatusMapper.ToDomain(dto.Status),
-                Brightness.Create(dto.Brightness, 0, 100),
-                dto.CreationTime,
-                dto.LastUpdateTime
+                Brightness.Create(dto.Brightness),
+                dto.CreatedAtUtc,
+                dto.LastModifiedAtUtc
                 );
         }
     }

@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
 using BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         [Fact]
         public void When_ThermostatIsOffAndSetTemperature_ShouldThrow()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             Assert.Throws<InvalidOperationException>(() => t.SetTemperatureToReach(Temperature.MaxTemperature - 1));
         }
 
         [Fact]
         public void When_SettingTemperatureInRange_ShouldSetTemperature()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             t.SwitchOn();
             t.SetTemperatureToReach(Temperature.MaxTemperature - 1);
 
@@ -33,7 +34,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         [Fact]
         public void When_SettingTemperatureOutsideRange_ShouldThrow()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             t.SwitchOn();
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
@@ -46,14 +47,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         [Fact]
         public void When_ThermostatIsOffAndIncreaseTemperature_ShouldThrow()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             Assert.Throws<InvalidOperationException>(() => t.IncreaseTemperatureToReach());
         }
 
         [Fact]
         public void When_ThermostatIsOnAndIncreaseTemperature_ShouldIncrease()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             t.SwitchOn();
 
             Temperature tmp = t.TemperatureToReach;
@@ -65,7 +66,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         [Fact]
         public void When_IncreasingTemperatureBeyondMax_ShouldBeMax()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             t.SwitchOn();
             t.SetTemperatureToReach(Temperature.MaxTemperature);
             Assert.Throws<ArgumentOutOfRangeException>(() => t.IncreaseTemperatureToReach());
@@ -77,14 +78,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         [Fact]
         public void When_ThermostatIsOffAndDecreaseTemperature_ShouldThrow()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             Assert.Throws<InvalidOperationException>(() => t.DecreaseTemperatureToReach());
         }
 
         [Fact]
         public void When_ThermostatIsOnAndDecreaseTemperature_ShouldDecrease()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             t.SwitchOn();
 
             Temperature tmp = t.TemperatureToReach;
@@ -96,7 +97,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ThermostatTest
         [Fact]
         public void When_DecreasingTemperatureBeyondMin_ShouldThrow()
         {
-            Thermostat t = new Thermostat("Thermostat");
+            Thermostat t = new Thermostat(DeviceName.Create("Thermostat"));
             t.SwitchOn();
             t.SetTemperatureToReach(Temperature.MinTemperature);
             Assert.Throws<ArgumentOutOfRangeException>(() => t.DecreaseTemperatureToReach());

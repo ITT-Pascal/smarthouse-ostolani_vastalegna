@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
 {
-    internal class SwitchOffCommand
+    public class SwitchOffCommand
     {
         private readonly ILampRepository _lamprepository;
 

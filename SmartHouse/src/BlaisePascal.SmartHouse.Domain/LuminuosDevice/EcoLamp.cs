@@ -17,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //Constructor
         public EcoLamp(Guid guid, DeviceName name): base(guid, name) { }
         public EcoLamp(DeviceName name): base(name) { }
-        
+        public EcoLamp(Guid guid, DeviceName name, DeviceStatus deviceStatus, Brightness brightness, DateTime creationTime, DateTime lastUpdateTime) : base(guid, name, deviceStatus, brightness, creationTime, lastUpdateTime) { }
         //Methods
         public void SetEcoModeBrightness()
         {
@@ -30,7 +30,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void TurnOffAfterTime()
         {
             OnValidator();
-            if (DateTime.Now - LastStatusChangeTime > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
+            if (DateTime.Now - LastModifiedAtUtc > TimeSpan.FromMinutes(DefaultAutoOffMinutes))
             {
                 SwitchOff();
             }
@@ -40,7 +40,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         //ONLY FOR TESTING PURPOSES
         public void SetOnTime(DateTime time)
         {
-            LastStatusChangeTime = time;
+            LastModifiedAtUtc = time;
         }
     }
 }

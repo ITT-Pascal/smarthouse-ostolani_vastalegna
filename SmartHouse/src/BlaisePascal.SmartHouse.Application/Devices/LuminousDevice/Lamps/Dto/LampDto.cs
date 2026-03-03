@@ -17,6 +17,8 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Dto
         public DateTime CreatedAtUtc { get; set; }
         public DateTime LastModifiedAtUtc { get; set; }
 
+        //il costruttore va messo?
+
         public override string ToString()
         {
             return $"Id: {Id}\n" +

@@ -8,14 +8,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void Lamp_TurnOn_SetsIsOnToTrue()
         {
-            Lamp lamp = new Lamp("lamp");
+            Lamp lamp = new Lamp(DeviceName.Create("lamp"));
             lamp.SwitchOn();
             Assert.Equal(DeviceStatus.On, lamp.Status);
         }
         [Fact]
         public void Lamp_TurnOff_SetsIsOnToFalse()
         {
-            Lamp lamp = new Lamp("lamp");
+            Lamp lamp = new Lamp(DeviceName.Create("lamp"));
             lamp.SwitchOn();
             lamp.SwitchOff();
             Assert.Equal(DeviceStatus.Off, lamp.Status);
@@ -23,21 +23,21 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void Lamp_SetBrightness_ValidLevel_SetsBrightnessLevel()
         {
-            Lamp lamp = new Lamp("lamp");
+            Lamp lamp = new Lamp(DeviceName.Create("lamp"));
             lamp.SetBrightness(Brightness.Create(50));
             Assert.Equal(Brightness.Create(50), lamp.Brightness);
         }
         [Fact]
         public void Lamp_SetBrightness_NegativeLevel_ThrowsArgumentOutOfRangeException()
         {
-            Lamp lamp = new Lamp("lamp");
+            Lamp lamp = new Lamp(DeviceName.Create("lamp"));
             Assert.Throws<ArgumentOutOfRangeException>(() =>lamp.SetBrightness(Brightness.Create(-5)));
         }
 
         [Fact]
         public void Lamp_SetBrightness_AboveMaxLevel_ThrowsArgumentOutOfRangeException()
         {
-            Lamp lamp = new Lamp("lamp");
+            Lamp lamp = new Lamp(DeviceName.Create("lamp"));
 
             Assert.Throws<ArgumentOutOfRangeException>(() => lamp.SetBrightness(Brightness.Create(lamp.MaxBrightness.Value + 1)));
         }

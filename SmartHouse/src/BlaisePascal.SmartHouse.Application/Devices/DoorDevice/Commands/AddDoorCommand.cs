@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.DoorDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.DoorDevice;
 using BlaisePascal.SmartHouse.Domain.DoorDevice.Repository;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Commands
         }
         public void Execute(string name, int pin)
         {
-            _doorRepository.Add(new Door(name, pin));
+            _doorRepository.Add(new Door(DeviceName.Create(name), Pin.Create(pin)));
         }
 
     }

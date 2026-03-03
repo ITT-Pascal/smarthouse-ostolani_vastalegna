@@ -8,18 +8,16 @@ namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
     public sealed record DeviceName
     {
-        public string Name { get; }
+        public string Value { get; }
 
         private DeviceName(string name)
         {
-            Name = name;
+            Value = name;
         }
 
         public static DeviceName Create(string name)
         {
-            if (name.Length < 4)
-                throw new ArgumentException("Name must be at least 4 letters");
-
+            string.IsNullOrWhiteSpace(name);
             return new DeviceName(name);
         }
 

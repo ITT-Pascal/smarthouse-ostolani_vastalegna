@@ -16,14 +16,14 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public LedMatrix(string name, int height, int width) : base(name)
+        public LedMatrix(DeviceName name, int height, int width) : base(name)
         {
             Width = width;
             Height = height;
             Matrix = new AbstractLamp[height, width];
         }
 
-        public LedMatrix(string name, AbstractLamp[,] matrix) : base(name)
+        public LedMatrix(DeviceName name, AbstractLamp[,] matrix) : base(name)
         {
             Matrix = matrix;
             Width = Matrix.GetLength(1);
@@ -41,7 +41,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             Matrix[row, column] = lamp;
         }
 
-        public void RemoveLamp(string name)
+        public void RemoveLamp(DeviceName name)
         {
             for (int r = 0; r < Height; r++)
             {
@@ -105,9 +105,9 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         }
 
         public void SwitchOneOneLamp(Guid id) { GetLamp(id).SwitchOn(); }
-        public void SwitchOneOneLamp(string name) { GetLamp(name).SwitchOn(); }
+        public void SwitchOneOneLamp(DeviceName name) { GetLamp(name).SwitchOn(); }
         public void SwitchOffOneLamp(Guid id) { GetLamp(id).SwitchOff(); }
-        public void SwitchOffOneLamp(string name) { GetLamp(name).SwitchOff(); }
+        public void SwitchOffOneLamp(DeviceName name) { GetLamp(name).SwitchOff(); }
 
         public void SetBrightness(Brightness newbrightness)
         {
@@ -118,7 +118,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
         }
         public void SetBrightnessOneLamp(Brightness newbrightness, Guid id) { GetLamp(id).SetBrightness(newbrightness); }
-        public void SetBrightnessOneLamp(Brightness newbrightness, string name) { GetLamp(name).SetBrightness(newbrightness); }
+        public void SetBrightnessOneLamp(Brightness newbrightness, DeviceName name) { GetLamp(name).SetBrightness(newbrightness); }
 
         public AbstractLamp FindLampWithMaxBrightness()
         {
@@ -189,7 +189,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             throw new ArgumentException("No lamps with this guid");
         }
 
-        public AbstractLamp GetLamp(string name)
+        public AbstractLamp GetLamp(DeviceName name)
         {
             for (int r = 0; r < Height; r++)
             {

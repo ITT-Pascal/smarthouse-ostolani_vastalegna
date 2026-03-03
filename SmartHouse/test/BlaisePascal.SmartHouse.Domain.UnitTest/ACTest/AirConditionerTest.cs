@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
 using BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_ACIsOffAndSetTemperature_ShouldThrow()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             Assert.Throws<InvalidOperationException>(() => ac.SetTemperatureToReach(Temperature.MaxTemperature - 1));
         }
 
         [Fact]
         public void When_SettingTemperatureInRange_ShouldSetTemperature()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
             ac.SetTemperatureToReach(Temperature.MaxTemperature-1);
 
@@ -34,7 +35,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         
         public void When_SettingTemperatureOutsideRange_ShouldThrow()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
 
             Assert.Throws<ArgumentOutOfRangeException>(() => ac.SetTemperatureToReach(Temperature.MaxTemperature +1));
@@ -46,14 +47,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_ACIsOffAndIncreaseTemperature_ShouldThrow()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             Assert.Throws<InvalidOperationException>(() => ac.IncreaseTemperatureToReach());
         }
 
         [Fact]
         public void When_ACIsOnAndIncreaseTemperature_ShouldIncrease()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
 
             Temperature tmp = ac.TemperatureToReach;
@@ -65,7 +66,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_IncreasingTemperatureBeyondMax_ShouldBeMax()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
             ac.SetTemperatureToReach(Temperature.MaxTemperature);
             Assert.Throws<ArgumentOutOfRangeException>(() => ac.IncreaseTemperatureToReach());
@@ -76,14 +77,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_ACIsOffAndDecreaseTemperature_ShouldThrow()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             Assert.Throws<InvalidOperationException>(() => ac.DecreaseTemperatureToReach());
         }
 
         [Fact]
         public void When_ACIsOnAndDecreaseTemperature_ShouldDecrease()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
 
             Temperature tmp = ac.TemperatureToReach;
@@ -95,7 +96,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_DecreasingTemperatureBeyondMin_ShouldThrow()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
             ac.SetTemperatureToReach(Temperature.MinTemperature);
             Assert.Throws<ArgumentOutOfRangeException>(() => ac.DecreaseTemperatureToReach());
@@ -106,14 +107,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_TheAirConditionerIsOffAndWantToChangeFanSpeed_CannotDoIt()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             Assert.Throws<InvalidOperationException>(() => ac.SetFanSpeed(FanSpeed.Low));
         }
 
         [Fact]
         public void When_TheAirConditionerIsOnAndWantToChangeFanSpeed_CanDoIt()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
             ac.SetFanSpeed(FanSpeed.Low);
 
@@ -126,7 +127,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_ACIsOffAndWantToChangeMode_ShouldThrow()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
 
             Assert.Throws<InvalidOperationException>(() => ac.SetMode(ACMode.Cold));
         }
@@ -134,7 +135,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.ACTest
         [Fact]
         public void When_ACIsOnAndWantToChangeMode_CanDoIt()
         {
-            AirConditioner ac = new AirConditioner("AC");
+            AirConditioner ac = new AirConditioner(DeviceName.Create("AC"));
             ac.SwitchOn();
             ac.SetMode(ACMode.Hot);
 

@@ -14,9 +14,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnAllOn_SetsAllIsOnToTrue()
         {
-            LampRow row = new LampRow("LampsRow");
-            Lamp lamp1 = new Lamp("lamp1");
-            Lamp lamp2 = new Lamp("lamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            Lamp lamp1 = new Lamp(DeviceName.Create("lamp1"));
+            Lamp lamp2 = new Lamp(DeviceName.Create("lamp2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -29,9 +29,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnAllOff_SetsAllIsOnToFalse()
         {
-            LampRow row = new LampRow("LampsRow");
-            Lamp lamp1 = new Lamp("lamp1");
-            Lamp lamp2 = new Lamp("lamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            Lamp lamp1 = new Lamp(DeviceName.Create("lamp1"));
+            Lamp lamp2 = new Lamp(DeviceName.Create("lamp2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -45,13 +45,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnOnOneLamp_SetsOnlyOneToTrue()
         {
-            LampRow row = new LampRow("LampsRow");
-            Lamp lamp1 = new Lamp("lamp1");
-            Lamp lamp2 = new Lamp("lamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            Lamp lamp1 = new Lamp(DeviceName.Create("lamp1"));
+            Lamp lamp2 = new Lamp(DeviceName.Create("lamp2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
-            row.SwitchOneOneLamp("lamp1");
+            row.SwitchOneOneLamp(DeviceName.Create("lamp1"));
 
             Assert.Equal(DeviceStatus.On, lamp1.Status);
             Assert.Equal(DeviceStatus.Off, lamp2.Status);
@@ -60,14 +60,14 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnOffOneLamp_SetsOnlyOneToFalse()
         {
-            LampRow row = new LampRow("LampsRow");
-            Lamp lamp1 = new Lamp("lamp1");
-            Lamp lamp2 = new Lamp("lamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            Lamp lamp1 = new Lamp(DeviceName.Create("lamp1"));
+            Lamp lamp2 = new Lamp(DeviceName.Create("lamp2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
             row.SwitchOn();
-            row.SwitchOffOneLamp("lamp2");
+            row.SwitchOffOneLamp(DeviceName.Create("lamp2"));
 
             Assert.Equal(DeviceStatus.On, lamp1.Status);
             Assert.Equal(DeviceStatus.Off, lamp2.Status);
@@ -77,8 +77,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnOnOneLampByGuid_ThrowsExceptionIfNotFound()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
             row.AddLamp(lamp1);
 
             Assert.Throws<ArgumentException>(() => row.SwitchOneOneLamp(Guid.NewGuid()));
@@ -87,22 +87,22 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnOnOneLampByName_ThrowsExceptionIfNotFound()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
             row.AddLamp(lamp1);
 
-            Assert.Throws<ArgumentException>(() => row.SwitchOneOneLamp("prova"));
+            Assert.Throws<ArgumentException>(() => row.SwitchOneOneLamp(DeviceName.Create("prova")));
         }
 
         // BRIGHTNESS
         [Fact]
         public void LampRow_SetOneBrightness_SetsCorrectValue()
         {
-            LampRow row = new LampRow("LampsRow");
-            Lamp lamp1 = new Lamp("lamp1");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            Lamp lamp1 = new Lamp(DeviceName.Create("lamp1"));
             row.AddLamp(lamp1);
 
-            row.SetBrightnessOneLamp(Brightness.Create(55), "lamp1");
+            row.SetBrightnessOneLamp(Brightness.Create(55), DeviceName.Create("lamp1"));
 
             Assert.Equal(Brightness.Create(55), lamp1.Brightness);
         }
@@ -110,9 +110,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_SetAllSameBrightness_SetsAllEqual()
         {
-            LampRow row = new LampRow("LampsRow");
-            Lamp lamp1 = new Lamp("lamp1");
-            Lamp lamp2 = new Lamp("lamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            Lamp lamp1 = new Lamp(DeviceName.Create("lamp1"));
+            Lamp lamp2 = new Lamp(DeviceName.Create("lamp2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -126,13 +126,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_SetOneEcoLampBrightnessToEco_SetsEcoBrightness()
         {
-            LampRow row = new LampRow("LampsRow");
-            EcoLamp ecoLamp = new EcoLamp("ecolamp1");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            EcoLamp ecoLamp = new EcoLamp(DeviceName.Create("ecolamp1"));
             ecoLamp.SwitchOn();
             ecoLamp.SetBrightness(Brightness.Create(90));
             row.AddLamp(ecoLamp);
 
-            row.SetOneEcoLampBrightnessToEco("ecolamp1");
+            row.SetOneEcoLampBrightnessToEco(DeviceName.Create("ecolamp1"));
 
             Assert.Equal(Brightness.Create(40), ecoLamp.Brightness); 
         }
@@ -140,9 +140,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_SetAllEcoLampsBrightnessToEco_SetsAllToEcoLevel()
         {
-            LampRow row = new LampRow("LampsRow");
-            EcoLamp eco1 = new EcoLamp("ecolamp1");
-            EcoLamp eco2 = new EcoLamp("ecolamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            EcoLamp eco1 = new EcoLamp(DeviceName.Create("ecolamp1"));
+            EcoLamp eco2 = new EcoLamp(DeviceName.Create("ecolamp2"));
             eco1.SwitchOn();
             eco2.SwitchOn();
             eco1.SetBrightness(Brightness.Create(90));
@@ -159,13 +159,13 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnOneEcoLampOffAfterTime_SetsIsOnToFalseIfExpired()
         {
-            LampRow row = new LampRow("LampsRow");
-            EcoLamp eco = new EcoLamp("ecolamp1");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            EcoLamp eco = new EcoLamp(DeviceName.Create("ecolamp1"));
             eco.SwitchOn();
             eco.SetOnTime(DateTime.UtcNow.AddMinutes(-60)); 
             row.AddLamp(eco);
 
-            row.TurnOneEcoLampOffAfterTime("ecolamp1");
+            row.TurnOneEcoLampOffAfterTime(DeviceName.Create("ecolamp1"));
 
             Assert.Equal(DeviceStatus.Off, eco.Status);
         }
@@ -173,9 +173,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_TurnAllEcoLampsOffAfterTime_SetsAllToFalseIfExpired()
         {
-            LampRow row = new LampRow("LampsRow");
-            EcoLamp eco1 = new EcoLamp("ecolamp1");
-            EcoLamp eco2 = new EcoLamp("ecolamp2");
+            LampRow row = new LampRow(DeviceName.Create("LampsRow"));
+            EcoLamp eco1 = new EcoLamp(DeviceName.Create("ecolamp1"));
+            EcoLamp eco2 = new EcoLamp(DeviceName.Create("ecolamp2"));
             eco1.SwitchOn();
             eco2.SwitchOn();
             eco1.SetOnTime(DateTime.UtcNow.AddMinutes(-51));
@@ -195,47 +195,47 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_AddLampInPosition_InsertsLampCorrectly()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            var lamp2 = new Lamp("l2");
-            var lamp3 = new Lamp("l3");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
+            var lamp2 = new Lamp(DeviceName.Create("l2"));
+            var lamp3 = new Lamp(DeviceName.Create("l3"));
 
             row.AddLamp(lamp1); 
             row.AddLamp(lamp3);
             row.AddLampInPosition(lamp2, 1); 
 
             Assert.Equal(3, row.Lamps.Count);
-            Assert.Equal("l2", row.Lamps[1].Name);
+            Assert.Equal(DeviceName.Create("l2"), row.Lamps[1].Name);
         }
 
         [Fact]
         public void LampRow_RemoveLampById_RemovesCorrectLamp()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            var lamp2 = new Lamp("l2");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
+            var lamp2 = new Lamp(DeviceName.Create("l2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
             row.RemoveLamp(lamp1.Id);
 
             Assert.Single(row.Lamps);
-            Assert.Equal("l2", row.Lamps[0].Name);
+            Assert.Equal(DeviceName.Create("l2"), row.Lamps[0].Name);
         }
 
         [Fact]
         public void LampRow_RemoveLampInPosition_RemovesCorrectLamp()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            var lamp2 = new Lamp("l2");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
+            var lamp2 = new Lamp(DeviceName.Create("l2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
             row.RemoveLampInPosition(0);
 
             Assert.Single(row.Lamps);
-            Assert.Equal("l2", row.Lamps[0].Name);
+            Assert.Equal(DeviceName.Create("l2"), row.Lamps[0].Name);
         }
         
 
@@ -243,9 +243,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_Status_ReturnsOnIfAnyLampIsOn()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            var lamp2 = new Lamp("l2");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
+            var lamp2 = new Lamp(DeviceName.Create("l2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             lamp2.SwitchOn();
@@ -256,9 +256,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_Status_ReturnsOffIfAllLampsAreOff()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            var lamp2 = new Lamp("l2");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
+            var lamp2 = new Lamp(DeviceName.Create("l2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -269,38 +269,38 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_BrightenByPosition_ThrowsExceptionIfOutOfRange()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
             row.AddLamp(lamp1);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => row.Brighten(1, 10));
-            Assert.Throws<ArgumentOutOfRangeException>(() => row.Dimmer(-1, 10));
+            Assert.Throws<ArgumentOutOfRangeException>(() => row.Brighten(1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => row.Dimmer(-1));
         }
 
         [Fact]
         public void LampRow_Brighten_IncreasesBrightness()
         {
-            var row = new LampRow("Row");
-            var lamp = new Lamp("l1");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp = new Lamp(DeviceName.Create("l1") );
             lamp.SetBrightness(Brightness.Create(50));
             row.AddLamp(lamp);
             lamp.SwitchOn();
-            row.Brighten(0, 10);
+            row.Brighten(0);
 
-            Assert.Equal(Brightness.Create(60), lamp.Brightness);
+            Assert.Equal(Brightness.Create(50 + lamp.DefaultBrightnessStep.Value), lamp.Brightness);
         }
 
         [Fact]
         public void LampRow_Dimmer_DecreasesBrightness()
         {
-            var row = new LampRow("Row");
-            var lamp = new Lamp("l1");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp = new Lamp(DeviceName.Create("l1"));
             lamp.SetBrightness(Brightness.Create(50));
             lamp.SwitchOn();
             row.AddLamp(lamp);
-            row.Dimmer(0, 10);
+            row.Dimmer(0);
 
-            Assert.Equal(Brightness.Create(40), lamp.Brightness);
+            Assert.Equal(Brightness.Create(50-lamp.DefaultBrightnessStep.Value), lamp.Brightness);
         }
 
 
@@ -309,44 +309,44 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_FindLampWithMaxBrightness_ReturnsCorrectLamp()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(10));
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(90));
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(50));
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SetBrightness(Brightness.Create(10));
+            var lamp2 = new Lamp(DeviceName.Create("l2")); lamp2.SetBrightness(Brightness.Create(90));
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SetBrightness(Brightness.Create(50));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
 
             var maxLamp = row.FindLampWithMaxBrightness();
 
-            Assert.Equal("l2", maxLamp.Name);
+            Assert.Equal(DeviceName.Create("l2"), maxLamp.Name);
             Assert.Equal(Brightness.Create(90), maxLamp.Brightness);
         }
 
         [Fact]
         public void LampRow_FindLampWithMinBrightness_ReturnsCorrectLamp()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(10));
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(90));
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(5));
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SetBrightness(Brightness.Create(10));
+            var lamp2 = new Lamp(DeviceName.Create("l2")); lamp2.SetBrightness(Brightness.Create(90));
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SetBrightness(Brightness.Create(5));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
 
             var minLamp = row.FindLampWithMinBrightness();
 
-            Assert.Equal("l3", minLamp.Name);
+            Assert.Equal(DeviceName.Create("l3"), minLamp.Name);
             Assert.Equal(Brightness.Create(5), minLamp.Brightness);
         }
 
         [Fact]
         public void LampRow_FindLampsByIntensityRange_ReturnsCorrectLamps()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(10));
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(60));
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(90));
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SetBrightness(Brightness.Create(10));
+            var lamp2 = new Lamp(DeviceName.Create("l2")); lamp2.SetBrightness(Brightness.Create(60));
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SetBrightness(Brightness.Create(90));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -354,16 +354,16 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             var result = row.FindLampsByIntensityRange(50, 80);
 
             Assert.Single(result);
-            Assert.Equal("l2", result[0].Name);
+            Assert.Equal(DeviceName.Create("l2"), result[0].Name);
         }
 
         [Fact]
         public void LampRow_FindAllOn_ReturnsOnlyOnLamps()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SwitchOn();
-            var lamp2 = new Lamp("l2"); // Off
-            var lamp3 = new Lamp("l3"); lamp3.SwitchOn();
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SwitchOn();
+            var lamp2 = new Lamp(DeviceName.Create("l2")); // Off
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SwitchOn();
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -377,11 +377,11 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_FindAllOff_ReturnsOnlyOffLamps()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SwitchOn();
-            var lamp2 = new Lamp("l2"); // Off
-            var lamp3 = new Lamp("l3"); lamp3.SwitchOn();
-            var lamp4 = new Lamp("l4"); // Off
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SwitchOn();
+            var lamp2 = new Lamp(DeviceName.Create("l2")); // Off
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SwitchOn();
+            var lamp4 = new Lamp(DeviceName.Create("l4")); // Off
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -396,9 +396,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_FindLampById_ReturnsCorrectLamp()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
-            var lamp2 = new Lamp("l2");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
+            var lamp2 = new Lamp(DeviceName.Create("l2"));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
 
@@ -411,8 +411,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_FindLampById_ReturnsNullIfNotFound()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1");
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1"));
             row.AddLamp(lamp1);
 
             var found = row.FindLampById(Guid.NewGuid());
@@ -425,10 +425,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_SortByBrightness_Ascending()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(50));
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(10));
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(90));
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SetBrightness(Brightness.Create(50));
+            var lamp2 = new Lamp(DeviceName.Create("l2")); lamp2.SetBrightness(Brightness.Create(10));
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SetBrightness(Brightness.Create(90));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -444,10 +444,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
         [Fact]
         public void LampRow_SortByBrightness_Descending()
         {
-            var row = new LampRow("Row");
-            var lamp1 = new Lamp("l1"); lamp1.SetBrightness(Brightness.Create(50));
-            var lamp2 = new Lamp("l2"); lamp2.SetBrightness(Brightness.Create(10));
-            var lamp3 = new Lamp("l3"); lamp3.SetBrightness(Brightness.Create(90));
+            var row = new LampRow(DeviceName.Create("Row"));
+            var lamp1 = new Lamp(DeviceName.Create("l1")); lamp1.SetBrightness(Brightness.Create(50));
+            var lamp2 = new Lamp(DeviceName.Create("l2")); lamp2.SetBrightness(Brightness.Create(10));
+            var lamp3 = new Lamp(DeviceName.Create("l3")); lamp3.SetBrightness(Brightness.Create(90));
             row.AddLamp(lamp1);
             row.AddLamp(lamp2);
             row.AddLamp(lamp3);
@@ -459,8 +459,6 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
             Assert.Equal(Brightness.Create(50), sorted[1].Brightness);
             Assert.Equal(Brightness.Create(10), sorted[2].Brightness);
         }
-
-        
 
         
     }

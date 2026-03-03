@@ -8,8 +8,8 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 {
     public interface ILuminousDevice
     {
-        void Dimmer(int amount);
-        void Brighten(int amount);
+        void Dimmer();
+        void Brighten();
         void SetBrightness(Brightness newBrightness);
     }
 }

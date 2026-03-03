@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,12 @@ namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ThermostatDevice
         
 
         //Constructor
-        public Thermostat(string name) : base(name)
+        public Thermostat(DeviceName name) : base(name)
         {
             TemperatureToReach = DefaultTemperature; 
         }
 
-        public Thermostat(Guid guid, string name) : base(guid, name)
+        public Thermostat(Guid guid, DeviceName name) : base(guid, name)
         {
             TemperatureToReach = DefaultTemperature;
         }

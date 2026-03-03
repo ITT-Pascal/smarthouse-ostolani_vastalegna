@@ -36,7 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
         public void AddLampInPosition(AbstractLamp lamp, int position){ Lamps.Insert(position, lamp); }
 
         public void RemoveLamp(Guid id) { Lamps.Remove(GetLamp(id)); }
-        public void RemoveLamp(string name) { Lamps.Remove(GetLamp(name)); }
+        public void RemoveLamp(DeviceName name) { Lamps.Remove(GetLamp(name)); }
         public void RemoveLampInPosition(int postion) { Lamps.RemoveAt(postion);  }
 
         
@@ -53,18 +53,18 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         // one lamp 
         public void SwitchOneOneLamp(Guid id) { GetLamp(id).SwitchOn(); }
-        public void SwitchOneOneLamp(string name) { GetLamp(name).SwitchOn(); }
+        public void SwitchOneOneLamp(DeviceName name) { GetLamp(name).SwitchOn(); }
         public void SwitchOffOneLamp(Guid id) { GetLamp(id).SwitchOff(); }
-        public void SwitchOffOneLamp(string name) { GetLamp(name).SwitchOff(); }
+        public void SwitchOffOneLamp(DeviceName name) { GetLamp(name).SwitchOff(); }
 
         public void SetBrightnessOneLamp(Brightness newbrightness, Guid id) { GetLamp(id).SetBrightness(newbrightness); }
-        public void SetBrightnessOneLamp(Brightness newbrightness, string name) { GetLamp(name).SetBrightness(newbrightness); }
+        public void SetBrightnessOneLamp(Brightness newbrightness, DeviceName name) { GetLamp(name).SetBrightness(newbrightness); }
 
-        public void Brighten(int position, int amount) => GetLamp(position).Brighten(amount);
-        public void Brighten(Guid id, int amount) => GetLamp(id).Brighten(amount);
+        public void Brighten(int position) => GetLamp(position).Brighten();
+        public void Brighten(Guid id) => GetLamp(id).Brighten();
 
-        public void Dimmer(int position, int amount) => GetLamp(position).Dimmer(amount);
-        public void Dimmer(Guid id, int amount) => GetLamp(id).Dimmer(amount);
+        public void Dimmer(int position) => GetLamp(position).Dimmer();
+        public void Dimmer(Guid id) => GetLamp(id).Dimmer();
 
         // multiple lamp 
         public override void SwitchOn()
@@ -74,7 +74,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 Lamps[i].SwitchOn();
             }
             Status = DeviceStatus.On;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
         public override void SwitchOff()
         {
@@ -83,7 +83,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 Lamps[i].SwitchOff();
             }
             Status = DeviceStatus.Off;
-            LastStatusChangeTime = DateTime.UtcNow;
+            LastModifiedAtUtc = DateTime.UtcNow;
         }
 
         public void SetBrightness(Brightness newBrightness)
@@ -101,7 +101,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
                 ecoLamp1.SetEcoModeBrightness();
             }
         }
-        public void SetOneEcoLampBrightnessToEco(string name)
+        public void SetOneEcoLampBrightnessToEco(DeviceName name)
         {
             if (GetLamp(name) is EcoLamp ecoLamp1)
             {
@@ -128,7 +128,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
             }
         }
 
-        public void TurnOneEcoLampOffAfterTime(string name)
+        public void TurnOneEcoLampOffAfterTime(DeviceName name)
         {
             if (GetLamp(name) is EcoLamp ecoLamp1)
             {
@@ -287,7 +287,7 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
             throw new ArgumentException("No lamps with this guid");
         }
-        private AbstractLamp GetLamp(string name)
+        private AbstractLamp GetLamp(DeviceName name)
         {
             for (int i = 0; i < Lamps.Count; i++)
             {

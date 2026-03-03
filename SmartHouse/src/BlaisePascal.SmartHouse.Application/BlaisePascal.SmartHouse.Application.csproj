@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Devices\Lightning\Lamps\Queries\**" />
-    <EmbeddedResource Remove="Devices\Lightning\Lamps\Queries\**" />
-    <None Remove="Devices\Lightning\Lamps\Queries\**" />
+    <Compile Remove="Devices\LuminousDevice\Lamps\Queries\**" />
+    <EmbeddedResource Remove="Devices\LuminousDevice\Lamps\Queries\**" />
+    <None Remove="Devices\LuminousDevice\Lamps\Queries\**" />
   </ItemGroup>
 
   <ItemGroup>
