@@ -19,74 +19,83 @@ public class LampController
         Console.Write("Lamp name: ");
         string name = Console.ReadLine();
         IsNullOrWhiteSpaceValidator(name);
+
         new AddLampCommand(_repository).Execute(name);
         Console.WriteLine("Lamp added");
     }
 
     public void RemoveLamp()
     {
-        Console.Write("Lamp Id: ");
-        string id = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(id);
-        new RemoveLampCommand(_repository).Execute(new Guid(id));
+        var lamp = SelectLamp();
+        if (lamp == null) return;
+
+        new RemoveLampCommand(_repository).Execute(lamp.Id);
         Console.WriteLine("Lamp removed");
     }
     public void Dimmer()
     {
-        Console.Write("Lamp Id: ");
-        string id = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(id);
-        new DimmerCommand(_repository).Execute(new Guid(id));
+        var lamp = SelectLamp();
+        if (lamp == null) return;
+
+        new DimmerCommand(_repository).Execute(lamp.Id);
         Console.WriteLine("Decreased lamp brightness!");
     }
 
     public void Brighten()
     {
-        Console.Write("Lamp Id: ");
-        string id = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(id);
-        new BrightenCommand(_repository).Execute(new Guid(id));
+        var lamp = SelectLamp();
+        if (lamp == null) return;
+
+        new BrightenCommand(_repository).Execute(lamp.Id);
         Console.WriteLine("Increased lamp brightness!");
     }
 
     public void ChangeBrightness()
     {
-        Console.Write("Lamp Id: ");
-        string id = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(id);
+        var lamp = SelectLamp();
+        if (lamp == null) return;
 
-        Console.Write("New brightness: ");
-        string newbrightness = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(newbrightness);
+        Console.Write("New brightness (0-100): ");
 
-        new SetBrightnessCommand(_repository).Execute(new Guid(id), int.Parse(newbrightness));
-        Console.WriteLine("Setted new lamp brightness");
+        int intensity;
+        if (!int.TryParse(Console.ReadLine(), out intensity))
+        {
+            Console.WriteLine("Invalid value");
+            return;
+        }
+
+        try
+        {
+            new SetBrightnessCommand(_repository).Execute(lamp.Id, intensity);
+            Console.WriteLine("Intensity updated");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Errore di dominio (lamp spenta)
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
     }
-
 
 
     public void SwitchOn()
     {
-        Console.Write("Lamp Id: ");
-        string id = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(id);
+        var lamp = SelectLamp();
+        if (lamp == null) return;
 
-        new SwitchOnCommand(_repository).Execute(new Guid(id));
+        new SwitchOnCommand(_repository).Execute(lamp.Id);
         Console.WriteLine("Lamp is now on");
     }
 
     public void SwitchOff()
     {
-        Console.Write("Lamp Id: ");
-        string id = Console.ReadLine();
+        var lamp = SelectLamp();
+        if (lamp == null) return;
 
-        IsNullOrWhiteSpaceValidator(id);
-
-        new SwitchOffCommand(_repository).Execute(new Guid(id));
+        new SwitchOffCommand(_repository).Execute(lamp.Id);
         Console.WriteLine("Turned lamp off!");
     }
 
-    public void ShowAllLamps()
+    public void ShowLamps()
     {
         var lamps = new GetAllLampsQuery(_repository).Execute();
 
@@ -102,11 +111,55 @@ public class LampController
         for (int i = 0; i < lamps.Count; i++)
         {
             LampDto l = lamps[i];
-            Console.WriteLine($"{i + 1}) {l.Name}\n{l.ToString}");
+            Console.WriteLine($"{i + 1}) {l.Name}\n{l}");
         }
     }
 
-    public void IsNullOrWhiteSpaceValidator(string s)
+    public void ShowMenu()
+    {
+        Console.WriteLine("\n=== LAMP MENU ===");
+        Console.WriteLine("1. Add lamp");
+        Console.WriteLine("2. Remove lamp");
+        Console.WriteLine("3. Show all lamps");
+        Console.WriteLine("4. Switch on");
+        Console.WriteLine("5. Switch off");
+        Console.WriteLine("6. Set brightness");
+        Console.WriteLine("7. Brighten");
+        Console.WriteLine("8. Dimmer");
+        Console.WriteLine("0. Exit");
+    }
+
+    // PRIVATE METHODS
+    private LampDto SelectLamp()
+    {
+        var lamps = new GetAllLampsQuery(_repository).Execute();
+
+        if (lamps.Count == 0)
+        {
+            Console.WriteLine("No lamps available");
+            return null;
+        }
+
+        Console.Write("Lamp number: ");
+        string strIndex = Console.ReadLine();
+
+        int index;
+        if (!int.TryParse(strIndex, out index))
+        {
+            Console.WriteLine("Invalid number");
+            return null;
+        }
+
+        if (index < 1 || index > lamps.Count)
+        {
+            Console.WriteLine("Lamp not found");
+            return null;
+        }
+
+        return lamps[index - 1];
+    }
+
+    private void IsNullOrWhiteSpaceValidator(string s)
     {
         if (string.IsNullOrWhiteSpace(s))
         {
