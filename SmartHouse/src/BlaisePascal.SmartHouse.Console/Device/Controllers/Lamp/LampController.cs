@@ -18,8 +18,14 @@ public class LampController
     {
         Console.Write("Lamp name: ");
         string name = Console.ReadLine();
-        IsNullOrWhiteSpaceValidator(name);
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            Console.WriteLine("Invalid string");
+            return;
+        }
 
+
+        //try and catch per null in InMemoryLampRepository?
         new AddLampCommand(_repository).Execute(name);
         Console.WriteLine("Lamp added");
     }
@@ -29,6 +35,7 @@ public class LampController
         var lamp = SelectLamp();
         if (lamp == null) return;
 
+        //No exception
         new RemoveLampCommand(_repository).Execute(lamp.Id);
         Console.WriteLine("Lamp removed");
     }
@@ -36,18 +43,45 @@ public class LampController
     {
         var lamp = SelectLamp();
         if (lamp == null) return;
+        try
+        {
+            new DimmerCommand(_repository).Execute(lamp.Id);
+            Console.WriteLine("Decreased lamp brightness");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Errore di dominio (lamp spenta)
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Errore generico
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
 
-        new DimmerCommand(_repository).Execute(lamp.Id);
-        Console.WriteLine("Decreased lamp brightness!");
+
     }
 
     public void Brighten()
     {
         var lamp = SelectLamp();
         if (lamp == null) return;
-
-        new BrightenCommand(_repository).Execute(lamp.Id);
-        Console.WriteLine("Increased lamp brightness!");
+        try
+        {
+            new BrightenCommand(_repository).Execute(lamp.Id);
+            Console.WriteLine("Increased lamp brightness!");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Errore di dominio (lamp spenta)
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Errore generico
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        
     }
 
     public void ChangeBrightness()
@@ -74,6 +108,11 @@ public class LampController
             // Errore di dominio (lamp spenta)
             Console.WriteLine($"ERROR: {ex.Message}");
         }
+        catch (Exception ex)
+        {
+            // Errore generico
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
     }
 
 
@@ -81,18 +120,42 @@ public class LampController
     {
         var lamp = SelectLamp();
         if (lamp == null) return;
-
-        new SwitchOnCommand(_repository).Execute(lamp.Id);
-        Console.WriteLine("Lamp is now on");
+        try
+        {
+            new SwitchOnCommand(_repository).Execute(lamp.Id);
+            Console.WriteLine("Lamp is now on");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Errore di dominio (lamp già accesa)
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Errore generico
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
     }
 
     public void SwitchOff()
     {
         var lamp = SelectLamp();
         if (lamp == null) return;
-
-        new SwitchOffCommand(_repository).Execute(lamp.Id);
-        Console.WriteLine("Turned lamp off!");
+        try
+        {
+            new SwitchOffCommand(_repository).Execute(lamp.Id);
+            Console.WriteLine("Turned lamp off!");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Errore di dominio (lamp già spenta)
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Errore generico
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
     }
 
     public void ShowLamps()
@@ -158,15 +221,5 @@ public class LampController
 
         return lamps[index - 1];
     }
-
-    private void IsNullOrWhiteSpaceValidator(string s)
-    {
-        if (string.IsNullOrWhiteSpace(s))
-        {
-            Console.WriteLine("Invalid string");
-            return;
-        }
-    }
-
 
 }

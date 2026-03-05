@@ -54,7 +54,11 @@ namespace BlaisePascal.SmartHouse.Domain.LuminuosDevice
 
         }
 
-        public virtual void SetBrightness(Brightness newBrightness) => Brightness = newBrightness;
+        public virtual void SetBrightness(Brightness newBrightness) 
+        {
+            OnValidator();
+            Brightness = newBrightness;
+        }
 
     }
 }

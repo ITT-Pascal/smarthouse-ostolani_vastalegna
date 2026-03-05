@@ -43,6 +43,8 @@ namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illuminati
 
         public void Add(Lamp lamp)
         {
+
+            //lanciare eccezione o mettere un if not?
             if (lamp == null)
                 throw new ArgumentNullException(nameof(lamp));
 
