@@ -16,7 +16,6 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Mapper
 
         public static LampDto ToDto(Lamp lamp)
         {
-            //guid e datetime non vanno convertite in stringa?
             return new LampDto
             {
                 Id = lamp.Id,

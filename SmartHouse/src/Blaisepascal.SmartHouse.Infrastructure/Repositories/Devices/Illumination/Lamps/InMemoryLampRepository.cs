@@ -15,7 +15,7 @@ namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illuminati
 
         public InMemoryLampRepository()
         {
-            // Dati inseriti staticamente (Hard-coded)
+            // Dati inseriti staticamente
             _lamps = new List<Lamp>
             {
             new Lamp(DeviceName.Create("Pesto Lamp")),
@@ -43,12 +43,9 @@ namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illuminati
 
         public void Add(Lamp lamp)
         {
-
-            //lanciare eccezione o mettere un if not?
-            if (lamp == null)
-                throw new ArgumentNullException(nameof(lamp));
-
-            _lamps.Add(lamp);
+            if (lamp != null)
+                _lamps.Add(lamp);
+            
         }
 
         public void Remove(Guid id)
