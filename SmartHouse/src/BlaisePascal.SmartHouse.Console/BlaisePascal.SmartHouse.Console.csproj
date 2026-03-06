@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Device\Controllers\CCTV\" />
-    <Folder Include="Device\Controllers\Door\" />
   </ItemGroup>
 
 </Project>

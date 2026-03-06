@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,13 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
             LockStatus = LockStatus.Unlocked;
             Status = DeviceStatus.On;
             Pin = pin;
+        }
+
+        public Door(Guid guid, DeviceName name, Pin pin, DeviceStatus deviceStatus, DoorStatus doorStatus, LockStatus lockStatus, DateTime creationTime, DateTime lastUpdateTime) : base(guid, name, deviceStatus, creationTime, lastUpdateTime)
+        {
+            Pin = pin;
+            DoorStatus = doorStatus;
+            LockStatus = lockStatus;
         }
 
         public void SetNewPin(Pin pin)

@@ -13,6 +13,7 @@ class Program
         while (true)
         {
             Console.Clear();
+            Console.Write("\x1b[3J");
             lampController.ShowLamps();
             lampController.ShowMenu();
             Console.Write("\nScelta: ");

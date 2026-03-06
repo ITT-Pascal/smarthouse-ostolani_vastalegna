@@ -24,8 +24,6 @@ public class LampController
             return;
         }
 
-
-        //try and catch per null in InMemoryLampRepository?
         new AddLampCommand(_repository).Execute(name);
         Console.WriteLine("Lamp added");
     }

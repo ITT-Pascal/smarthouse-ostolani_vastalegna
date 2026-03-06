@@ -8,11 +8,11 @@ namespace BlaisePascal.SmartHouse.Domain.Abstraction
 {
     public sealed record Pin
     {
-        public int PinValue { get; }
+        public int Value { get; }
 
         private Pin(int pin)
         {
-            PinValue = pin;
+            Value = pin;
         }
 
         public static Pin Create(int pinValue) 
