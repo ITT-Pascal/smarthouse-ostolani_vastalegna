@@ -18,10 +18,10 @@ namespace BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Commands
             _doorRepository = doorRepository;
         }
 
-        public void Execute(Guid doorId, Pin pin)
+        public void Execute(Guid doorId, int pin)
         {
             Door door = _doorRepository.GetById(doorId);
-            door.Unlock(pin);
+            door.Unlock(Pin.Create(pin));
             _doorRepository.Update(door);
         }
 

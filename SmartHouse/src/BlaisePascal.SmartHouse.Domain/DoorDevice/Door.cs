@@ -36,10 +36,11 @@ namespace BlaisePascal.SmartHouse.Domain.DoorDevice
             LockStatus = lockStatus;
         }
 
-        public void SetNewPin(Pin pin)
+        public void SetNewPin(Pin oldPin, Pin newPin)
         {
             CheckUnlocked();
-            Pin = pin;
+            CheckPin(oldPin);
+            Pin = newPin;
         }
 
         public void Open()

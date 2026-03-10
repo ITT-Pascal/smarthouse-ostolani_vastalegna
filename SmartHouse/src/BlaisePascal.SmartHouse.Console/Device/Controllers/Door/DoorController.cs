@@ -1,9 +1,12 @@
 ﻿using BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Commands;
+using BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Dto;
+using BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Query;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Query;
 using BlaisePascal.SmartHouse.Application.Devices.Mapper;
 using BlaisePascal.SmartHouse.Domain;
+using BlaisePascal.SmartHouse.Domain.Abstraction;
 using BlaisePascal.SmartHouse.Domain.DoorDevice.Repository;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
 using System;
@@ -18,32 +21,11 @@ public class DoorController
 
     private readonly IDoorRepository _repository;
 
-    public DoorController(IDoorRepository repos)
+    public DoorController(IDoorRepository repository)
     {
-        _repository = repos;
+        _repository = repository;
     }
 
-    public void ShowDoors()
-    {
-        var doors = new DoorGetAllQuery(_repository).Execute();
-
-        Console.WriteLine("Doors:");
-        Console.WriteLine("------------------------------");
-
-        if (doors.Count == 0)
-        {
-            Console.WriteLine("No doors available");
-            return;
-        }
-
-        for (int i = 0; i < doors.Count; i++)
-        {
-            var d = doors[i];
-            Console.WriteLine($"{i + 1}. {d.Name}\n{d}");
-        }
-    }
-
-    public void ShowMenu() { }
 
     public void AddDoor()
     {
@@ -56,167 +38,205 @@ public class DoorController
             return;
         }
 
-        Console.Write("New Pin: ");
-        string newpin = Console.ReadLine();
+        Console.Write("Pin: ");
+        string inputPin = Console.ReadLine();
 
-        if (string.IsNullOrWhiteSpace(newpin))
+        if (!int.TryParse(inputPin, out int pin))
         {
-            Console.WriteLine("Invalid new pin");
+            Console.WriteLine("Invalid pin");
             return;
         }
 
-        new AddDoorCommand(_repository).Execute(name, int.Parse(newpin));
-        Console.WriteLine("Door added!");
+        new AddDoorCommand(_repository).Execute(name, pin);
+        Console.WriteLine("Door added");
     }
 
-    public void RemoveLamp()
+    public void RemoveDoor()
     {
-        Console.Write("Door Id: ");
-        string id = Console.ReadLine();
+        var door = SelectDoor();
+        if (door == null) return;
 
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            Console.WriteLine("Invalid Id");
-            return;
-        }
+        new RemoveDoorCommand(_repository).Execute(door.Id);
+        Console.WriteLine("Door removed");
 
-        new RemoveDoorCommand(_repository).Execute(new Guid(id));
-        Console.WriteLine("Door removed!");
     }
 
-    public void ChangePin()
+    public void SetPin()
     {
-        Console.Write("Door Id: ");
-        string id = Console.ReadLine();
+        var door = SelectDoor();
+        if (door == null) return;
+        Console.Write("Old pin: ");
 
-        if (string.IsNullOrWhiteSpace(id))
+        string inputOldPin = Console.ReadLine();
+
+        if (!int.TryParse(inputOldPin, out int oldPin))
         {
-            Console.WriteLine("Invalid Id");
-            return;
-        }
-
-        Console.Write("Current pin: ");
-        string currentpin = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(currentpin))
-        {
-            Console.WriteLine("Invalid Pin");
+            Console.WriteLine("Invalid pin");
             return;
         }
 
         Console.Write("New pin: ");
-        string newpin = Console.ReadLine();
+        string inputNewPin = Console.ReadLine();
 
-        if (string.IsNullOrWhiteSpace(newpin))
+        if (!int.TryParse(inputNewPin, out int newPin))
         {
-            Console.WriteLine("Invalid Pin");
-            return;
-        }
-
-        new ChangePinDoorCommand(_repository).Execute(new Guid(id), int.Parse(currentpin), int.Parse(newpin));
-        Console.WriteLine("Door removed!");
-    }
-
-    public void Lock()
-    {
-        Console.Write("Door Id: ");
-        string id = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            Console.WriteLine("Invalid Id");
-            return;
-        }
-
-        new LockDoorCommand(_repository).Execute(new Guid(id));
-        Console.WriteLine("Locked Door");
-    }
-
-    public void Unlock()
-    {
-        Console.Write("Door Id: ");
-        string id = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            Console.WriteLine("Invalid Id");
-            return;
-        }
-
-        Console.Write("Current Pin: ");
-        string currentpin = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(currentpin))
-        {
-            Console.WriteLine("Invalid Pin");
-            return;
-        }
-
-        new UnlockDoorCommand(_repository).Execute(new Guid(id), int.Parse(currentpin));
-        Console.WriteLine("Unlocked Door");
-    }
-
-    public void Open()
-    {
-        Guid id = new Guid(SelectDoor());
-
-        if (id == null)
-        {
-            Console.WriteLine("Cannot find selected door");
+            Console.WriteLine("Invalid pin");
             return;
         }
 
         try
         {
-            if (DeviceStatusMapper.ToDomain(new DoorGetByIdQuery(_repository).Execute(id).Status) == DeviceStatus.Off)
-                Console.WriteLine("Door must be on!");
-            else if (new DoorGetByIdQuery(_repository).Execute(id).IsLocked == true)
-                Console.WriteLine("Door must be unlocked!");
-            else if (new DoorGetByIdQuery(_repository).Execute(id).IsOpen == true)
-                Console.WriteLine("Door is alredy open");
-            else
-            {
-                new OpenDoorCommand(_repository).Execute(id);
-                Console.WriteLine("Opened door");
-            }
+            new SetPinCommand(_repository).Execute(door.Id, oldPin, newPin);
+            Console.WriteLine("Pin updated");
         }
-        catch (ArgumentException ex)
+        catch (InvalidOperationException ex)
         {
             Console.WriteLine($"ERROR: {ex.Message}");
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+
+    }
+    public void Open()
+    {
+        var door = SelectDoor();
+        if (door == null) return;
+
+        try
+        {
+            new OpenDoorCommand(_repository).Execute(door.Id);
+            Console.WriteLine("Door is now open");
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+
     }
 
     public void Close()
     {
-        Guid id = new Guid(SelectDoor());
+        var door = SelectDoor();
+        if (door == null) return;
 
-        if (id == null)
+        try
         {
-            Console.WriteLine("Cannot find selected door");
+            new CloseDoorCommand(_repository).Execute(door.Id);
+            Console.WriteLine("Door is now closed");
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+
+    }
+
+
+    public void Lock()
+    {
+        var door = SelectDoor();
+        if (door == null) return;
+
+        try
+        {
+            new LockDoorCommand(_repository).Execute(door.Id);
+            Console.WriteLine("Door is now locked");
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+
+    }
+
+    public void Unlock()
+    {
+        var door = SelectDoor();
+        if (door == null) return;
+
+        Console.Write("Pin: ");
+
+        string inputPin = Console.ReadLine();
+
+        if (!int.TryParse(inputPin, out int pin))
+        {
+            Console.WriteLine("Invalid pin");
             return;
         }
 
         try
         {
-            if (DeviceStatusMapper.ToDomain(new DoorGetByIdQuery(_repository).Execute(id).Status) == DeviceStatus.Off)
-                Console.WriteLine("Door must be on!");
-            else if (new DoorGetByIdQuery(_repository).Execute(id).IsOpen == false)
-                Console.WriteLine("Door is alredy closed");
-            else
-            {
-                new CloseDoorCommand(_repository).Execute(id);
-                Console.WriteLine("Closed door");
-            }
+            new UnlockDoorCommand(_repository).Execute(door.Id, pin);
+            Console.WriteLine("Door is now unlocked");
         }
-        catch (ArgumentException ex)
+        catch (InvalidOperationException ex)
         {
             Console.WriteLine($"ERROR: {ex.Message}");
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+        }
+
     }
 
-    private string SelectDoor()
+
+    public void ShowDoors()
     {
-        var doors = new DoorGetAllQuery(_repository).Execute();
+        var doors = new GetAllDoorsQuery(_repository).Execute();
+
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("DOORS:");
+        Console.ResetColor();
+
+        Console.WriteLine("=====================");
+
+        if (doors.Count == 0)
+        {
+            Console.WriteLine("There are no doors");
+            return;
+        }
+
+        for (int i = 0; i < doors.Count; i++)
+        {
+            DoorDto d = doors[i];
+            Console.WriteLine($"\x1b[1m{i + 1}) {d.Name}\x1b[0m\n{d}");
+        }
+
+    }
+
+    public void ShowMenu() 
+    {
+        Console.WriteLine("\n=== DOOR MENU ===");
+        Console.WriteLine("1. Add door");
+        Console.WriteLine("2. Remove door");
+        Console.WriteLine("3. Open door");
+        Console.WriteLine("4. Close door");
+        Console.WriteLine("5. Lock door");
+        Console.WriteLine("6. Unlock door");
+        Console.WriteLine("7. Set pin");
+        Console.WriteLine("0. Exit");
+
+    }
+
+    //Private methods
+    private DoorDto SelectDoor()
+    {
+        var doors = new GetAllDoorsQuery(_repository).Execute();
 
         if (doors.Count == 0)
         {
@@ -225,27 +245,21 @@ public class DoorController
         }
 
         Console.Write("Door number: ");
-        if (!int.TryParse(Console.ReadLine(), out int num))
+
+        int index;
+        if (!int.TryParse(Console.ReadLine(), out index))
         {
             Console.WriteLine("Invalid number");
             return null;
         }
 
-        if (num < 1 || num > doors.Count)
+        if (index < 1 || index > doors.Count)
         {
-            Console.WriteLine("There is no corresponding door");
+            Console.WriteLine("Door not found");
             return null;
         }
 
-        try
-        {
-            return doors[num - 1].Id.ToString();
-        }
-        catch (ArgumentException ex)
-        {
-            Console.WriteLine($"ERROR: {ex.Message}");
-            return null;
-        }
+        return doors[index - 1];
     }
 }
 

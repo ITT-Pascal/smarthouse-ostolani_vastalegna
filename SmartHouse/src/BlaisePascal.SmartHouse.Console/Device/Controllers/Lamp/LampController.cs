@@ -9,9 +9,9 @@ public class LampController
 {
     private readonly ILampRepository _repository;
 
-    public LampController(ILampRepository repos)
+    public LampController(ILampRepository repository)
     {
-        _repository = repos;
+        _repository = repository;
     }
 
     public void AddLamp()
@@ -21,7 +21,7 @@ public class LampController
 
         if (string.IsNullOrWhiteSpace(name))
         {
-            Console.WriteLine("Invalid string");
+            Console.WriteLine("Invalid name");
             return;
         }
 
@@ -90,8 +90,8 @@ public class LampController
 
         Console.Write("New brightness (0-100): ");
 
-        int intensity;
-        if (!int.TryParse(Console.ReadLine(), out intensity))
+        int brightness;
+        if (!int.TryParse(Console.ReadLine(), out brightness))
         {
             Console.WriteLine("Invalid value");
             return;
@@ -99,8 +99,8 @@ public class LampController
 
         try
         {
-            new SetBrightnessCommand(_repository).Execute(lamp.Id, intensity);
-            Console.WriteLine("Intensity updated");
+            new SetBrightnessCommand(_repository).Execute(lamp.Id, brightness);
+            Console.WriteLine("Brightness updated");
         }
         catch (InvalidOperationException ex)
         {
@@ -161,7 +161,9 @@ public class LampController
     {
         var lamps = new GetAllLampsQuery(_repository).Execute();
 
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine("LAMPS:");
+        Console.ResetColor();
         Console.WriteLine("=====================");
 
         if (lamps.Count == 0)
@@ -173,7 +175,7 @@ public class LampController
         for (int i = 0; i < lamps.Count; i++)
         {
             LampDto l = lamps[i];
-            Console.WriteLine($"{i + 1}) {l.Name}\n{l}");
+            Console.WriteLine($"\x1b[1m{i + 1}) {l.Name}\x1b[0m\n{l}");
         }
     }
 
@@ -182,12 +184,11 @@ public class LampController
         Console.WriteLine("\n=== LAMP MENU ===");
         Console.WriteLine("1. Add lamp");
         Console.WriteLine("2. Remove lamp");
-        Console.WriteLine("3. Show all lamps");
-        Console.WriteLine("4. Switch on");
-        Console.WriteLine("5. Switch off");
-        Console.WriteLine("6. Set brightness");
-        Console.WriteLine("7. Brighten");
-        Console.WriteLine("8. Dimmer");
+        Console.WriteLine("3. Switch on");
+        Console.WriteLine("4. Switch off");
+        Console.WriteLine("5. Set brightness");
+        Console.WriteLine("6. Brighten");
+        Console.WriteLine("7. Dimmer");
         Console.WriteLine("0. Exit");
     }
 
@@ -203,10 +204,9 @@ public class LampController
         }
 
         Console.Write("Lamp number: ");
-        string strIndex = Console.ReadLine();
 
         int index;
-        if (!int.TryParse(strIndex, out index))
+        if (!int.TryParse(Console.ReadLine(), out index))
         {
             Console.WriteLine("Invalid number");
             return null;

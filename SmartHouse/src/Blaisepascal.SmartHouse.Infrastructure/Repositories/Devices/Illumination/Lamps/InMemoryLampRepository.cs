@@ -18,8 +18,6 @@ namespace Blaisepascal.SmartHouse.Infrastructure.Repositories.Devices.Illuminati
             // Dati inseriti staticamente
             _lamps = new List<Lamp>
             {
-            new Lamp(DeviceName.Create("Pesto Lamp")),
-            new Lamp(DeviceName.Create("Pelo Lamp")),
             new Lamp(DeviceName.Create("Pulga Lamp"))
             };
         }
