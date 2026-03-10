@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Devices\CCTVDevice\Dto\" />
-    <Folder Include="Devices\CCTVDevice\Query\" />
   </ItemGroup>
 
 </Project>

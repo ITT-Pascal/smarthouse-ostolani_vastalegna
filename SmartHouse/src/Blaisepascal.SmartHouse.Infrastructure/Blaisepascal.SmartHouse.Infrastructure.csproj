@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Devices\AirConditionerDevice\" />
-    <Folder Include="Repositories\Devices\CCTVDevice\" />
-    <Folder Include="Repositories\Devices\ThermostatDevice\" />
   </ItemGroup>
 
   <ItemGroup>

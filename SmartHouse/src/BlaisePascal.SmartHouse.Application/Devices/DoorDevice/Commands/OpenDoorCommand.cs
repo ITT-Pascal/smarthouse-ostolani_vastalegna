@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Commands
 {
-    internal class OpenDoorCommand
+    public class OpenDoorCommand
     {
         private readonly IDoorRepository _doorRepository;
 

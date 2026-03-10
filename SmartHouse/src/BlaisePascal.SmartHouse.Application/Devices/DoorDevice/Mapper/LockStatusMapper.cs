@@ -26,7 +26,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Mapper
                 "LOCKED" => LockStatus.Locked,
                 "UNLOCKED" => LockStatus.Unlocked,
                 "UNKNOWN" => LockStatus.Unknown,
-                _ => throw new ArgumentException("non valid status")
+                _ => throw new ArgumentException("Not valid status")
             };
         }
     }

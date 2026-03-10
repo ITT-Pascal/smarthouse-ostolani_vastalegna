@@ -24,7 +24,8 @@ namespace BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Dto
             return $"Id: {Id}\n" +
                    $"Name: {Name}\n" +
                    $"Status: {Status}\n" +
-                   $"Brightness: {Brightness}\n" +
+                   $"DoorStatus: {DoorStatus}\n" +
+                   $"LockStatus: {LockStatus}\n" +
                    $"Created: {CreatedAtUtc}\n" +
                    $"Last update: {LastModifiedAtUtc}\n";
         }

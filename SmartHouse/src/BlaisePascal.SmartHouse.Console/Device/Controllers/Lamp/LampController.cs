@@ -18,6 +18,7 @@ public class LampController
     {
         Console.Write("Lamp name: ");
         string name = Console.ReadLine();
+
         if (string.IsNullOrWhiteSpace(name))
         {
             Console.WriteLine("Invalid string");
