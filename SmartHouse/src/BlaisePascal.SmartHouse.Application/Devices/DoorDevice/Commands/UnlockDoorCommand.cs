@@ -1,4 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObject;
 using BlaisePascal.SmartHouse.Domain.DoorDevice;
 using BlaisePascal.SmartHouse.Domain.DoorDevice.Repository;
 using System;

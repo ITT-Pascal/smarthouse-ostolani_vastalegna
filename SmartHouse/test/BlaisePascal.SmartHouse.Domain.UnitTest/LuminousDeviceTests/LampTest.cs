@@ -1,5 +1,6 @@
-using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObject;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice.ValueObject;
 
 namespace BlaisePascal.SmartHouse.Domain.UnitTest.LuminousDeviceTests
 {

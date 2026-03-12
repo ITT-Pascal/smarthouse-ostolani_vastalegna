@@ -1,6 +1,6 @@
-﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
-using BlaisePascal.SmartHouse.Domain.TemperatureDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObject;
 using BlaisePascal.SmartHouse.Domain.TemperatureDevice.AirConditionerDevice;
+using BlaisePascal.SmartHouse.Domain.TemperatureDevice.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
