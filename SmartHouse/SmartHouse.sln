@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaisepascal.SmartHouse.Inf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Console", "src\BlaisePascal.SmartHouse.Console\BlaisePascal.SmartHouse.Console.csproj", "{2FD708B4-9690-40FA-B654-EA28FFC47E9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.WPF", "src\BlaisePascal.SmartHouse.WPF\BlaisePascal.SmartHouse.WPF.csproj", "{7598D037-96BC-4DD9-A246-34E01875EFE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{2FD708B4-9690-40FA-B654-EA28FFC47E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FD708B4-9690-40FA-B654-EA28FFC47E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FD708B4-9690-40FA-B654-EA28FFC47E9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7598D037-96BC-4DD9-A246-34E01875EFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7598D037-96BC-4DD9-A246-34E01875EFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7598D037-96BC-4DD9-A246-34E01875EFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7598D037-96BC-4DD9-A246-34E01875EFE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{AB90C97E-FF16-4EED-B73B-A2D0C5AF2BA2} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
 		{79C1D6E5-FF41-4EC4-9526-6799865ACCC7} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
 		{2FD708B4-9690-40FA-B654-EA28FFC47E9C} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
+		{7598D037-96BC-4DD9-A246-34E01875EFE6} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A07C5F8-9E92-409E-BE63-5E71490BFCD6}
