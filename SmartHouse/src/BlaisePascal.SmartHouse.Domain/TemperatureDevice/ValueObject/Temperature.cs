@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice
+namespace BlaisePascal.SmartHouse.Domain.TemperatureDevice.ValueObject
 {
     public sealed record Temperature
     {

@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Abstraction;
+﻿using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObject;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

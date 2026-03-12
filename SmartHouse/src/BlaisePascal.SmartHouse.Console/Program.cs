@@ -12,7 +12,7 @@ class Program
 
     static void Main()
     {
-        //improvable with a dictionary
+        //could be improved with a dictionary
 
         while (true)
         {
@@ -71,6 +71,7 @@ class Program
         {
             Console.Clear();
             Console.Write("\x1b[3J");
+            doorController.ShowDoors();
             doorController.ShowMenu();
             Console.Write("\nScelta: ");
             switch (Console.ReadLine())

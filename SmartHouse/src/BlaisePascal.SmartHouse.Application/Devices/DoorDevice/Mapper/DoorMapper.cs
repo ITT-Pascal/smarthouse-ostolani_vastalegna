@@ -1,7 +1,7 @@
 ﻿using BlaisePascal.SmartHouse.Application.Devices.DoorDevice.Dto;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.SmartHouse.Application.Devices.Mapper;
-using BlaisePascal.SmartHouse.Domain.Abstraction;
+using BlaisePascal.SmartHouse.Domain.Abstraction.ValueObject;
 using BlaisePascal.SmartHouse.Domain.DoorDevice;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using System;

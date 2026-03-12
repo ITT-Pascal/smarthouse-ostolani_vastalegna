@@ -1,5 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
-using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
+﻿using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
