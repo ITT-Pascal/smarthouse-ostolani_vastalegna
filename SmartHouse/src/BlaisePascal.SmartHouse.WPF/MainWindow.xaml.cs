@@ -45,6 +45,8 @@ namespace BlaisePascal.SmartHouse.WPF
 
         private void RefreshLampList()
         {
+
+            var selectedId = SelectedLamp?.Id;
             lampList.Items.Clear();
 
             var lamps = new GetAllLampsQuery(_lampRepository).Execute();
@@ -52,7 +54,15 @@ namespace BlaisePascal.SmartHouse.WPF
             {
                 LampDto lamp = lamps[i];
                 lampList.Items.Add($"{i + 1}) {lamp.Name} {lamp}");
+
+                // Ripristina selezione tramite ID
+                if (lamp.Id == selectedId)
+                {
+                    lampList.SelectedIndex = i;
+                }
             }
+            inputBox.Clear();
+            lampList.Focus();
         }
 
         private void LampList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -222,7 +232,7 @@ namespace BlaisePascal.SmartHouse.WPF
             if (lamp == null) return;
 
             ActionToDo = ActionToDo.SetBrightness;
-            messageBox.Text = "Lamp name: ";
+            messageBox.Text = "New brightness (0-100): ";
         }
         private void SetBrightnessLamp(string input)
         {
@@ -238,7 +248,7 @@ namespace BlaisePascal.SmartHouse.WPF
             try
             {
                 new SetBrightnessCommand(_lampRepository).Execute(lamp.Id, brightness);
-                MessageBox.Show("Lamp brightness decreased");
+                MessageBox.Show("Lamp brightness changed");
             }
             catch (InvalidOperationException ex)
             {
@@ -248,6 +258,7 @@ namespace BlaisePascal.SmartHouse.WPF
             {
                 MessageBox.Show($"ERROR: {ex.Message}");
             }
+            inputBox.Clear();
             RefreshLampList();
         }
     }

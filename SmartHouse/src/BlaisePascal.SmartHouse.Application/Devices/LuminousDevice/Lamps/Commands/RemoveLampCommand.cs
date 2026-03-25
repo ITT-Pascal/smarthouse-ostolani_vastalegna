@@ -1,5 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
+using BlaisePascal.SmartHouse.Domain.LuminuosDevice.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,10 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
         public void Execute(Guid lampId)
         {
             Lamp lamp = _lampRepository.GetById(lampId);
-            _lampRepository.Remove(lampId);
+            if (lamp != null)
+            {
+                _lampRepository.Remove(lampId);
+            }
         }
 
     }
