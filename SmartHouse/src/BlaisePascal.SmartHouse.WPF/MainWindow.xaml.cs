@@ -2,264 +2,145 @@
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Query;
-using BlaisePascal.SmartHouse.Domain.Abstraction;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice;
 using BlaisePascal.SmartHouse.Domain.LuminuosDevice.Repository;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 
 namespace BlaisePascal.SmartHouse.WPF
 {
-    public enum ActionToDo
-    {
-        Other,
-        AddLamp,
-        SetBrightness
-    }
     public partial class MainWindow : Window
     {
-
         static ILampRepository _lampRepository;
 
-        private ActionToDo ActionToDo { set; get; }
-        private Lamp SelectedLamp { set; get; } = null;
+        private Lamp SelectedLamp { get; set; } = null;
+
         public MainWindow()
         {
             InitializeComponent();
             _lampRepository = new InMemoryLampRepository();
             RefreshLampList();
-            ActionToDo = ActionToDo.Other;
-            
         }
-
-
 
         private void RefreshLampList()
         {
-
             var selectedId = SelectedLamp?.Id;
-            lampList.Items.Clear();
+            LampList.Items.Clear();
 
             var lamps = new GetAllLampsQuery(_lampRepository).Execute();
-            for (int i = 0; i < lamps.Count; i++)
+            foreach (var lamp in lamps)
             {
-                LampDto lamp = lamps[i];
-                lampList.Items.Add($"{i + 1}) {lamp.Name} {lamp}");
-
-                // Ripristina selezione tramite ID
+                LampList.Items.Add(lamp);
                 if (lamp.Id == selectedId)
-                {
-                    lampList.SelectedIndex = i;
-                }
+                    LampList.SelectedItem = lamp;
             }
-            inputBox.Clear();
-            lampList.Focus();
         }
 
         private void LampList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = lampList.SelectedIndex;
+            int index = LampList.SelectedIndex;
             var lamps = _lampRepository.GetAll();
 
             if (index >= 0 && index < lamps.Count)
-            {
                 SelectedLamp = lamps[index];
-                messageBox.Text = $"Lampada selezionata: {SelectedLamp.Name}";
-            }
-        }
-
-        private void SubmitInput_Click(object sender, RoutedEventArgs e)
-        {
-            string input = inputBox.Text.Trim();
-            if (string.IsNullOrEmpty(input))
-            {
-                MessageBox.Show("Inserisci un valore valido.");
-                return;
-            }
-            switch (ActionToDo)
-            {
-                case ActionToDo.AddLamp:
-                    AddLamp(input);
-                    ActionToDo = ActionToDo.Other;
-                    messageBox.Text = "Seleziona un’operazione";
-                    break;
-                case ActionToDo.SetBrightness:
-                    SetBrightnessLamp(input);
-                    ActionToDo = ActionToDo.Other;
-                    messageBox.Text = "Seleziona un’operazione";
-                    break;
-                default:
-                    MessageBox.Show("Azione non riconosciuta");
-                    break;
-
-
-
-            }
         }
 
         // ADD LAMP
-        private void AddLamp_Click(object sender, RoutedEventArgs e)
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            ActionToDo = ActionToDo.AddLamp;
-            messageBox.Text = "Lamp name: ";
-        }
-        private void AddLamp(string input)
-        {
-            string name = input;
-            if (string.IsNullOrWhiteSpace(name))
+            try
             {
-                MessageBox.Show("Invalid name");
-                return;
+                string name = NewLampNameTextBox.Text.Trim();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    MessageBox.Show("Insert a lamp name");
+                    return;
+                }
+
+                new AddLampCommand(_lampRepository).Execute(name);
+
+                if (int.TryParse(NewLampIntensityTextBox.Text.Trim(), out int intensity))
+                {
+                    var addedLamp = new GetAllLampsQuery(_lampRepository).Execute().Last();
+                    new SwitchOnCommand(_lampRepository).Execute(addedLamp.Id);
+                    new SetBrightnessCommand(_lampRepository).Execute(addedLamp.Id, intensity);
+                }
+
+                NewLampNameTextBox.Clear();
+                NewLampIntensityTextBox.Clear();
+                RefreshLampList();
             }
-
-            new AddLampCommand(_lampRepository).Execute(name);
-            RefreshLampList();
-            inputBox.Clear();
-        }
-
-        // REMOVE LAMP
-        private void RemoveLamp_Click(object sender, RoutedEventArgs e)
-        {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-
-            new RemoveLampCommand(_lampRepository).Execute(lamp.Id);
-            RefreshLampList();
-            inputBox.Clear();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // SWITCH ON
-        private void SwitchOnLamp_Click(object sender, RoutedEventArgs e)
+        private void On_Click(object sender, RoutedEventArgs e)
         {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-
             try
             {
-                new SwitchOnCommand(_lampRepository).Execute(lamp.Id);
-                MessageBox.Show("Lamp is now on");
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                if (SelectedLamp == null) return;
+                new SwitchOnCommand(_lampRepository).Execute(SelectedLamp.Id);
+                RefreshLampList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            RefreshLampList();
-            inputBox.Clear();
         }
 
         // SWITCH OFF
-        private void SwitchOffLamp_Click(object sender, RoutedEventArgs e)
+        private void Off_Click(object sender, RoutedEventArgs e)
         {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-
             try
             {
-                new SwitchOffCommand(_lampRepository).Execute(lamp.Id);
-                MessageBox.Show("Lamp is now off");
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                if (SelectedLamp == null) return;
+                new SwitchOffCommand(_lampRepository).Execute(SelectedLamp.Id);
+                RefreshLampList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            RefreshLampList();
-            inputBox.Clear();
-        }
-
-        // BRIGHTEN
-        private void BrightenLamp_Click(object sender, RoutedEventArgs e)
-        {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-            try
-            {
-                new BrightenCommand(_lampRepository).Execute(lamp.Id);
-                MessageBox.Show("Lamp brightness increased");
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
-            }
-            RefreshLampList();
-        }
-
-        // DIMMER
-        private void DimmerLamp_Click(object sender, RoutedEventArgs e)
-        {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-            try
-            {
-                new DimmerCommand(_lampRepository).Execute(lamp.Id);
-                MessageBox.Show("Lamp brightness decreased");
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
-            }
-            RefreshLampList();
         }
 
         // SET BRIGHTNESS
-        private void SetBrightnessLamp_Click(object sender, RoutedEventArgs e)
+        private void ApplyIntensity_Click(object sender, RoutedEventArgs e)
         {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-
-            ActionToDo = ActionToDo.SetBrightness;
-            messageBox.Text = "New brightness (0-100): ";
-        }
-        private void SetBrightnessLamp(string input)
-        {
-            var lamp = SelectedLamp;
-            if (lamp == null) return;
-            string inputBrightness = input;
-            if (!int.TryParse(inputBrightness, out int brightness))
-            {
-                Console.WriteLine("Invalid value");
-                return;
-            }
-
             try
             {
-                new SetBrightnessCommand(_lampRepository).Execute(lamp.Id, brightness);
-                MessageBox.Show("Lamp brightness changed");
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                if (SelectedLamp == null) return;
+                if (!int.TryParse(SetIntensityTextBox.Text.Trim(), out int brightness))
+                {
+                    MessageBox.Show("Invalid value. Enter a number between 0 and 100.");
+                    return;
+                }
+                new SetBrightnessCommand(_lampRepository).Execute(SelectedLamp.Id, brightness);
+                SetIntensityTextBox.Clear();
+                RefreshLampList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            inputBox.Clear();
-            RefreshLampList();
+        }
+
+        // REMOVE LAMP
+        private void Remove_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SelectedLamp == null) return;
+                new RemoveLampCommand(_lampRepository).Execute(SelectedLamp.Id);
+                SelectedLamp = null;
+                RefreshLampList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
