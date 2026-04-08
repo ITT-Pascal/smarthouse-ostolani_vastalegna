@@ -13,7 +13,7 @@ namespace BlaisePascal.SmartHouse.WPF
     {
         static ILampRepository _lampRepository;
 
-        private Lamp SelectedLamp { get; set; } = null;
+        private LampDto SelectedLamp { get; set; } = null;
 
         public MainWindow()
         {
@@ -39,10 +39,10 @@ namespace BlaisePascal.SmartHouse.WPF
         private void LampList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = LampList.SelectedIndex;
-            var lamps = _lampRepository.GetAll();
+            var lamps = new GetAllLampsQuery(_lampRepository).Execute();
 
             if (index >= 0 && index < lamps.Count)
-                SelectedLamp = lamps[index];
+                SelectedLamp = lamps[index] ;
         }
 
         // ADD LAMP
